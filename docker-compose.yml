@@ -11,7 +11,7 @@ services:
         build:
             context: ./back
         volumes: 
-            - api/node_modules
+            - /api/node_modules
             - ./back:/api
         ports:
             - '5000:5000'
@@ -25,7 +25,8 @@ services:
         build:
             context: ./front
         volumes: 
-            - app/node_modules
+            - /app/node_modules
             - ./front:/app
         ports: 
             - '3000:3000'
+        stdin_open: true
