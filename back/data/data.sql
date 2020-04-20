@@ -44,8 +44,7 @@ CREATE TABLE Score(
 );
 
 CREATE TABLE Tags(
-    tno SERIAL primary key,
-    tag varchar(15)
+    tag varchar(15) primary key
 );
 
 CREATE TABLE TagQuizz(
