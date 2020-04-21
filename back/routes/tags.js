@@ -9,9 +9,9 @@ router
         res.status(200).end();
     })
 
-    .get('/:tagname', async (res,req) => {
-        const result = await pool.query('SELECT * FROM tags where tag=$1', [req.query.tagname]);
-
+    .get('/:tagname', async (req,res) => {
+        const result = await pool.query('SELECT * FROM tags where tag=$1', [req.params.tagname]);
+        console.log(req.params);
         res.json(result.rows);
         res.status(200).end();
     })
