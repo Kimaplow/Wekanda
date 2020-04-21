@@ -9,24 +9,10 @@ router
             const result = await pool.query('SELECT * FROM quizz');
             res.json(result.rows);
         })
-
-    .get('/:keyword/search',
-        async (req, res) => {
-            let key = req.params.keyword;
-            const result = await pool.query("SELECT * FROM quizz WHERE keywords LIKE '%" + key + "%' ");
-            res.json(result.rows);
-        })
-
+    
     .get('/:id/questions',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM questions WHERE id_quizz=$1', [req.params.id]);
-            res.json(result.rows);
-        })
-
-    .get('/:id/questions/:id_question',
-        async (req, res) => {
-            const result = await pool.query('SELECT * FROM questions WHERE id_quizz=$1 AND id_question=$2', [req.params.id, req.params.id_question]);
-            //res.send({message: req.params.id + ' // ' + req.params.id_question});
             res.json(result.rows);
         })
 

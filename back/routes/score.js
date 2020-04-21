@@ -10,13 +10,13 @@ router
             res.json(result.rows);
         })
 
-    .get('/:id_quizz/quizz',
+    .get('/quizz/:id_quizz',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM score WHERE id_quizz=$1', [req.params.id_quizz]);
             res.json(result.rows);
         })
 
-    .get('/:id_user/user',
+    .get('/user/:id_user',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM score WHERE id_user=$1', [req.params.id_user]);
             res.json(result.rows);

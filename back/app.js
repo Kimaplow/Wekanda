@@ -5,12 +5,12 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const router_answers = require('./routes/answers');
-const router_quizz = require('./routes/quizz');
+const router_quizzes = require('./routes/quizz');
 const router_questions = require('./routes/questions');
 const router_users = require('./routes/users');
-const router_score = require('./routes/score');
-const router_tag_quizz = require('./routes/tag_quizz');
-
+const router_scores = require('./routes/score');
+const router_tags_quizzes = require('./routes/tag_quizz');
+const router_tags = require('./routes/tags');
 
 const pool = require('./data/pg');
 const fileUpload = require('express-fileupload');
@@ -26,12 +26,13 @@ app
 
     .get('/', (req, res) => res.send({ message: 'Welcome to Wekenda Quizz API' }))
 
-    .use('/quizz', router_quizz)
+    .use('/quizzes', router_quizzes)
     .use('/questions', router_questions)
     .use('/answers', router_answers)
     .use('/users', router_users)
-    .use('/score', router_score)
-    .use('/tags', router_tag_quizz)
+    .use('/scores', router_scores)
+    .use('/tagsquizzes', router_tags_quizzes)
+    .use('/tags', router_tags)
 
     .use(express.static(__dirname + '/public'))
 
