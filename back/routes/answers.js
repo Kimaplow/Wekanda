@@ -1,7 +1,7 @@
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
-const moveToPath = require('../tools/move_path');
+//const moveToPath = require('../tools/move_path');
 
 router
     .get('/', async (req,res) => {
@@ -10,7 +10,7 @@ router
     })
     .post('/',
         async (req, res) => { console.log("files", req.files); console.log("body", [req.body]);
-            await pool.query('insert into answers(id_question, answer, correct, path_file) values($1, $2, $3, $4)',
+            await pool.query('INSERT INTO answers(id_question, answer, correct, path_file) VALUES($1, $2, $3, $4)',
                 [req.body.id_question, req.body.answer, req.body.correct, req.files.file.name]);
             const moved = moveToPath(req.files.file);
             if(moved) res.status(201).end();

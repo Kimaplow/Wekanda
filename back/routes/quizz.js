@@ -32,7 +32,7 @@ router
 
     .delete('/:id/delete',
         async (req,res) => {
-            await pool.query('DELETE FROM quizz where id_quizz = $1',[req.params.id]);
+            await pool.query('DELETE FROM quizz WHERE id_quizz = $1',[req.params.id]);
             res.status(201).end();
         })
 
@@ -61,7 +61,7 @@ router
 
     .post('/',
         async (req,res) => {
-            await pool.query('INSERT INTO quizz (title, keywords, path_file) values($1, $2, $3)',
+            await pool.query('INSERT INTO quizz (title, keywords, path_file) VALUES($1, $2, $3)',
                 [req.body.title, req.body.keywords, req.body.path_file]);
             res.status(201).end();
         }

@@ -11,7 +11,7 @@ CREATE TABLE Quizz(
     id_creator integer REFERENCES Users(id_user) NOT NULL,
     titre varchar(50) NOT NULL,
     path_file varchar(50),
-    difficulty smallint CHECK (difficulty>=0 AND difficulty <=3) NOT NULL
+    difficulty smallint CHECK (difficulty>0 AND difficulty <=3) NOT NULL
 );
 
 CREATE TABLE Questions(
