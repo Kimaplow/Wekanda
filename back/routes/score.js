@@ -33,7 +33,7 @@ router
                         result = await pool.query('SELECT MIN(score) FROM score WHERE id_user=$1 AND id_quizz=$2',
                             [req.params.id_user, req.params.id_quizz]);
                         break;
-                    default:  // Take hioghest as default
+                    default:  // Take highest by default
                         result = await pool.query('SELECT MAX(score) FROM score WHERE id_user=$1 AND id_quizz=$2',
                             [req.params.id_user, req.params.id_quizz]);
                 }
