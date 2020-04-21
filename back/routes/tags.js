@@ -27,7 +27,7 @@ router
     .delete('/:tagname', async (res,req) => {
         const result = await pool.query(
             'DELETE FROM tags WHERE tag=$1', 
-            [req.query.tagname]);
+            [req.params.tagname]);
 
         res.status(204).end();
     });
