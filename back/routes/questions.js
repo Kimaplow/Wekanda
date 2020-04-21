@@ -27,11 +27,6 @@ router
         async (req, res) => {
             const result = await pool.query('SELECT * FROM answers WHERE id_question=$1', [req.params.id_question]);
             res.json(result.rows);
-    })
-    .get('/:id',
-        async(req,res)=>{
-            const result = await pool.query('SELECT * FROM questions WHERE id_question=$1',[req.params.id]);
-            res.json(result.rows);
     });
 
 module.exports = router;
