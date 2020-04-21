@@ -8,6 +8,8 @@ const router_answers = require('./routes/answers');
 const router_quizz = require('./routes/quizz');
 const router_questions = require('./routes/questions');
 const router_users = require('./routes/users');
+const router_score = require('./routes/score');
+const router_tag_quizz = require('./routes/tag_quizz');
 
 
 const pool = require('./data/pg');
@@ -28,6 +30,9 @@ app
     .use('/questions', router_questions)
     .use('/answers', router_answers)
     .use('/users', router_users)
+    .use('/score', router_score)
+    .use('/tags', router_tag_quizz)
+
     .use(express.static(__dirname + '/public'))
 
     .get('/test_db', async (req, res) => {
