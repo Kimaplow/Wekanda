@@ -1,0 +1,35 @@
+#container {
+    background-color: #282c34;
+    width: 100%;
+    text-align: center;
+    min-height: 5%;
+}
+
+#title {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+#header-right{
+    position: absolute;
+    right: 1%;
+    top: 0;
+    align-content: center;
+    max-width: 30%;
+    display: inline-block;
+    vertical-align:middle;
+}
+
+.right-item {
+    display: inline-table;
+    vertical-align:middle;
+    margin-bottom: 0;
+}
+
+
+
+
+
+
