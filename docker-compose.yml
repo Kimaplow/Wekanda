@@ -29,4 +29,6 @@ services:
             - ./front:/app
         ports: 
             - '3000:3000'
+        environment:
+            - REACT_APP_API_SERV=localhost:5000
         stdin_open: true
