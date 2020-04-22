@@ -9,8 +9,8 @@ router
         res.status(200).end();
     })
 
-    .get('/:username', async (req, res) => {
-        const result = await pool.query('SELECT * FROM users WHERE pseudo=$1', [req.params.username]);
+    .get('/:id', async (req, res) => {
+        const result = await pool.query('SELECT * FROM users WHERE id_user=$1', [req.params.id]);
         res.json(result.rows);
         res.status(200).end();
     })
@@ -22,9 +22,9 @@ router
         res.status(201).end();
     })
 
-    .delete('/:username', async (res,req) => {
-        const result = await pool.query('DELETE FROM users WHERE pseudo=$1', 
-                                        [req.params.username]);
+    .delete('/:id', async (res,req) => {
+        const result = await pool.query('DELETE FROM users WHERE id_user=$1', 
+                                        [req.params.id]);
         res.status(204).end();
     });
 
