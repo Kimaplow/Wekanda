@@ -1,15 +1,22 @@
-import React, {useEffect, UseState} from 'react';
+import React, {useEffect, UseState, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios'; 
 import './css/profile.css';
 
 export default function Profile(){
-    const {username} = useParams();
+    const {id_user} = useParams();
+
+    const [user, setUser] = useState();
+
+    async function fetchUser(){
+        await axios.get(`http://${server}/user/${id_user}`)
+    }
+
     return(
         <div id='profile-container'>
             <div i='top-profile'>
                 <img></img>
-                <h1>username</h1>
+                <h1></h1>
             </div>
 
             <div id='center-profile'>
