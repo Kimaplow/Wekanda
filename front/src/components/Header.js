@@ -8,6 +8,7 @@ export default function Header(){
 
             <div>
                     <h1 id={"title"}>Wekanda</h1>
+                    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"/>    
             </div>
             
 
