@@ -1,0 +1,58 @@
+#signup-container {
+    background-color: #4c4c4c;
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    width: 700px;
+    height: 280px;
+    margin-left: -350px;
+    margin-top: -300px;
+}
+
+label {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#up_log_pseudo {
+    text-align: center;
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+#up_log_mail {
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+#up_log_mdp {
+    text-align: center;
+    margin-left: -50px;
+    margin-top: 10px;
+}
+
+#log_mdp_confirmation {
+    text-align: center;
+    margin-top: 10px;
+    margin-left: -170px;
+}
+
+#up_log_pseudo input, #up_log_mail input, #up_log_mdp input, #log_mdp_confirmation input{
+    border-radius: 20px;
+    font-size: 18px;
+    width: 150px;
+    height: 26px;
+    padding-left: 5px;
+}
+
+#inscription {
+    border-radius: 20px;
+    font-size: 18px;
+    width: 155px;
+    height: 30px;
+    background-color: white;
+    margin-top: 30px;
+    margin-left: 311px;
+}
