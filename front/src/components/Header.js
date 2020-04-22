@@ -15,9 +15,9 @@ export default function Header(){
 
                 <input className="right-item" type="text" />
 
-                <a className="right-item" href="#f"><img src={"/filtre.png"}/></a>
+                <a className="right-item" href="#f"><img src={"/filtre.png"} alt={"icon_filtre"}/></a>
 
-                <a className="right-item" href="#p"><img src={"/icon_profil.png"}/></a>
+                <a className="right-item" href="#p"><img src={"/icon_profil.png"} alt={"icon_profil"}/></a>
 
             </div>
         </div>

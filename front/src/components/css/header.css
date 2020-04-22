@@ -1,5 +1,5 @@
 #header-container {
-    background-color: #282c34;
+    background-color: black;
     width: 100%;
     text-align: center;
     min-height: 5%;
@@ -30,7 +30,7 @@
 }
 
 input.right-item {
-    background: url("/circle.png") no-repeat white 0px -5px;
+    background: url("/circle.png") no-repeat white 0 -5px;
     border-radius: 20px;
     font-size: 18px;
     width: 150px;
