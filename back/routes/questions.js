@@ -1,14 +1,20 @@
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
-//const moveToPath = require('../tools/move_path');
 
 router
     .get('/',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM questions');
             res.json(result.rows);
+            res.status(200).end();
         })
+
+    .get('/:id_question/answers', async (req, res) => {
+        const result = await pool.query('SELECT * FROM answers WHERE id_question=$1', [req.params.id_question]);
+        res.json(result.rows);
+        res.status(200).end();
+    })
 
     .post('/',
         async (req, res) => { console.log("files", req.files); console.log("body", [req.body]);
@@ -24,15 +30,18 @@ router
             const result = await pool.query('DELETE FROM questions WHERE id_question=$1', [req.params.id]);
             res.status(204);
     })
-    .get('/:id_question/answers',
-        async (req, res) => {
-            const result = await pool.query('SELECT * FROM answers WHERE id_question=$1', [req.params.id_question]);
-            res.json(result.rows);
-    })
-    .get('/:id',
-        async(req,res)=>{
-            const result = await pool.query('SELECT * FROM questions WHERE id_question=$1',[req.params.id]);
-            res.json(result.rows);
+
+    .patch('/:id', async (req,res) => {
+        
+        if(req.params.question){
+            await pool.query('UPDATE questions SET question = $1 WHERE id_question=$2',[req.body.question, req.params.id]);
+        }
+
+        if(req.params.path_file){
+            await pool.query('UPDATE questions SET path_file = $1 WHERE id_question=$2',[req.body.path_file, req.params.id]);
+        }
+        
+        res.status(204).end();
     });
 
 module.exports = router;
