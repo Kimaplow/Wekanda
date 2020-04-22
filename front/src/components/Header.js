@@ -7,9 +7,7 @@ export default function Header(){
         <div id="header-container">
 
             <div>
-                <a href="#" id="title">
-                    <h1>Wekanda</h1>
-                </a>
+                    <h1 id={"title"}>Wekanda</h1>
             </div>
             
 

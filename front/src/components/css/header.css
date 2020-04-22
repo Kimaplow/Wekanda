@@ -3,10 +3,11 @@
     width: 100%;
     text-align: center;
     min-height: 5%;
+    height: 45px;
 }
 
 #title {
-    font-size: 18px;
+    font-size: 32px;
     font-weight: bold;
     color: white;
     text-decoration: none;
@@ -28,8 +29,15 @@
     margin-bottom: 0;
 }
 
+input.right-item {
+    background: url("/circle.png") no-repeat white 0px -5px;
+    border-radius: 20px;
+    font-size: 18px;
+    width: 150px;
+    height: 26px;
+    padding-left: 35px;
+}
 
-
-
-
-
+a.right-item img {
+    margin-top: 3px;
+}
