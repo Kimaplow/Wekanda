@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require('cors');
 const morgan = require('morgan');
-const bodyParser = require("body-parser");
 const app = express();
 
 const router_answers = require('./routes/answers');
@@ -19,13 +18,13 @@ const port = process.env.PORT || 8000;
 app
     .use(morgan('combined'))
     .use(cors())
-    .use(bodyParser.json())
-    .use(bodyParser.urlencoded({
-        extended: true
-    }))
-
+    .use(express.json())
+    .use(express.urlencoded({extended:true}))
     .get('/', (req, res) => res.send({ message: 'Welcome to Wekenda Quizz API' }))
-
+    .get('/test_db', async (req, res) => {
+        const result = await pool.query('SELECT NOW()')
+        res.send(result.rows);
+     })
     .use('/quizzes', router_quizzes)
     .use('/questions', router_questions)
     .use('/answers', router_answers)
@@ -33,12 +32,6 @@ app
     .use('/scores', router_scores)
     .use('/tagsquizzes', router_tags_quizzes)
     .use('/tags', router_tags)
-
-    .use(express.static(__dirname + '/public'))
-
-    .get('/test_db', async (req, res) => {
-       const result = await pool.query('SELECT NOW()');
-       res.send(result.rows);
-    });
+    .use(express.static(__dirname + '/public'));
 
 app.listen(port, () => console.log('Wekanda QUIZZ API server listening on port ' + port));
