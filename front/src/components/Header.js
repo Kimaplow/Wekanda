@@ -4,7 +4,7 @@ import './css/header.css';
 export default function Header(){
 
     return(
-        <div id="container">
+        <div id="header-container">
 
             <div>
                 <a href="#" id="title">
