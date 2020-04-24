@@ -11,11 +11,16 @@ router
             res.status(200).end();
         })
     .get('/:id', async (req,res) => {
+            if(isNaN(parseInt(req.params.id)))  {
+                res.send({message:'Wrong input'});
+                res.status(404).end();
+                return;
+            }
             const result = await pool.query('SELECT * FROM quizz WHERE id_quizz=$1', [req.params.id]);
             res.json(result.rows);
             res.status(200).end();
     })
-    .get('/fromuser/:id', async (req,res) => {
+    .get('/:id/fromuser', async (req,res) => {
             const result = await pool.query('SELECT * FROM quizz WHERE id_creator=$1', [req.params.id]);
             res.json(result.rows);
             res.status(200).end();
