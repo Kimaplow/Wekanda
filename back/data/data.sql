@@ -129,4 +129,6 @@ INSERT INTO TagQuizz(id_quizz, tag) VALUES
     ('1', 'Afrique'),
     ('2', 'Histoire'),
     ('3', 'Art'),
-    ('4', 'Internet');
+    ('4', 'Internet'),
+    ('5','Art'),
+    ('6','Internet');
