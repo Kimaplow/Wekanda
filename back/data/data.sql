@@ -119,10 +119,12 @@ INSERT INTO Tags(tag) VALUES
     ('Histoire'),
     ('Internet'),
     ('Animaux'),
+    ('Afrique'),
     ('Art');
 
 INSERT INTO TagQuizz(id_quizz, tag) VALUES
     ('1', 'Animaux'),
+    ('1', 'Afrique'),
     ('2', 'Histoire'),
     ('3', 'Art'),
     ('4', 'Internet');
