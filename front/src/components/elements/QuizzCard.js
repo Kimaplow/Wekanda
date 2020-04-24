@@ -14,6 +14,7 @@ export default function QuizzCard(props){
         <div id='card-container' style = {{
             maxWidth: `${props.width}px`,
             height: `${height}px`,
+            marginBottom: '5px'
         }}>
             <img src={`http://${config.server}/img/${props.quizz.path_file}`} 
                  className='card-item'></img>

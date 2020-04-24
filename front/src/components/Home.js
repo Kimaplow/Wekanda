@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect } from 'react';
 import Quizz from './Quizz';
 import config from '../config';
+import QuizzCard from './elements/QuizzCard';
 
 export default function Home() {
 
@@ -21,7 +22,7 @@ export default function Home() {
             })
             .catch(err => console.log(err));
         // Then we get some tags 
-            await axios.get(`http://${config.server}/tags`)
+        await axios.get(`http://${config.server}/tags`)
             .then(res => {
                 console.log(res.data);
                 tags = res.data;
@@ -44,7 +45,7 @@ export default function Home() {
     }, []);
 
     let quizzJSX = tagsQuizzes.map((tq, index) =>
-        <div className={'toto'}>
+        <div className={tq.tag}>
             <h1>{tq.tag}</h1>
             {renderEachQuizz(tq.quizzes)}
         </div>
@@ -52,11 +53,9 @@ export default function Home() {
 
     function renderEachQuizz(quizzes) {
         return quizzes.map(q => {
-            return <Quizz
-                title={q.title}
-                img={`http://${config.server}/img/${q.path_file}`}
-                tags={q.tags}
-                id_quizz={q.id_quizz}
+            return <QuizzCard
+                width={500}
+                quizz={q}
             />
         });
     }
