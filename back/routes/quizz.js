@@ -10,19 +10,16 @@ router
             res.json(result.rows);
             res.status(200).end();
         })
-    
-    .get('/:id_creator', async (req,res) => {
-        const result = pool.query('SELECT * FROM Quizz WHERE id_creator=$1', [req.query.id_creator]);
-        res.json(result.rows);
-        res.status(200).end();
-    })
-
     .get('/:id', async (req,res) => {
-        const result = pool.query('SELECT * FROM Quizz WHERE id=$1', [req.params.id]);
-        res.json(result.rows);
-        res.status(200).end();
+            const result = await pool.query('SELECT * FROM quizz WHERE id_quizz=$1', [req.params.id]);
+            res.json(result.rows);
+            res.status(200).end();
     })
-
+    .get('/fromuser/:id', async (req,res) => {
+            const result = await pool.query('SELECT * FROM quizz WHERE id_creator=$1', [req.params.id]);
+            res.json(result.rows);
+            res.status(200).end();
+    })
     .get('/:id/questions',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM questions WHERE id_quizz=$1', [req.params.id]);
@@ -65,11 +62,6 @@ router
                 [req.body.title, req.body.keywords, req.body.path_file]);
             res.status(201).end();
         }
-    )
-
-;
-
-
-
+    );
 
 module.exports = router;

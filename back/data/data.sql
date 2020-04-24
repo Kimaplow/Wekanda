@@ -54,7 +54,9 @@ INSERT INTO Users(pseudo, password) VALUES
 
 INSERT INTO Quizz(id_creator, title, path_file, difficulty) VALUES
     ('1', 'Les animaux Africains','animaux_afrique.jpg', '1'),
-    ('2', 'Les rois de France','rois_France.jpg', '3'),
+    ('2', 'Les Rois de France','rois_France.jpg', '3'),
+    ('2', 'Le Cinema français','cinema.jpg', '3'),
+    ('2', 'Rap U.S.','musique.jpg', '3'),
     ('3', 'Tableaux et Peintres','bob.jpg', '2'),
     ('4', 'Culture internet','stonks.jpg', '2');
 
