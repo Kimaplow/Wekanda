@@ -1,47 +1,69 @@
 import React, { useState } from 'react';
 import './css/home.css';
-import axios  from "axios";
+import axios from "axios";
 import { useEffect } from 'react';
 import Quizz from './Quizz';
 import config from '../config';
 
 export default function Home() {
 
-    const [filter, setFilter] = useState([]);
-    const [quizzes, setQuizzes] = useState([]);
+    const [tagsQuizzes, setTagsQuizzes] = useState([]);
 
     async function getQuizzes() {
+        let quizzes = [];
+        let tags = [];
         console.log(config.server);
-        await axios.get(`http://${config.server}/quizzes/`)
+        // first we get all the quizzes
+        await axios.get(`http://${config.server}/quizzes/withtags`)
             .then(res => {
                 console.log(res.data);
-                setFilter(res.data);
-                setQuizzes(res.data);
+                quizzes = res.data;
             })
             .catch(err => console.log(err));
+        // Then we get some tags 
+            await axios.get(`http://${config.server}/tags`)
+            .then(res => {
+                console.log(res.data);
+                tags = res.data;
+            })
+            .catch(err => console.log(err));
+        // Eventually we bring themp up together to have for a tag all the quizzes associated to it
+        let tmp = [];
+        tags.map((t) => {
+            quizzes.forEach(q => {
+                if (q.tags.includes(t.tag)) tmp.push(q);
+            });
+            t['quizzes'] = tmp;
+            tmp = [];
+        });
+        setTagsQuizzes(tags);
     }
 
     useEffect(() => {
         getQuizzes();
     }, []);
 
-    
-    const onChange = e => {
-        if (e.target.value === '') setFilter(quizzes);
-        else setFilter(quizzes.filter(q => q.title.toLowerCase().includes(e.target.value.toLowerCase())));
-    };
+    let quizzJSX = tagsQuizzes.map((tq, index) =>
+        <div className={'toto'}>
+            <h1>{tq.tag}</h1>
+            {renderEachQuizz(tq.quizzes)}
+        </div>
+    );
 
+    function renderEachQuizz(quizzes) {
+        return quizzes.map(q => {
+            return <Quizz
+                title={q.title}
+                img={`http://${config.server}/img/${q.path_file}`}
+                tags={q.tags}
+                id_quizz={q.id_quizz}
+            />
+        });
+    }
 
-    let quizzJSX = filter.map(q =>
-        <Quizz
-            title={q.title}
-            img={`http://${config.server}/img/${q.path_file}`}
-            id_quizz={q.id_quizz}
-        />);
 
     return (
         <div id='container'>
-            <input className={"search"} type="text" onChange={onChange} />
             {quizzJSX}
         </div>
     );
