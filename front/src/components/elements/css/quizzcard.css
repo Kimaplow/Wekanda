@@ -1,0 +1,23 @@
+#card-container {
+    background-color: white;
+    border-radius:3px;
+    color: black;
+}
+
+#card-container>img{
+    margin-bottom: 0;
+    height: inherit;
+    width: 25%;
+    border-bottom-left-radius: inherit;
+    border-top-left-radius: inherit;
+}
+
+.card-item {
+    display: inline-table;
+    margin-right: 1%;
+}
+
+#card-text {
+    position: absolute;
+    top:0;
+}

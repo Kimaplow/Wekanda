@@ -1,26 +1,33 @@
 import React from 'react';
-import './css/header.css';
+import './css/materialize.css'
 
 export default function Header(){
 
     return(
-        <div id="header-container">
 
-            <div>
-                    <h1 id={"title"}>Wekanda</h1>
-                    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"/>    
+        <nav>
+            <div className="nav-wrapper grey darken-4">
+
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+                <a href="/home" className="brand-logo center">Wekanda</a>
+
+                <ul className="right hide-on-med-and-down">
+                    <li>
+                        <form>
+                            <div className="input-field">
+                                <input id="search" type="search" required />
+                                    <label className="label-icon" htmlFor="search"><i
+                                        className="material-icons">search</i></label>
+                                    <i className="material-icons">close</i>
+                            </div>
+                        </form>
+                    </li>
+                    <li><a href="#"><i className="material-icons">tune</i></a></li>
+                    <li><a href="#"><i className="material-icons">person_outline</i></a></li>
+                </ul>
+
             </div>
-            
-
-            <div id="header-right">
-
-                <input className="right-item" type="text" />
-
-                <a className="right-item" href="#f"><img src={"/filtre.png"} alt={"icon_filtre"}/></a>
-
-                <a className="right-item" href="#p"><img src={"/icon_profil.png"} alt={"icon_profil"}/></a>
-
-            </div>
-        </div>
+        </nav>
     );
 }
