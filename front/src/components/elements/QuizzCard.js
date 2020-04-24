@@ -4,10 +4,16 @@ import './css/quizzcard.css';
 
 export default function QuizzCard(props){
     
+    QuizzCard.defaultProps = {
+        width: 500
+    }
+    
+    let height = 0.30*props.width;
+    console.log(height);
     return(
         <div id='card-container' style = {{
-            height: '100px',
-            width: `100%`,
+            maxWidth: `${props.width}px`,
+            height: `${height}px`,
         }}>
             <img src={`http://${config.server}/img/${props.quizz.path_file}`} 
                  className='card-item'></img>
