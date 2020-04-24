@@ -10,7 +10,8 @@ export default function Profile(){
     const {id_user} = useParams();
 
     const [user, setUser] = useState({});
-    const [userquizzes, setUserquizzes] = useState([]);
+    const [userquizzes, setUserQuizzes] = useState([]);
+    const [userScores, setUserScores] = useState([]);
 
     async function fetchUser(){
         await axios.get(`http://${config.server}/users/${id_user}`)
@@ -22,13 +23,21 @@ export default function Profile(){
     async function fetchUserQuizzes(){
         await axios.get(`http://${config.server}/quizzes/fromuser/${id_user}`)
                    .then((res)=>{
-                       setUserquizzes(res.data);
+                       setUserQuizzes(res.data);
+                   });
+    }
+
+    async function fetchUserScores(){
+        await axios.get(`http://${config.server}/scores/${id_user}/user`)
+                   .then((res) => {
+                       setUserScores(res.data);
                    });
     }
 
     useEffect(()=>{
         fetchUser();
         fetchUserQuizzes();
+        fetchUserScores();
     },[])
 
     function userInfoJSX(){
@@ -58,19 +67,21 @@ export default function Profile(){
                         {
                             userquizzes.map(quizz => {
                                 return(
-                                    <li><QuizzCard quizz={quizz} heigth={100} width={100}/></li>
+                                    <li><QuizzCard quizz={quizz}/></li>
                                 )
                             })
                         }
                     </ul>
-                    
                 </div>
             );
         }else{
-
+            
         }
     }
 
+    function userStatsJSX(){
+        return null;
+    }
     return(
         <div id='profile-container'>
             
@@ -80,7 +91,7 @@ export default function Profile(){
                     
                 {userQuizzesJSX()}
                     <div id='user-stats'>
-
+                        {userStatsJSX()}
                     </div>
             </div>
             
