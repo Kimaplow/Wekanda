@@ -30,6 +30,9 @@
     width: 30%;
 }
 
+#user-quizzes {
+    width: 25%
+}
 
 #user-quizzes>ul {
     overflow: hidden;
@@ -39,5 +42,6 @@
 }
 
 #user-quizzes>ul>li {
-    margin-bottom: 2%;
+    margin-bottom: 5%;
+    margin-right: 2%;
 }
