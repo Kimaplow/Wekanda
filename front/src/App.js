@@ -7,8 +7,8 @@ import Header from './components/Header';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import Play from './components/Play';
-import Signin from './components/forms/Signin'
-import Signup from './components/forms/Signup'
+import Signin from './components/Signin'
+import Signup from './components/Signup'
 function App() {
   return (
 

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect } from 'react';
 import Quizz from './Quizz';
 import config from '../config';
-import QuizzCard from './elements/QuizzCard';
+import QuizzCard from './QuizzCard';
 
 export default function Home() {
 

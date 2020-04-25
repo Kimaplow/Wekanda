@@ -4,7 +4,7 @@ import axios from 'axios';
 import config from '../config';
 import './css/profile.css';
 
-import QuizzCard from './elements/QuizzCard';
+import QuizzCard from './QuizzCard';
 
 export default function Profile(){
     const {id_user} = useParams();
