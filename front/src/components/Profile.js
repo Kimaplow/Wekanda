@@ -43,7 +43,7 @@ export default function Profile(){
     function userInfoJSX(){
         if(user !== undefined) {
             return (
-                <div i='top-profile'>
+                <div id={'top-profile'}>
                     <img></img>
                     <h1>{user.pseudo}</h1>
                 </div>
@@ -62,7 +62,7 @@ export default function Profile(){
             
             
             return(
-                <div id='user-quizzes' className='main-item'>
+                <div id='user-quizzes'>
                     <ul>
                         {
                             userquizzes.map(quizz => {
@@ -90,9 +90,11 @@ export default function Profile(){
             <div id='center-profile'>
                     
                 {userQuizzesJSX()}
+
                     <div id='user-stats'>
                         {userStatsJSX()}
                     </div>
+                    
             </div>
             
         </div>

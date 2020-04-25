@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './css/home.css';
 import axios from "axios";
 import { useEffect } from 'react';
-import Quizz from './Quizz';
 import config from '../config';
 import QuizzCard from './QuizzCard';
 
@@ -45,7 +44,7 @@ export default function Home() {
     }, []);
 
     let quizzJSX = tagsQuizzes.map((tq, index) =>
-        <div className={tq.tag}>
+        <div className={"tq_tag"}>
             <h1>{tq.tag}</h1>
             {renderEachQuizz(tq.quizzes)}
         </div>
@@ -53,10 +52,10 @@ export default function Home() {
 
     function renderEachQuizz(quizzes) {
         return quizzes.map(q => {
-            return <QuizzCard
-                width={500}
-                quizz={q}
-            />
+            return (
+            <div className={'card_quizz'}>
+                <QuizzCard width={500} quizz={q} />
+            </div>);
         });
     }
 
