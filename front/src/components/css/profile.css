@@ -1,47 +1,24 @@
-#profile-container {
-    width: 100%;
-    height: 100%;
+/** USER INFO (TOP)**/
+
+#user-info {
     text-align: center;
 }
-#top-profile {
-    
+
+#center-profile #quizz {
+    float: left;
+    margin-right: 13%;
 }
 
-/* 
-* Partie centrale, 
-* contient le conteneur des list de quizz 
-* et le conteneur des stats
-*/
-
-#center-profile{
-    text-align: initial;
-    margin-right: 4%;
-    margin-left: 4%;
-    margin-top: 2%;
-    width: 100%;
-}
-
-/*
-* classe commune aux elements dans #center-profile
-*/
-
-.main-item {
-    display: inline-table;
-    width: 30%;
-}
+/** USER QUIZZ (LEFT) **/
 
 #user-quizzes {
-    width: 25%
+    margin-left: 2%;
 }
 
-#user-quizzes>ul {
-    overflow: hidden;
-    overflow-y: scroll;
-    list-style: none;
-    scroll-margin-left: 1%;
+#user-quizzes li {
+    margin-top: 12%;
 }
 
-#user-quizzes>ul>li {
-    margin-bottom: 5%;
-    margin-right: 2%;
+#user-stats {
+    padding-top: 2.6%;
 }
