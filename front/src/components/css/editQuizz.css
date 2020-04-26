@@ -1,0 +1,15 @@
+#edit-quizz-container h3 {
+    text-align: center;
+}
+
+#edit-quizz-container div {
+    text-align: center;
+}
+
+#edit-quizz-container div input {
+    margin-top: 10px;
+}
+
+#edit-quizz-container div input:default{
+    background-color: aqua;
+}

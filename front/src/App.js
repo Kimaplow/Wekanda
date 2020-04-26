@@ -7,8 +7,11 @@ import Header from './components/Header';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import Play from './components/Play';
-import Signin from './components/Signin'
-import Signup from './components/Signup'
+import Signin from './components/Signin';
+import Signup from './components/Signup';
+import EditQuizz from './components/EditQuizz';
+
+
 function App() {
   return (
 
@@ -24,6 +27,7 @@ function App() {
                 <Route exact={true} path='/play/:id_quizz' component={Play}/>
                 <Route exact={true} path='/signin' component={Signin}/>
                 <Route exact={true} path='/signup' component={Signup}/>
+                <Route exact={true} path='/quizz/:id_quizz/edit' component={EditQuizz}/>
 
 
                 <Redirect from='*' to='/' />

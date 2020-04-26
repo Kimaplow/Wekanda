@@ -25,7 +25,7 @@ export default function QuizzCard(props) {
                     </div>
                     <div class="card-action">
                         <a href="#">Jouer</a>
-                        <a href="#" style = {{marginLeft : '150px'}}>Modifier</a>
+                        <a href={`/quizz/${props.quizz.id_quizz}/edit`} style = {{marginLeft : '150px'}}>Modifier</a>
                     </div>
                 </div>
             </div>
