@@ -1,9 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/header.css';
 import 'materialize-css';
-import { Dropdown, Icon } from 'react-materialize';
+import config from '../config';
+import axios from "axios";
+import { Dropdown, Icon, Select } from 'react-materialize';
 
 export default function Header() {
+
+    const [tags, setTags] = useState([]);
+
+    async function getTags() {
+        await axios.get(`http://${config.server}/tags`)
+            .then(res => {
+                console.log(res.data);
+                setTags(res.data);
+            })
+            .catch(err => console.log(err));
+    }
+
+    useEffect(() => {
+        getTags();
+    }, []);
+
+    function renderTagsOption() {
+        return tags.map(t => <a href="#" className={t.tag}>{t.tag}</a>);
+    }
 
     return (
         <div className="header">
@@ -30,12 +51,12 @@ export default function Header() {
                                 id="dropdown-filter"
                                 options={{
                                     alignment: 'right',
-                                    autoTrigger: true,
-                                    closeOnClick: true,
-                                    constrainWidth: true,
+                                    autoTrigger: false,
+                                    closeOnClick: false,
+                                    constrainWidth: false,
                                     container: null,
                                     coverTrigger: true,
-                                    hover: false,
+                                    hover: true,
                                     inDuration: 150,
                                     onCloseEnd: null,
                                     onCloseStart: null,
@@ -45,8 +66,7 @@ export default function Header() {
                                 }}
                                 trigger={<a node="button"><Icon>tune</Icon></a>}
                             >
-                                <a href="#">select</a>
-
+                            {renderTagsOption()}
                             </Dropdown>
                         </li>
 
@@ -54,6 +74,7 @@ export default function Header() {
                     </ul>
                 </div>
             </nav>
+
         </div>
     );
 }
