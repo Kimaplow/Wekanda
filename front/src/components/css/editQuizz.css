@@ -10,10 +10,18 @@
     margin-top: 10px;
 }
 
-#edit-quizz-container div input:default{
-    background-color: aqua;
-}
-
 #edit-quizz-container .btn{
     margin-left: -30px;
+}
+
+.choix option{
+    color: white;
+}
+
+.select-wrapper input.select-dropdown {
+    color: white;
+}
+
+.dropdown-content li > a, .dropdown-content li > span:hover {
+    background-color: #212121;
 }

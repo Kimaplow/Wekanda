@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import config from '../config';
+import { Select } from 'react-materialize';
 import './css/editQuizz.css';
 
 export default function EditQuizz() {
@@ -31,9 +32,9 @@ export default function EditQuizz() {
             <form>
 
                 <div class="col s12">
-                    Title :
+                    <span style = {{fontSize: '22px'}}>Title :</span>
                     <div class="input-field inline">
-                        <input style = {{color : 'white'}} id="title" type="email" class="validate" placeholder={quizz.title}/>
+                        <input style = {{fontSize: '22px'}} id="title" type="text" class="validate" placeholder={quizz.title}/>
                     </div>
                 </div>
 
@@ -51,14 +52,16 @@ export default function EditQuizz() {
                     </div>
                 </div>
 
-                <div class="input-field col s12">
-                    <select>
-                        <option value="" disabled selected>Choose your option</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                    </select>
-                    <label>Materialize Select</label>
+                <div class="col s12">
+                    <div class="input-field inline" >       
+                        
+                        <Select >
+                            <option value="" disabled selected >Difficulty</option>
+                            <option value="1">Facile</option>
+                            <option value="2">Moyen</option>
+                            <option value="3">Difficile</option>
+                        </Select>
+                    </div>
                 </div>
 
             </form>
