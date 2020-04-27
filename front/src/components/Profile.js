@@ -56,12 +56,12 @@ export default function Profile() {
     }
 
     function userQuizzesJSX() {
-        if (userquizzes !== undefined && userquizzes.length > 0) {
+        if (userQuizzes !== undefined && userQuizzes.length > 0) {
 
             return (
                 <ul id={"user-quizzes"}>
                     {
-                        userquizzes.map(quizz => {
+                        userQuizzes.map(quizz => {
                             return (
                                 <li><QuizzCard width={500} quizz={quizz} /></li>
                             )
@@ -70,17 +70,22 @@ export default function Profile() {
                 </ul>
             );
         } else {
-
+            return(
+                <h2>Aucun Quizz créé</h2>
+            );
         }
     }
 
     function userStatsJSX() {
+        let totalpts = 0;
+        userScores.map(score => {
+                totalpts+= score.score;
+        });
         return (
             <div>
-                <h5>Nombre de quizz crées : </h5>
-                <h5>Nombre de questions crées : </h5>
-                <h5>Nombre de participations aux quizz : </h5>
-                <h5>Nombre de points marqués au total : </h5>
+                <h5>Nombre de quizz créés : {userQuizzes ? userQuizzes.length : 0}</h5>
+        <h5>Nombre de participations aux quizz : {userScores ? userScores.length : 0}</h5>
+        <h5>Nombre de points marqués au total : {userScores ? totalpts : 0}</h5>
             </div>
         );
     }
