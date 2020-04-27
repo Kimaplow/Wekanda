@@ -26,12 +26,16 @@ function App() {
                 <Route exact={true} path='/'  component={Home}/>
                 <Route exact={true} path='/home' component={Home}/>
                 <Route exact={true} path='/profile/:id_user' component={Profile}/>
-                <Route exact={true} path='/play/:id_quizz' component={Play}/>
                 <Route exact={true} path='/signin' component={Signin}/>
                 <Route exact={true} path='/signup' component={Signup}/>
                 <Route exact={true} path='/quizz/:id_quizz/edit' component={EditQuizz}/>
+<<<<<<< HEAD
                 <Route exact={true} path='/user/:id_user/addQuizz' component={AddQuizz}/>
                 <Route exact={true} path='/quizzes/:tag' component={FilterQuizz}  />
+=======
+                <Route exact={true} path='/quizz/:id_quizz/play' component={Play}/>
+
+>>>>>>> e1638c6... :construction: WIP Making quizzes playable
 
                 <Redirect from='*' to='/' />
               </Switch>
