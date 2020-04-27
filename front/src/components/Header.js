@@ -1,5 +1,6 @@
 import React from 'react';
-import './css/materialize.css'
+import './css/materialize.css';
+import './css/header.css';
 
 export default function Header(){
 
@@ -8,7 +9,7 @@ export default function Header(){
         <nav>
             <div className="nav-wrapper grey darken-4">
 
-                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                
 
                 <a href="/home" className="brand-logo center">Wekanda</a>
 

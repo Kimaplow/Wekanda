@@ -41,3 +41,7 @@ input.right-item {
 a.right-item img {
     margin-top: 3px;
 }
+
+input[type="search"] {
+    height: 64px !important; 
+}
