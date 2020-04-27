@@ -1,6 +1,6 @@
 import React from 'react';
 import config from '../config';
-import './css/materialize.css';
+
 
 
 export default function QuizzCard(props) {

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import config from '../config';
 import './css/editQuizz.css';
-import './css/materialize.css';
 
 export default function EditQuizz() {
    
