@@ -8,33 +8,22 @@ import './css/editQuizz.css';
 export default function EditQuizz() {
    
 
-    const { id_quizz } = useParams();
-    console.log(id_quizz);
+    const { id_user } = useParams();
 
-    const [quizz, setQuizz] = useState({});
-
-    async function getQuizz() {
-        await axios.get(`http://${config.server}/quizzes/${id_quizz}`)
-            .then((res) => {
-                setQuizz(res.data[0]);
-            });
-    }
-
-    useEffect(() => {
-        getQuizz();
-    }, [])
+    console.log(id_user);
 
     return (
         <div id='edit-quizz-container'>
 
-            <h3>{quizz.title}</h3>
+            {/* Si on enlève le h3, la prochaine div n'est pas centrée */}
+            <h3></h3>
 
             <form>
 
                 <div class="col s12">
                     <span style = {{fontSize: '22px'}}>Title :</span>
                     <div class="input-field inline">
-                        <input style = {{fontSize: '22px'}} id="title" type="text" class="validate" placeholder={quizz.title}/>
+                        <input style = {{fontSize: '22px'}} id="title" type="text" class="validate" placeholder={'Example'}/>
                     </div>
                 </div>
 

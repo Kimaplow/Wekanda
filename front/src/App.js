@@ -10,6 +10,7 @@ import Play from './components/Play';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
 import EditQuizz from './components/EditQuizz';
+import AddQuizz from './components/AddQuizz';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                 <Route exact={true} path='/signin' component={Signin}/>
                 <Route exact={true} path='/signup' component={Signup}/>
                 <Route exact={true} path='/quizz/:id_quizz/edit' component={EditQuizz}/>
+                <Route exact={true} path='/user/:id_user/addQuizz' component={AddQuizz}/>
 
 
                 <Redirect from='*' to='/' />
