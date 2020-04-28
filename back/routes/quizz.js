@@ -1,3 +1,5 @@
+const moveToPath = require('../tools/move_path');
+
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
@@ -60,27 +62,23 @@ router
 
             console.log("ICI");
             console.log(req.params.id);
-            
-            //console.log(req.body.title);
-            //console.log(req.body.keywords);
-            //console.log(req.body.path_file);
 
             if (req.body.title !== '') {
-                console.log(req.body.title);
                 await pool.query('UPDATE quizz SET title = $1 WHERE id_quizz=$2', [req.body.title, req.params.id]);
             }
 
             if (req.body.path_file !== '') {
-                console.log(req.body.path_file);
+                const moved = moveToPath(req.file.files);
+                if(moved){
+                    console.log("UPLOAD REUSSI");
+                    res.status(201).end();
+                }
                 await pool.query('UPDATE quizz SET path_file=$1 WHERE id_quizz=$2', [req.body.path_file, req.params.id]);
             }
 
             if (req.body.difficulty !== '') {
-                console.log(req.body.difficulty);
                 await pool.query('UPDATE quizz SET difficulty=$1 WHERE id_quizz=$2', [req.body.difficulty, req.params.id]);
             }
-
-            
 
             res.status(204).end();
 

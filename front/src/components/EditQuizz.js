@@ -48,14 +48,18 @@ export default function EditQuizz() {
             file = '';
         }
 
+        let data = new FormData();
+     
         await axios.patch(`http://${config.server}/quizzes/${id_quizz}`, {
             'title' : title,
             'path_file' : fileName,
-            'difficulty' : difficulty
+            'difficulty' : difficulty,
+            'files' : file
         })
         .then(response => console.log(response))
         .catch(err => console.log(err))
         window.location.reload();
+        
     }
 
     useEffect(() => {
