@@ -4,10 +4,11 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 
+import $ from 'jquery';
+
 import './css/play.css';
 
 export default function Play(){
-    
     const { id_quizz } = useParams();
 
     const [quizz, setQuizz] = useState({});
@@ -18,9 +19,8 @@ export default function Play(){
 
     const [score, setScore] = useState(0);
 
+    /* flag to make it impossible to answer the same Q several times */
     const [answered, setAnswered] = useState(false)
-
-    let nextButton;
 
     async function fetchQuizz(){
         await axios.get(`http://${config.server}/quizzes/${id_quizz}`)
@@ -39,7 +39,6 @@ export default function Play(){
     async function fetchCurrentAnswers(){
         await axios.get(`http://${config.server}/questions/${currentQuestion.id_question}/answers`)
                    .then(res => {
-                    //    console.log(res.data)
                        setCurrentAnswers(res.data);
                    });        
     }
@@ -47,7 +46,6 @@ export default function Play(){
     useEffect(() => {
         fetchQuizz();
         fetchQuestions();
-        nextButton = document.getElementById('next-button');
     },[])
     
     useEffect(()=> {
@@ -60,17 +58,25 @@ export default function Play(){
 
     function handleAnswer(answer){
         if (!answered) {
+            /* Checking if the user has answered correctly */
             if(answer.correct){
                 setScore(parseInt(score)+10);
             }else{
-                
+                setScore(parseInt(score)-quizz.difficulty*2)
             }
+            $('.material-icons').css('visibility', 'visible');
             setAnswered(true);
-            ReactDOM.findDOMNode(nextButton).style.color = 'blue';
+            
+            /* Checking if the quizz is over */
+            if (currentidx<questions.length-1){
+                $('#next-button').css('visibility', 'visible');
+            }else{
+                $('#finish-button').css('visibility', 'visible');
+                    
+            }
         }else{
 
         }    
-        console.log('reponse');
     }
 
     return(
@@ -94,6 +100,7 @@ export default function Play(){
                                  key={idx}
                                  onClick={e => {handleAnswer(a)}}>
                                     <h2>{a.answer}</h2>
+                                    {a.correct ? <i class='material-icons'>check</i> : <i class='material-icons'>clear</i>}
                             </div>
                         );
                     }) : "Answers not found"
@@ -101,9 +108,15 @@ export default function Play(){
             </div>
             
             <button id='next-button' onClick={e => {
+                $('.material-icons').css('visibility', 'hidden');
+                $('#next-button').css('visibility', 'hidden');
                 setCurrentidx(parseInt(currentidx)+1);
-                setAnswered(false);
+                setAnswered(false);                              
             }}>Next</button>
+            
+            <button id='finish-button'>
+                GG !
+            </button>
         </div>
     );
 }

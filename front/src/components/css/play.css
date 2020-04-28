@@ -37,6 +37,13 @@
     margin: unset;
 }
 
+.answer>i{
+    position: static;
+    bottom: 0;
+    right: 0;
+    /* visibility: hidden; */
+}
+
 #answer0{background-color: #3BDB32;}
 
 #answer1{background-color: #FFBC12;}
@@ -45,6 +52,6 @@
 
 #answer3{background-color: #40A3FF;}
 
-#next-button{
+#next-button,#finish-button{
     visibility: hidden;
 }
