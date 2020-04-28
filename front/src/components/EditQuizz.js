@@ -31,7 +31,7 @@ export default function EditQuizz() {
     }
 
     async function editQuizz(event){
-
+        event.preventDefault();
         let title = event.target.title.value;
         let file;
         let difficulty = event.target.select.value;
@@ -48,13 +48,14 @@ export default function EditQuizz() {
             file = '';
         }
 
-        let data = new FormData();
-        data.append('title', title);
-        data.append('path_file', fileName);
-        data.append('difficulty', difficulty);
-        //console.log(data);
-        //alert(id_quizz + ' // ' + title + ' // ' + fileName + ' // ' + file + ' // ' + difficulty);
-        await axios.patch(`http://${config.server}/quizzes/${id_quizz}`, data);
+        await axios.patch(`http://${config.server}/quizzes/${id_quizz}`, {
+            'title' : title,
+            'path_file' : fileName,
+            'difficulty' : difficulty
+        })
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -68,29 +69,29 @@ export default function EditQuizz() {
 
             <form onSubmit={event => editQuizz(event)}>
 
-                <div class="col s12">
+                <div className="col s12">
                     <span style = {{fontSize: '22px'}}>Title :</span>
-                    <div class="input-field inline">
-                        <input style = {{fontSize: '22px'}} id="title" type="text" class="validate" placeholder={quizz.title}/>
+                    <div className="input-field inline">
+                        <input style = {{fontSize: '22px'}} id="title" type="text" className="validate" placeholder={quizz.title}/>
                     </div>
                 </div>
 
-                <div class="col s12">
-                    <div class="input-field inline">
-                        <div class="file-field input-field">
-                            <div class="btn">
+                <div className="col s12">
+                    <div className="input-field inline">
+                        <div className="file-field input-field">
+                            <div className="btn">
                                 <span>File</span>
                                 <input id ="file" type="file" />
                             </div>
-                            <div class="file-path-wrapper">
-                                <input id="fileName" class="file-path validate" type="text" />
+                            <div className="file-path-wrapper">
+                                <input id="fileName" className="file-path validate" type="text" />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col s12">
-                    <div class="input-field inline" >       
+                <div className="col s12">
+                    <div className="input-field inline" >       
                         
                         <Select id="select">
                             <option value="" disabled selected >Difficulty</option>
@@ -101,8 +102,8 @@ export default function EditQuizz() {
                     </div>
                 </div>
 
-                <div class="col s12">
-                <button class="waves-effect waves-light btn-large" type="submit">Confirmer</button>
+                <div className="col s12">
+                <button className="waves-effect waves-light btn-large" type="submit">Confirmer</button>
                 </div>
 
             </form>
