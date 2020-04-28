@@ -10,7 +10,9 @@ export default function EditQuizz() {
 
     const { id_user } = useParams();
 
-    console.log(id_user);
+    async function addQuizz(event){
+        alert(id_user);
+    }
 
     return (
         <div id='edit-quizz-container'>
@@ -18,7 +20,7 @@ export default function EditQuizz() {
             {/* Si on enlève le h3, la prochaine div n'est pas centrée */}
             <h3></h3>
 
-            <form>
+            <form onSubmit={event => addQuizz(event)}>
 
                 <div class="col s12">
                     <span style = {{fontSize: '22px'}}>Title :</span>
@@ -54,7 +56,7 @@ export default function EditQuizz() {
                 </div>
 
                 <div class="col s12">
-                <a class="waves-effect waves-light btn-large">Confirmer</a>
+                    <button class="waves-effect waves-light btn-large" type="submit" name="action">Confirmer</button>
                 </div>
 
             </form>

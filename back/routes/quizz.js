@@ -49,21 +49,22 @@ router
 
     .patch('/:id',
         async (req, res) => {
-
-            //console.log(req.body.title);
+            
+            console.log("ICI");
+            console.log(req.body.title);
             //console.log(req.body.keywords);
             //console.log(req.body.path_file);
 
-            if (req.body.title) {
+            if (req.body.title !== '') {
                 await pool.query('UPDATE quizz SET title = $1 WHERE id_quizz=$2', [req.body.title, req.params.id]);
             }
 
-            if (req.body.keywords) {
-                await pool.query('UPDATE quizz SET keywords=$1 WHERE id_quizz=$2', [req.body.keywords, req.params.id]);
+            if (req.body.path_file !== '') {
+                await pool.query('UPDATE quizz SET path_file=$1 WHERE id_quizz=$2', [req.body.path_file, req.params.id]);
             }
 
-            if (req.body.path_file) {
-                await pool.query('UPDATE quizz SET path_file=$1 WHERE id_quizz=$2', [req.body.path_file, req.params.id]);
+            if (req.body.difficulty !== '') {
+                await pool.query('UPDATE quizz SET difficulty=$1 WHERE id_quizz=$2', [req.body.difficulty, req.params.id]);
             }
 
             res.status(204).end();

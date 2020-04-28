@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Redirect } from 'react';
 import axios from 'axios';
 import config from '../config';
 import { Select } from 'react-materialize';
@@ -9,7 +9,6 @@ export default function EditQuizz() {
    
 
     const { id_quizz } = useParams();
-    console.log(id_quizz);
 
     const [quizz, setQuizz] = useState({});
 
@@ -18,6 +17,44 @@ export default function EditQuizz() {
             .then((res) => {
                 setQuizz(res.data[0]);
             });
+    }
+
+    function uniqueName(filename) {
+        if(filename){
+            const index = filename.indexOf(".");
+            const rootFilename = filename.substr(0, index);
+            return rootFilename + Date.now() + filename.substr(index);
+        }
+        else{
+            return '';
+        }
+    }
+
+    async function editQuizz(event){
+
+        let title = event.target.title.value;
+        let file;
+        let difficulty = event.target.select.value;
+        let fileName;
+
+        if(fileName !== ''){
+            fileName = uniqueName(event.target.fileName.value);
+        }
+
+        if(event.target.file.files[0]){
+            file = event.target.file.files[0];
+        }
+        else{
+            file = '';
+        }
+
+        let data = new FormData();
+        data.append('title', title);
+        data.append('path_file', fileName);
+        data.append('difficulty', difficulty);
+        //console.log(data);
+        //alert(id_quizz + ' // ' + title + ' // ' + fileName + ' // ' + file + ' // ' + difficulty);
+        await axios.patch(`http://${config.server}/quizzes/${id_quizz}`, data);
     }
 
     useEffect(() => {
@@ -29,7 +66,7 @@ export default function EditQuizz() {
 
             <h3>{quizz.title}</h3>
 
-            <form>
+            <form onSubmit={event => editQuizz(event)}>
 
                 <div class="col s12">
                     <span style = {{fontSize: '22px'}}>Title :</span>
@@ -43,10 +80,10 @@ export default function EditQuizz() {
                         <div class="file-field input-field">
                             <div class="btn">
                                 <span>File</span>
-                                <input type="file" />
+                                <input id ="file" type="file" />
                             </div>
                             <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text" />
+                                <input id="fileName" class="file-path validate" type="text" />
                             </div>
                         </div>
                     </div>
@@ -55,7 +92,7 @@ export default function EditQuizz() {
                 <div class="col s12">
                     <div class="input-field inline" >       
                         
-                        <Select >
+                        <Select id="select">
                             <option value="" disabled selected >Difficulty</option>
                             <option value="1">Facile</option>
                             <option value="2">Moyen</option>
@@ -65,7 +102,7 @@ export default function EditQuizz() {
                 </div>
 
                 <div class="col s12">
-                <a class="waves-effect waves-light btn-large">Confirmer</a>
+                <button class="waves-effect waves-light btn-large" type="submit">Confirmer</button>
                 </div>
 
             </form>

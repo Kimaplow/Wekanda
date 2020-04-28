@@ -21,3 +21,7 @@
 .dropdown-content li > a, .dropdown-content li > span:hover {
     background-color: #212121;
 }
+
+#fileName{
+    color: white;
+}
