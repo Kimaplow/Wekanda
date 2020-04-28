@@ -9,3 +9,42 @@
 #question>h2{
     font-size: 2em;
 }
+
+#answers{
+    width: 25%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.answer{
+    border-radius: 10px;
+    height: 100%;
+    width: 80%;
+    padding-right: 3%;
+    padding-left: 3%;
+    padding-bottom: 12%;
+    padding-top: 12%;
+    margin: 0 auto;
+    margin-bottom: 10%;
+}
+.answer:hover{
+    filter: brightness(1.13)
+}
+
+.answer>h2{
+    font-size: 2em;   
+    padding: unset;
+    margin: unset;
+}
+
+#answer0{background-color: #3BDB32;}
+
+#answer1{background-color: #FFBC12;}
+
+#answer2{background-color: #FF4040;}
+
+#answer3{background-color: #40A3FF;}
+
+#next-button{
+    visibility: hidden;
+}
