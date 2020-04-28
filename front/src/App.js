@@ -11,6 +11,7 @@ import Signin from './components/Signin';
 import Signup from './components/Signup';
 import EditQuizz from './components/EditQuizz';
 import AddQuizz from './components/AddQuizz';
+import FilterQuizz from './components/FilterQuizz';
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
                 <Route exact={true} path='/signup' component={Signup}/>
                 <Route exact={true} path='/quizz/:id_quizz/edit' component={EditQuizz}/>
                 <Route exact={true} path='/user/:id_user/addQuizz' component={AddQuizz}/>
-
+                <Route exact={true} path='/quizzes/:tag' component={FilterQuizz}  />
 
                 <Redirect from='*' to='/' />
               </Switch>

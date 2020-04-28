@@ -13,15 +13,23 @@ router
     .get('/withtags',
         async (req, res) => {
             const result = await pool.query(
-            `select quizz.id_quizz, id_creator,title, path_file, difficulty, 
+                `select quizz.id_quizz, id_creator,title, path_file, difficulty, 
             string_agg(tag,',') as tags from quizz left join tagquizz on quizz.id_quizz = tagquizz.id_quizz 
             group by quizz.id_quizz;`);
             res.json(result.rows);
             res.status(200).end();
-    })
+        })
+    .get('/withtags/:tag',
+        async (req, res) => {
+            const result = await pool.query(`select * from quizz 
+        left join tagquizz on quizz.id_quizz = tagquizz.id_quizz where tag=$1;`,[req.params.tag]);
+            res.json(result.rows);
+        })
     .get('/:id', async (req, res) => {
         if (isNaN(parseInt(req.params.id))) {
-            res.send({ message: 'Wrong input' });
+            res.send({
+                message: 'Wrong input'
+            });
             res.status(404).end();
             return;
         }
@@ -40,7 +48,7 @@ router
             res.json(result.rows);
             res.status(200).end();
         })
-  
+
     .delete('/:id/delete',
         async (req, res) => {
             await pool.query('DELETE FROM quizz WHERE id_quizz = $1', [req.params.id]);
@@ -49,7 +57,7 @@ router
 
     .patch('/:id',
         async (req, res) => {
-            
+
             console.log("ICI");
             console.log(req.params.id);
             

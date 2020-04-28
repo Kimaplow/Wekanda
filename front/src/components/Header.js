@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {Link} from "react-router-dom";
 import './css/header.css';
 import 'materialize-css';
 import config from '../config';
@@ -23,7 +24,7 @@ export default function Header() {
     }, []);
 
     function renderTagsOption() {
-        return tags.map(t => <a href="#" className={t.tag}>{t.tag}</a>);
+        return tags.map(t => <Link to={`/quizzes/${t.tag}`}>{t.tag}</Link>);
     }
 
     return (
