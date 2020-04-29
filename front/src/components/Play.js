@@ -53,8 +53,8 @@ export default function Play(){
     }, [currentidx]);
 
     useEffect(()=> {
-        fetchCurrentAnswers();
-    }, [currentQuestion])
+        if(currentQuestion)fetchCurrentAnswers();
+    }, [currentQuestion]);
 
     function handleAnswer(answer){
         if (!answered) {
@@ -68,12 +68,10 @@ export default function Play(){
             setAnswered(true);
             
             /* Checking if the quizz is over */
-            if (currentidx<questions.length-1){
-                $('#next-button').css('visibility', 'visible');
-            }else{
-                $('#finish-button').css('visibility', 'visible');
-                    
-            }
+            if (currentidx<questions.length-1)
+                {$('#next-button').css('visibility', 'visible');}
+            else
+                {$('#finish-button').css('visibility', 'visible');}
         }else{
 
         }    
