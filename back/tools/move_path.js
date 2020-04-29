@@ -1,5 +1,13 @@
+const multer = require('multer');
+
 function moveToPath(file) {
-    const type = file.type.split('/');
+    console.log("=== MOVE TO PATH ===");
+    console.log('file : ' + file);
+    console.log('filetype : ' + file.mimetype);
+
+    let type = file.mimetype.split('/');
+    console.log('type : ' + type[0]);
+    
     if(type[0] === 'image') {
         file.mv(('../public/img/' + file.name));
         return true;
@@ -8,6 +16,7 @@ function moveToPath(file) {
         return true;
     }
     return false;
+    
 }
 
 module.exports = moveToPath;

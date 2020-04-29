@@ -4,6 +4,7 @@ import axios from 'axios';
 import config from '../config';
 import { Select } from 'react-materialize';
 import './css/editQuizz.css';
+const concat = require("concat-stream")
 
 export default function EditQuizz() {
    
@@ -31,15 +32,13 @@ export default function EditQuizz() {
     }
 
     async function editQuizz(event){
+
         event.preventDefault();
         let title = event.target.title.value;
-        let file;
         let difficulty = event.target.select.value;
-        let fileName;
 
-        if(fileName !== ''){
-            fileName = uniqueName(event.target.fileName.value);
-        }
+        let file;      
+        let fileName;
 
         if(event.target.file.files[0]){
             file = event.target.file.files[0];
@@ -48,19 +47,20 @@ export default function EditQuizz() {
             file = '';
         }
 
-        let data = new FormData();
-     
-        await axios.patch(`http://${config.server}/quizzes/${id_quizz}`, {
-            'title' : title,
-            'path_file' : fileName,
-            'difficulty' : difficulty,
-            'files' : file
-        })
-        .then(response => console.log(response))
-        .catch(err => console.log(err))
-        window.location.reload();
+        if(fileName !== ''){
+            fileName = uniqueName(event.target.fileName.value);
+        }
         
+        const bodyFormData = new FormData();
+        bodyFormData.set('title', title);
+        bodyFormData.set('difficulty', difficulty);
+        bodyFormData.set('path_file', fileName);
+        bodyFormData.append('file', file);
+
+        await axios.patch(`http://${config.server}/quizzes/${id_quizz}`, bodyFormData);
+        window.location.reload();
     }
+    
 
     useEffect(() => {
         getQuizz();
@@ -71,7 +71,7 @@ export default function EditQuizz() {
 
             <h3>{quizz.title}</h3>
 
-            <form onSubmit={event => editQuizz(event)}>
+            <form onSubmit={event => editQuizz(event)} enctype="multipart/form-data">
 
                 <div className="col s12">
                     <span style = {{fontSize: '22px'}}>Title :</span>
