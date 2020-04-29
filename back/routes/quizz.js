@@ -91,9 +91,10 @@ router
         })
 
     .post('/',
-        async (req, res) => {
-            await pool.query('INSERT INTO quizz (title, keywords, path_file) VALUES($1, $2, $3)',
-                [req.body.title, req.body.keywords, req.body.path_file]);
+        upload.single('file'), async (req, res) => {
+            console.log("=== BACK QUIZZ ===")
+            await pool.query('INSERT INTO quizz (id_creator, title, path_file, difficulty) VALUES($1, $2, $3, $4)',
+                [req.body.id_creator, req.body.title, req.body.path_file, req.body.difficulty]);
             res.status(201).end();
         }
     );

@@ -4,7 +4,6 @@ import axios from 'axios';
 import config from '../config';
 import { Select } from 'react-materialize';
 import './css/editQuizz.css';
-const concat = require("concat-stream")
 
 export default function EditQuizz() {
    
