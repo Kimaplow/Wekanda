@@ -1,4 +1,6 @@
-DROP TABLE IF EXISTS Score, TagQuizz, Answers, Questions, Quizz, Users, Tags;
+drop schema if exists wekanda CASCADE;
+create schema wekanda;
+set search_path to wekanda;
 
 CREATE TABLE Users(
     id_user SERIAL primary key,
