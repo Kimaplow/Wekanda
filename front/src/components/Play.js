@@ -68,12 +68,10 @@ export default function Play(){
             setAnswered(true);
             
             /* Checking if the quizz is over */
-            if (currentidx<questions.length-1){
-                $('#next-button').css('visibility', 'visible');
-            }else{
-                $('#finish-button').css('visibility', 'visible');
-                    
-            }
+            if (currentidx<questions.length-1)
+                {$('#next-button').css('visibility', 'visible');}
+            else
+                {$('#finish-button').css('visibility', 'visible');}
         }else{
 
         }    
