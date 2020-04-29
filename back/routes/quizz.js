@@ -1,9 +1,22 @@
-const moveToPath = require('../tools/move_path');
+
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const upload = multer();
+
+var storage = multer.diskStorage(
+    {
+    destination: function (req, file, cb) {
+        console.log(req.file);
+        cb(null, './public/img');
+    },
+    filename: function (req, file, cb) {
+        console.log(req.body.path_file);
+        cb(null, req.body.path_file);
+    }
+});
+
+var upload = multer({ storage: storage });
 
 router
 
@@ -61,25 +74,11 @@ router
     .patch('/:id',
         upload.single('file'), async (req, res) => {
 
-            console.log("BACK QUIZZ");
-            console.log('id : ' + req.params.id);
-            console.log('title : ' + req.body.title);
-            console.log('path_file : ' + req.body.path_file);
-            console.log('difficulty : ' + req.body.difficulty);
-            console.log('file : ', req.file);
-
             if (req.body.title !== '') {
                 await pool.query('UPDATE quizz SET title = $1 WHERE id_quizz=$2', [req.body.title, req.params.id]);
             }
 
-            if (req.body.path_file !== '') {
-                req.file.originalname = req.body.path_file;
-                const moved = moveToPath(req.file);
-                if(moved){
-                    console.log("UPLOAD REUSSI");
-                    res.status(201).end();
-                }
-                
+            if (req.body.path_file !== '') {              
                 await pool.query('UPDATE quizz SET path_file=$1 WHERE id_quizz=$2', [req.body.path_file, req.params.id]);
             }
 

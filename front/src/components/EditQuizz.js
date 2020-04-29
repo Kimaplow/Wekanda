@@ -60,7 +60,6 @@ export default function EditQuizz() {
         await axios.patch(`http://${config.server}/quizzes/${id_quizz}`, bodyFormData);
         window.location.reload();
     }
-    
 
     useEffect(() => {
         getQuizz();
