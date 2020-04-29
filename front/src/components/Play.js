@@ -53,8 +53,8 @@ export default function Play(){
     }, [currentidx]);
 
     useEffect(()=> {
-        fetchCurrentAnswers();
-    }, [currentQuestion])
+        if(currentQuestion)fetchCurrentAnswers();
+    }, [currentQuestion]);
 
     function handleAnswer(answer){
         if (!answered) {
