@@ -19,6 +19,15 @@
     margin-top: 12%;
 }
 
+#user-quizzes #menu-quizz h3{
+    float: left;
+}
+
+#user-quizzes #menu-quizz a{
+    margin-top: 6%;
+    margin-left: 42%;
+}
+
 #user-stats {
     padding-top: 2.6%;
 }

@@ -50,7 +50,7 @@ export default function EditQuizz() {
         bodyFormData.append('file', file);
 
         await axios.post(`http://${config.server}/quizzes/`, bodyFormData);
-        window.location.reload();
+        window.location=`/profile/${id_creator}`;
     }
 
     return (
