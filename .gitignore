@@ -115,3 +115,17 @@ dist
 .yarn/unplugged
 .yarn/build-state.yml
 .pnp.*
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE 
+.idea/
+.vscode/

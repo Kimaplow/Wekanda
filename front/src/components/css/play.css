@@ -18,6 +18,11 @@
     font-size: 2em;
 }
 
+#question{
+    max-width: 30%;
+    margin: 0 auto;
+}
+
 #answers{
     width: 25%;
     margin: 0 auto;
@@ -27,7 +32,7 @@
 .answer{
     position: relative;
     border-radius: 10px;
-    height: 100%;
+    min-height: 25%;
     width: 80%;
     padding-right: 3%;
     padding-left: 3%;
@@ -53,8 +58,8 @@
 
 .answer>i{
     position: absolute;
-    bottom: 16%;
-    right: 5%;
+    bottom: 50px;
+    right: 20px;
     height: 2%;
     width: 2%;   
     visibility: hidden;
