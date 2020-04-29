@@ -6,6 +6,7 @@ import config from '../config';
 
 import $ from 'jquery';
 
+import Question from './Question';
 import './css/play.css';
 
 export default function Play(){
@@ -83,9 +84,10 @@ export default function Play(){
             <div id='quizz-title'>
                 <h2>{quizz ? quizz.title : "Quizz not found"}</h2>
             </div>
-            <div id='question'>
+            {/* <div id='question'>
                 {currentQuestion ? <h2>{currentQuestion.question}</h2> : ""}
-            </div>
+            </div> */}
+            {currentQuestion ? <Question question={currentQuestion.question} src={currentQuestion.path_file}/> : ''}
             <div id='score'>
                 <h2>Score : {score ? score : 0}</h2>
             </div>
@@ -98,7 +100,7 @@ export default function Play(){
                                  key={idx}
                                  onClick={e => {handleAnswer(a)}}>
                                     <h2>{a.answer}</h2>
-                                    {a.correct ? <i class='material-icons'>check</i> : <i class='material-icons'>clear</i>}
+                                    {a.correct ? <i className='material-icons'>check</i> : <i className='material-icons'>clear</i>}
                             </div>
                         );
                     }) : "Answers not found"
