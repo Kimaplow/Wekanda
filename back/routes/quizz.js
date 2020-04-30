@@ -40,14 +40,15 @@ router
             res.json(result.rows);
         })
     .get('/:id', async (req, res) => {
-        if (isNaN(parseInt(req.params.id))) {
-            res.send({
-                message: 'Wrong input'
-            });
-            res.status(404).end();
-            return;
+        if(isNaN(+req.params.id)) {
+           res.status(500).send({error:'Input given is not a number'});
+           return;
         }
         const result = await pool.query('SELECT * FROM quizz WHERE id_quizz=$1', [req.params.id]);
+        if(result.rows.length === 0) {
+            res.status(404).send({error:'Quizz not found'});
+            return;
+        } 
         res.json(result.rows);
     })
     .get('/:id/fromuser', async (req, res) => {
