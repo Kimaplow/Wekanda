@@ -18,4 +18,24 @@ describe('Quizzes', () => {
             });
         });
     });
+    describe('GET /quizzes/:id', () => {
+        it('should return 404 with an id not existing', (done) => {
+            chai
+            .request(app)
+            .get("/quizzes/9999")
+            .end((err,res) => {
+                res.should.have.status(404);
+                done();
+            });
+        });
+        it('should return 500 with an input who is not a number', (done) => {
+            chai
+            .request(app)
+            .get("/quizzes/toto")
+            .end((err,res) => {
+                res.should.have.status(500);
+                done();
+            });
+        });
+    });
 });
