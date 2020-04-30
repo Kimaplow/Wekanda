@@ -1,10 +1,5 @@
-import React, {
-    useState,
-    useEffect
-} from "react";
-import {
-    useParams
-} from "react-router";
+import React, {useState, useEffect } from "react";
+import { useParams } from "react-router";
 import axios from "axios";
 import config from "../config";
 import QuizzCard from "./QuizzCard";
@@ -17,13 +12,16 @@ export default function FilterQuizz() {
     async function getQuizzesFiltered() {
         await axios.get(`http://${config.server}/quizzes/withtags/${tag}`)
             .then(res => {
-                console.log(res.data);
                 setQuizzes(res.data);
             })
             .catch(err => console.log(err));
     }
 
-    let quizzJSX = quizzes.map(q => <QuizzCard quizz={q} />);
+    let quizzJSX = quizzes.map(function (q, index){
+        return (<QuizzCard key={index} quizz={q} />);
+    });
+
+    //let quizzJSX = quizzes.map(q => <QuizzCard quizz={q} />);
 
     useEffect(() => {
         getQuizzesFiltered() 

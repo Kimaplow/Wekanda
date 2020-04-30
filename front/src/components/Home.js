@@ -12,18 +12,15 @@ export default function Home() {
     async function getQuizzes() {
         let quizzes = [];
         let tags = [];
-        console.log(config.server);
         // first we get all the quizzes
         await axios.get(`http://${config.server}/quizzes/withtags`)
             .then(res => {
-                console.log(res.data);
                 quizzes = res.data;
             })
             .catch(err => console.log(err));
         // Then we get some tags 
         await axios.get(`http://${config.server}/tags`)
             .then(res => {
-                console.log(res.data);
                 tags = res.data;
             })
             .catch(err => console.log(err));
@@ -44,18 +41,18 @@ export default function Home() {
     }, []);
 
     let quizzJSX = tagsQuizzes.map((tq, index) =>
-        <div className={"tq_tag"}>
+        <div className={"tq_tag"} key={index}>
             <h1>{tq.tag}</h1>
             {renderEachQuizz(tq.quizzes)}
         </div>
     );
 
     function renderEachQuizz(quizzes) {
-        return quizzes.map(q => {
+        return quizzes.map(function (q, index){
             return (
-            <div className={'card_quizz'}>
-                <QuizzCard width={500} quizz={q} />
-            </div>);
+            <div className={'card_quizz'} key={index}>
+                <QuizzCard width={500} key={index} quizz={q} />
+            </div>)
         });
     }
 

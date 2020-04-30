@@ -1,8 +1,22 @@
-const moveToPath = require('../tools/move_path');
 
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+
+var storage = multer.diskStorage(
+    {
+    destination: function (req, file, cb) {
+        console.log(req.file);
+        cb(null, './public/img');
+    },
+    filename: function (req, file, cb) {
+        console.log(req.body.path_file);
+        cb(null, req.body.path_file);
+    }
+});
+
+var upload = multer({ storage: storage });
 
 router
 
@@ -53,21 +67,13 @@ router
         })
 
     .patch('/:id',
-        async (req, res) => {
-
-            console.log("ICI");
-            console.log(req.params.id);
+        upload.single('file'), async (req, res) => {
 
             if (req.body.title !== '') {
                 await pool.query('UPDATE quizz SET title = $1 WHERE id_quizz=$2', [req.body.title, req.params.id]);
             }
 
-            if (req.body.path_file !== '') {
-                const moved = moveToPath(req.file.files);
-                if(moved){
-                    console.log("UPLOAD REUSSI");
-                    res.status(201).end();
-                }
+            if (req.body.path_file !== '') {              
                 await pool.query('UPDATE quizz SET path_file=$1 WHERE id_quizz=$2', [req.body.path_file, req.params.id]);
             }
 
@@ -80,9 +86,10 @@ router
         })
 
     .post('/',
-        async (req, res) => {
-            await pool.query('INSERT INTO quizz (title, keywords, path_file) VALUES($1, $2, $3)',
-                [req.body.title, req.body.keywords, req.body.path_file]);
+        upload.single('file'), async (req, res) => {
+            console.log("=== BACK QUIZZ ===")
+            await pool.query('INSERT INTO quizz (id_creator, title, path_file, difficulty) VALUES($1, $2, $3, $4)',
+                [req.body.id_creator, req.body.title, req.body.path_file, req.body.difficulty]);
             res.status(201).end();
         }
     );

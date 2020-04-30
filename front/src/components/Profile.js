@@ -59,7 +59,13 @@ export default function Profile() {
         if (userQuizzes !== undefined && userQuizzes.length > 0) {
 
             return (
+                
                 <ul id={"user-quizzes"}>
+                    <div id="menu-quizz">
+                        <h3>Vos Quizz :</h3>
+                        <a href={`/user/${user.id_user}/addQuizz`} class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">add</i></a>
+                    </div>
+                    
                     {
                         userQuizzes.map(quizz => {
                             return (
