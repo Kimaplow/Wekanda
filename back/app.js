@@ -35,3 +35,5 @@ app
     .use(express.static(__dirname + '/public'));
 
 app.listen(port, () => console.log('Wekanda QUIZZ API server listening on port ' + port));
+
+module.exports = app;
