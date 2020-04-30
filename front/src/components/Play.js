@@ -83,9 +83,6 @@ export default function Play(){
             <div id='quizz-title'>
                 <h2>{quizz ? quizz.title : "Quizz not found"}</h2>
             </div>
-            {/* <div id='question'>
-                {currentQuestion ? <h2>{currentQuestion.question}</h2> : ""}
-            </div> */}
             {currentQuestion ? <Question question={currentQuestion.question} src={currentQuestion.path_file}/> : ''}
             <div id='score'>
                 <h2>Score : {score ? score : 0}</h2>
@@ -93,15 +90,23 @@ export default function Play(){
             <div id='answers'>
                 { currentAnswers ? 
                     currentAnswers.map((a, idx) => {
-                        return(
-                            <div className='answer' 
-                                 id={'answer'+idx} 
-                                 key={idx}
-                                 onClick={e => {handleAnswer(a)}}>
-                                    <h2>{a.answer}</h2>
-                                    {a.correct ? <i className='material-icons'>check</i> : <i className='material-icons'>clear</i>}
-                            </div>
-                        );
+                        if(a.path_file==''){
+                            return(
+                                <div className='answer' 
+                                     id={'answer'+idx} 
+                                     key={idx}
+                                     onClick={e => {handleAnswer(a)}}>
+                                        <h2>{a.answer}</h2>
+                                       {a.correct ? <i className='material-icons'>check</i> : 
+                                                    <i className='material-icons'>clear</i>}
+                                  </div>
+                            );
+                        }else{
+                            return(
+                                <div></div>
+                                );  
+                        }
+                            
                     }) : "Answers not found"
                 }
             </div>

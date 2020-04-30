@@ -28,7 +28,7 @@ export default function Home() {
         let tmp = [];
         tags.map((t) => {
             quizzes.forEach(q => {
-                if (q.tags.includes(t.tag)) tmp.push(q);
+                if (q.tags && q.tags.includes(t.tag)) tmp.push(q);
             });
             t['quizzes'] = tmp;
             tmp = [];
