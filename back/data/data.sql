@@ -60,7 +60,8 @@ INSERT INTO Quizz(id_creator, title, path_file, difficulty) VALUES
     ('2', 'Le Cinema français','cinema.jpg', '3'),
     ('2', 'Rap U.S.','musique.jpg', '3'),
     ('3', 'Tableaux et Peintres','bob.jpg', '2'),
-    ('4', 'Culture internet','stonks.jpg', '2');
+    ('4', 'Culture internet','stonks.jpg', '2'),
+    ('3', 'Anglais', 'britain.jpg', '1');
 
 INSERT INTO Questions(id_quizz, question, path_file) VALUES
     ('1','Qui a le plus long cou ?',''),
@@ -75,7 +76,10 @@ INSERT INTO Questions(id_quizz, question, path_file) VALUES
     ('3','Quel Tableau a été peint par Salvador Dali ?','');
 
 INSERT INTO Questions(id_quizz, question, path_file) VALUES
-    ('4','De quelle origine est cette video ?','nyan.mp4');
+    ('6','De quelle origine est cette video ?','nyan.mp4');
+
+INSERT INTO Questions(id_quizz, question, path_file) VALUES
+    ('7','Que signifie le mot "house" en anglais ?','');
 
 INSERT INTO Answers(id_question, answer, correct, path_file) VALUES
     ('1','Girafe','true', ''),
@@ -112,6 +116,12 @@ INSERT INTO Answers(id_question, answer, correct, path_file) VALUES
     ('7','Francaise', 'false', ''),
     ('7','Japonaise', 'true', ''),
     ('7','Brésilienne', 'false', '');
+    
+INSERT INTO Answers(id_question, answer, correct, path_file) VALUES
+    ('8', '', 'false', 'ecole.jpg'),
+    ('8', '', 'false', 'eglise.jpg'),
+    ('8', '', 'true', 'maison.jpg'),
+    ('8', '', 'false', 'mairie.jpg');
 
 INSERT INTO Score(id_user, id_quizz, score) VALUES
     ('1','4','5'),
