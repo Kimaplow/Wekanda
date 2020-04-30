@@ -4,7 +4,7 @@ import './css/header.css';
 import 'materialize-css';
 import config from '../config';
 import axios from "axios";
-import { Dropdown, Icon, Select } from 'react-materialize';
+import { Dropdown, Icon } from 'react-materialize';
 
 export default function Header() {
 
@@ -13,7 +13,6 @@ export default function Header() {
     async function getTags() {
         await axios.get(`http://${config.server}/tags`)
             .then(res => {
-                console.log(res.data);
                 setTags(res.data);
             })
             .catch(err => console.log(err));
@@ -24,7 +23,9 @@ export default function Header() {
     }, []);
 
     function renderTagsOption() {
-        return tags.map(t => <Link to={`/quizzes/${t.tag}`}>{t.tag}</Link>);
+        return tags.map(function (t, index){
+            return (<Link key={index} to={`/quizzes/${t.tag}`}>{t.tag}</Link>)
+        });
     }
 
     return (

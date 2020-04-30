@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';

@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import React, { useEffect, useState, Redirect } from 'react';
+import React, { useEffect, useState} from 'react';
 import axios from 'axios';
 import config from '../config';
 import { Select } from 'react-materialize';
