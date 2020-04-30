@@ -10,7 +10,6 @@ router
         async (req, res) => {
             const result = await pool.query('SELECT * FROM quizz');
             res.json(result.rows);
-            res.status(200).end();
         })
     .get('/withtags',
         async (req, res) => {
@@ -19,7 +18,6 @@ router
             string_agg(tag,',') as tags from quizz left join tagquizz on quizz.id_quizz = tagquizz.id_quizz 
             group by quizz.id_quizz;`);
             res.json(result.rows);
-            res.status(200).end();
         })
     .get('/withtags/:tag',
         async (req, res) => {
@@ -37,18 +35,15 @@ router
         }
         const result = await pool.query('SELECT * FROM quizz WHERE id_quizz=$1', [req.params.id]);
         res.json(result.rows);
-        res.status(200).end();
     })
     .get('/:id/fromuser', async (req, res) => {
         const result = await pool.query('SELECT * FROM quizz WHERE id_creator=$1', [req.params.id]);
         res.json(result.rows);
-        res.status(200).end();
     })
     .get('/:id/questions',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM questions WHERE id_quizz=$1', [req.params.id]);
             res.json(result.rows);
-            res.status(200).end();
         })
 
     .delete('/:id/delete',
