@@ -90,7 +90,8 @@ export default function Play(){
             <div id='answers'>
                 { currentAnswers ? 
                     currentAnswers.map((a, idx) => {
-                        if(a.path_file==''){
+                        if(a.path_file.split('.')[1] !== 'jpg'){
+                            console.log('pas image')
                             return(
                                 <div className='answer' 
                                      id={'answer'+idx} 
@@ -102,8 +103,20 @@ export default function Play(){
                                   </div>
                             );
                         }else{
+                            console.log('image')
+                            console.log(`http://${config.serv}/img/${a.path_file}`)
                             return(
-                                <div></div>
+                                <div className='answer' 
+                                id={'answer'+idx} 
+                                key={idx}
+                                onClick={e => {handleAnswer(a)}}
+                                style={{
+                                    backgroundImage: 'url(' + `http://${config.server}/img/${a.path_file}` + ')',
+                                }}>
+                                   {/* <img src={`http://${config.server}/img/${a.path_file}`}/> */}
+                                  {a.correct ? <i className='material-icons'>check</i> : 
+                                               <i className='material-icons'>clear</i>}
+                             </div>
                                 );  
                         }
                             

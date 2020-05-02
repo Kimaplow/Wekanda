@@ -8,9 +8,9 @@ export default function Question(props){
             {props.src !== '' ? 
                     <ReactPlayer 
                         id='player' 
-                        controls='true'
-                        volume='0.5'
-                        wrapper='question' 
+                        controls={true}
+                        volume={0.5}
+                        wrapper='question'
                         url={`http://${config.server}/video/${props.src}`}/> : ''}
             <h2>{props.question}</h2>
         </div>
