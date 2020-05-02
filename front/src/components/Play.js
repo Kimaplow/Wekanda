@@ -78,6 +78,15 @@ export default function Play(){
         }    
     }
 
+    function handleNext(){
+        for(const i of document.querySelectorAll('.material-icons')){
+            i.style.visibility = 'hidden';
+        }
+        document.querySelector('#next-button').style.visibility='hidden';
+        setCurrentidx(parseInt(currentidx)+1);
+        setAnswered(false); 
+    }
+
     return(
 
         <div id='play-container'>
@@ -117,19 +126,13 @@ export default function Play(){
                                 </div>
                                 );  
                         }
-                            
                     }) : "Answers not found"
                 }
             </div>
             
-            <button id='next-button' onClick={e => {
-                for(const i of document.querySelectorAll('.material-icons')){
-                    i.style.visibility = 'hidden';
-                }
-                document.querySelector('#next-button').style.visibility='hidden';
-                setCurrentidx(parseInt(currentidx)+1);
-                setAnswered(false);                              
-            }}>Next</button>
+            <button id='next-button' onClick={e => {handleNext()}}>
+                Next
+            </button>
             
             <button id='finish-button'>
                 GG !
