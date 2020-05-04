@@ -41,18 +41,19 @@ router
         })
     .get('/:id', async (req, res) => {
         if(isNaN(+req.params.id)) {
-           res.status(500).send({error:'Input given is not a number'});
-           return;
+          return res.status(500).send({error:'Input given is not a number'});
         }
         const result = await pool.query('SELECT * FROM quizz WHERE id_quizz=$1', [req.params.id]);
         if(result.rows.length === 0) {
-            res.status(404).send({error:'Quizz not found'});
-            return;
+            return res.status(404).send({error:'Quizz not found'});
         } 
         res.json(result.rows[0]);
     })
     .get('/:id/fromuser', async (req, res) => {
         const result = await pool.query('SELECT * FROM quizz WHERE id_creator=$1', [req.params.id]);
+        if(result.rows.length === 0) {
+            return res.status(404).send({error:'Quizz not found for this user or user does not exist'});
+        }
         res.json(result.rows);
     })
     .get('/:id/questions',
