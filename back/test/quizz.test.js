@@ -78,7 +78,7 @@ describe('Quizzes', () => {
             chai
             .request(app)
             .get('/quizzes/withtags/errortag')
-            .end((err,response) => {
+            .end((err,res) => {
                 res.should.have.status(404);
             });
             done();
@@ -86,7 +86,7 @@ describe('Quizzes', () => {
         it('should return 200 and all quizzes for the given tag', (done) => {
             chai
             .request(app)
-            .get('/quizzes/withtags/:tag')
+            .get('/quizzes/withtags/Animaux')
             .end((err,response) => {
                 response.should.have.status(200);
                 response.body.forEach(res => {
@@ -107,16 +107,16 @@ describe('Quizzes', () => {
             chai
             .request(app)
             .get('/quizzes/5/fromuser')
-            .end((err,response) => {
+            .end((err,res) => {
                 res.should.have.status(404);
             });
             done();
         });
-        it('should return 404 if a user does not exists or the input is wrong', (done) => {
+        it('should return 404 if a user does not exist or the input is wrong', (done) => {
             chai
             .request(app)
             .get('/quizzes/1024/fromuser')
-            .end((err,response) => {
+            .end((err,res) => {
                 res.should.have.status(404);
             });
             done();
@@ -134,6 +134,34 @@ describe('Quizzes', () => {
                     res.should.have.property('title');
                     res.should.have.property('path_file');
                     res.should.have.property('difficulty');
+                });
+            });
+            done();
+        });
+    });
+    describe('GET /:id/questions', () => {
+        it('should return 404 if the quizz does not exist', (done) => {
+            chai
+            .request(app)
+            .get('/quizzes/1024/questions')
+            .end((err,res) => {
+                res.should.have.status(404);
+            });
+            done();
+        });
+        it('should return 200 and the questions if the quizz exists', (done) => {
+            chai
+            .request(app)
+            .get('/quizzes/1/questions')
+            .end((err,response) => {
+                response.should.have.status(200);
+                response.body.forEach(res => {
+                    res.should.be.a('object');
+                    res.should.have.property('id_question');
+                    res.should.have.property('id_quizz');
+                    res.should.have.property('id_quizz').equal(1);
+                    res.should.have.property('question');
+                    res.should.have.property('path_file');
                 });
             });
             done();
