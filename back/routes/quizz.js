@@ -49,7 +49,7 @@ router
             res.status(404).send({error:'Quizz not found'});
             return;
         } 
-        res.json(result.rows);
+        res.json(result.rows[0]);
     })
     .get('/:id/fromuser', async (req, res) => {
         const result = await pool.query('SELECT * FROM quizz WHERE id_creator=$1', [req.params.id]);
