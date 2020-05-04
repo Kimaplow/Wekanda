@@ -102,4 +102,41 @@ describe('Quizzes', () => {
             done();
         });
     });
+    describe('GET /:id/fromuser', () => {
+        it('should return 404 if a user has not created any quizz', (done) => {
+            chai
+            .request(app)
+            .get('/quizzes/5/fromuser')
+            .end((err,response) => {
+                res.should.have.status(404);
+            });
+            done();
+        });
+        it('should return 404 if a user does not exists or the input is wrong', (done) => {
+            chai
+            .request(app)
+            .get('/quizzes/1024/fromuser')
+            .end((err,response) => {
+                res.should.have.status(404);
+            });
+            done();
+        });
+        it('should return 200 and the quizzes created if a user has created one nor some', (done) => {
+            chai
+            .request(app)
+            .get('/quizzes/1/fromuser')
+            .end((err,response) => {
+                response.should.have.status(200);
+                response.body.forEach(res => {
+                    res.should.be.a('object');
+                    res.should.have.property('id_creator');
+                    res.should.have.property('id_quizz');
+                    res.should.have.property('title');
+                    res.should.have.property('path_file');
+                    res.should.have.property('difficulty');
+                });
+            });
+            done();
+        });
+    });
 });

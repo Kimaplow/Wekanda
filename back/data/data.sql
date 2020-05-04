@@ -52,7 +52,8 @@ INSERT INTO Users(pseudo, password) VALUES
     ('Admin', 'Admin'),
     ('Christophe', 'Christophe'),
     ('Mathieu', 'Mathieu'),
-    ('Francois', 'Francois');
+    ('Francois', 'Francois'),
+    ('testuser','testuser');
 
 INSERT INTO Quizz(id_creator, title, path_file, difficulty) VALUES
     ('1', 'Les animaux Africains','animaux_afrique.jpg', '1'),
