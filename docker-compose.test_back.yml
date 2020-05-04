@@ -11,6 +11,8 @@ services:
         build:
             context: ./back
             dockerfile: Dockerfile.test
+        depends_on: 
+            - postgres
         volumes: 
             - /api/node_modules
             - ./back:/api
