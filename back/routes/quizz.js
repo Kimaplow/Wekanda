@@ -37,6 +37,9 @@ router
         async (req, res) => {
             const result = await pool.query(`select * from quizz 
         left join tagquizz on quizz.id_quizz = tagquizz.id_quizz where tag=$1;`,[req.params.tag]);
+        if(result.rows.length === 0) {
+            return res.status(404).send({error:'Tag does not exist or has not been written correctly'});
+        }
             res.json(result.rows);
         })
     .get('/:id', async (req, res) => {
