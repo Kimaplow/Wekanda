@@ -1,18 +1,11 @@
 version: '3.7'
-services: 
-    postgres:
-        image: postgres:latest
-        restart: on-failure
-        volumes:
-            - ./back/data/data.sql:/docker-entrypoint-initdb.d/data.sql
-        environment: 
-        - POSTGRES_PASSWORD=pg 
+services:
     quizz_api:
         build:
             context: ./back
             dockerfile: Dockerfile.test
         depends_on: 
-            - postgres
+            - "postgres"
         volumes: 
             - /api/node_modules
             - ./back:/api
@@ -23,4 +16,11 @@ services:
             - PGHOST=postgres
             - PGPASSWORD=pg
             - PGPORT=5432
-            - PORT=5000
+            - PORT=5000 
+    postgres:
+        image: postgres:latest
+        restart: on-failure
+        volumes:
+            - ./back/data/data.sql:/docker-entrypoint-initdb.d/data.sql
+        environment: 
+        - POSTGRES_PASSWORD=pg 
