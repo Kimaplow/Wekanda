@@ -52,13 +52,42 @@ describe('Quizzes', () => {
             done();
         });
     });
-    describe('GEt /:id/withtags', () => {
+    describe('GET /withtags', () => {
         it('should return 200 and all quizzes with their tags', (done) => {
             chai
             .request(app)
             .get('/quizzes/withtags')
             .end((err,response) => {
                 // console.log(res);
+                response.should.have.status(200);
+                response.body.forEach(res => {
+                    res.should.be.a('object');
+                    res.should.have.property('id_creator');
+                    res.should.have.property('id_quizz');
+                    res.should.have.property('title');
+                    res.should.have.property('path_file');
+                    res.should.have.property('difficulty');
+                    res.should.have.property('tags');
+                });
+            });
+            done();
+        });
+    });
+    describe('GET /withtags/:tag', () => {
+        it('should return 404 if the tag does not exist or not given properly', (done) => {
+            chai
+            .request(app)
+            .get('/quizzes/withtags/errortag')
+            .end((err,response) => {
+                res.should.have.status(404);
+            });
+            done();
+        });
+        it('should return 200 and all quizzes for the given tag', (done) => {
+            chai
+            .request(app)
+            .get('/quizzes/withtags/:tag')
+            .end((err,response) => {
                 response.should.have.status(200);
                 response.body.forEach(res => {
                     res.should.be.a('object');
