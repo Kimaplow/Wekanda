@@ -61,7 +61,8 @@ INSERT INTO Quizz(id_creator, title, path_file, difficulty) VALUES
     ('2', 'Rap U.S.','musique.jpg', '3'),
     ('3', 'Tableaux et Peintres','bob.jpg', '2'),
     ('4', 'Culture internet','stonks.jpg', '2'),
-    ('3', 'Anglais', 'britain.jpg', '1');
+    ('3', 'Anglais', 'britain.jpg', '1'),
+    ('2', 'TestPasDeQuestions', 'britain.jpg', '1');
 
 INSERT INTO Questions(id_quizz, question, path_file) VALUES
     ('1','Qui a le plus long cou ?',''),

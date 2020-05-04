@@ -26,6 +26,7 @@ router
             res.json(result.rows);
             res.status(200).end();
         })
+
     .get('/withtags',
         async (req, res) => {
             const result = await pool.query(
@@ -35,12 +36,14 @@ router
             res.json(result.rows);
             res.status(200).end();
         })
+
     .get('/withtags/:tag',
         async (req, res) => {
             const result = await pool.query(`select * from quizz 
         left join tagquizz on quizz.id_quizz = tagquizz.id_quizz where tag=$1;`,[req.params.tag]);
             res.json(result.rows);
         })
+
     .get('/:id', async (req, res) => {
         if (isNaN(parseInt(req.params.id))) {
             res.send({
@@ -53,11 +56,13 @@ router
         res.json(result.rows);
         res.status(200).end();
     })
+
     .get('/:id/fromuser', async (req, res) => {
         const result = await pool.query('SELECT * FROM quizz WHERE id_creator=$1', [req.params.id]);
         res.json(result.rows);
         res.status(200).end();
     })
+    
     .get('/:id/questions',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM questions WHERE id_quizz=$1', [req.params.id]);
@@ -92,7 +97,6 @@ router
 
     .post('/',
         upload.single('file'), async (req, res) => {
-            console.log("=== BACK QUIZZ ===")
             await pool.query('INSERT INTO quizz (id_creator, title, path_file, difficulty) VALUES($1, $2, $3, $4)',
                 [req.body.id_creator, req.body.title, req.body.path_file, req.body.difficulty]);
             res.status(201).end();
