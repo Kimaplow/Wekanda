@@ -19,14 +19,14 @@ CREATE TABLE Quizz(
 
 CREATE TABLE Questions(
     id_question SERIAL primary key,
-    id_quizz integer REFERENCES Quizz(id_quizz) NOT NULL ON DELETE CASCADE,
+    id_quizz integer REFERENCES Quizz(id_quizz) ON DELETE CASCADE NOT NULL,
     question varchar(50) NOT NULL,
     path_file varchar(50)
 );
 
 CREATE TABLE Answers(
     id_answer SERIAL primary key,
-    id_question integer REFERENCES Questions(id_question) NOT NULL ON DELETE CASCADE,
+    id_question integer REFERENCES Questions(id_question) ON DELETE CASCADE NOT NULL,
     answer varchar(50),
     path_file varchar(50),
     correct boolean NOT NULL
@@ -35,7 +35,7 @@ CREATE TABLE Answers(
 CREATE TABLE Score(
     id_score SERIAL primary key,
     id_user integer REFERENCES Users(id_user) NOT NULL,
-    id_quizz integer REFERENCES Quizz(id_quizz) NOT NULL,
+    id_quizz integer REFERENCES Quizz(id_quizz) ON DELETE CASCADE NOT NULL,
     score integer DEFAULT 0 CHECK(score>0)
 );
 
@@ -44,7 +44,7 @@ CREATE TABLE Tags(
 );
 
 CREATE TABLE TagQuizz(
-    id_quizz integer REFERENCES Quizz(id_quizz),
+    id_quizz integer REFERENCES Quizz(id_quizz) ON DELETE CASCADE,
     tag varchar(15) REFERENCES Tags(tag),
     PRIMARY KEY (id_quizz,tag)
 );
@@ -55,17 +55,6 @@ INSERT INTO Users(pseudo, password) VALUES
     ('Mathieu', 'Mathieu'),
     ('Francois', 'Francois');
 
-<<<<<<< HEAD
-INSERT INTO Quizz(id_creator, title, path_file, difficulty) VALUES
-    ('1', 'Les animaux Africains','animaux_afrique.jpg', '1'),
-    ('2', 'Les Rois de France','rois_France.jpg', '3'),
-    ('2', 'Le Cinema français','cinema.jpg', '3'),
-    ('2', 'Rap U.S.','musique.jpg', '3'),
-    ('3', 'Tableaux et Peintres','bob.jpg', '2'),
-    ('4', 'Culture internet','stonks.jpg', '2'),
-    ('3', 'Anglais', 'britain.jpg', '1'),
-    ('2', 'TestPasDeQuestions', 'britain.jpg', '1');
-=======
 INSERT INTO Quizz(id_creator, title, path_file, difficulty, description) VALUES
     ('1', 'Les animaux Africains','animaux_afrique.jpg', '1', 'Pour apprendre les animaux en s''amusant'),
     ('2', 'Les Rois de France','rois_France.jpg', '3', 'Il fallait une raison pour manger la galette'),
@@ -73,8 +62,8 @@ INSERT INTO Quizz(id_creator, title, path_file, difficulty, description) VALUES
     ('2', 'Rap U.S.','musique.jpg', '3', 'Ca c''est cool'),
     ('3', 'Tableaux et Peintres','bob.jpg', '2', 'Let''s slap the devil out of it'),
     ('4', 'Culture internet','stonks.jpg', '2', 'STONKS'),
-    ('3', 'Anglais', 'britain.jpg', '1', 'In English plz');
->>>>>>> cfad15a7deb1714abf6559ac6ee6e662ffb687eb
+    ('3', 'Anglais', 'britain.jpg', '1', 'In English plz'),
+    ('3', 'TestSansQuestions', 'britain.jpg', '1', 'Test');
 
 INSERT INTO Questions(id_quizz, question, path_file) VALUES
     ('1','Qui a le plus long cou ?',''),
