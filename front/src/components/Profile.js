@@ -4,8 +4,8 @@ import axios from 'axios';
 import config from '../config';
 import './css/profile.css';
 import {Icon, Button} from "react-materialize";
-
 import QuizzCard from './QuizzCard';
+import {Redirect} from 'react-router-dom';
 
 export default function Profile() {
     const { id_user } = useParams();
@@ -19,7 +19,11 @@ export default function Profile() {
     async function fetchUser() {
         await axios.get(`http://${config.server}/users/${id_user}`)
             .then((res) => {
-                setUser(res.data[0]);
+                if (res.status == 200){
+                    setUser(res.data[0]);
+                }else{
+                    setUser('not found');
+                }
             });
     }
 
@@ -105,6 +109,7 @@ export default function Profile() {
         <div id='profile-container'>
 
             <div id={"user-info"}>
+                {user && user=='not found' ? <Redirect to='/' /> : ''}
                 {user ? (<div id={'top-profile'}>
                             <img></img>
                             <h1>{user.pseudo}</h1>
