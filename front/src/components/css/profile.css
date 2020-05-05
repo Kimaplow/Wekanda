@@ -1,4 +1,4 @@
-#profile-container{
+#profile-container {
     height: 100%;
 }
 
@@ -17,33 +17,21 @@
 
 #user-quizzes {
     margin-left: 2%;
+    position:relative;
 }
-
-@keyframes mymove {
-    from {left: -60px;
-          opacity: 0;
-         }
-    to {left: 0px;
-        opacity:1;
-       }
-
-  }
 
 #user-quizzes li {
-    margin-top: 12%;
-}
-
-.card{
     position: relative;
-    animation: mymove 0.9s;
-    animation-timing-function: ease-in-out;
+    margin-top: 12%;
+    /* display: inline-table; */
+
 }
 
-#user-quizzes #menu-quizz h3{
+#user-quizzes #menu-quizz h3 {
     float: left;
 }
 
-#user-quizzes #menu-quizz a{
+#user-quizzes #menu-quizz a {
     margin-top: 6%;
     margin-left: 42%;
 }
@@ -51,3 +39,10 @@
 #user-stats {
     padding-top: 2.6%;
 }
+
+i.material-icons.delete-quizz {
+    position: absolute;
+    right: 0;
+    margin-left: 50px;
+}
+

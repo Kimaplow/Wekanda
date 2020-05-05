@@ -1,0 +1,16 @@
+@keyframes mymove {
+    from {
+        left: -60px;
+        opacity: 0;
+    }
+    to {
+        left: 0px;
+        opacity: 1;
+    }
+}
+
+.card {
+    position: relative;
+    animation: mymove 0.8s;
+    animation-timing-function: ease-in-out;
+}

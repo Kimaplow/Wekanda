@@ -3,8 +3,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 
-import $ from 'jquery';
-
 import Question from './Question';
 import './css/play.css';
 
@@ -25,6 +23,7 @@ export default function Play(){
     async function fetchQuizz(){
         await axios.get(`http://${config.server}/quizzes/${id_quizz}`)
                    .then(res => {
+                       console.log(res.status);
                         setQuizz(res.data[0]);
                    });
     }
@@ -64,17 +63,28 @@ export default function Play(){
             }else{
                 setScore(parseInt(score)-quizz.difficulty*2)
             }
-            $('.material-icons').css('visibility', 'visible');
+            for(const i of document.querySelectorAll('.material-icons')){
+                i.style.visibility = 'visible';
+            }
             setAnswered(true);
             
             /* Checking if the quizz is over */
             if (currentidx<questions.length-1)
-                {$('#next-button').css('visibility', 'visible');}
+                {document.querySelector('#next-button').style.visibility='visible';}
             else
-                {$('#finish-button').css('visibility', 'visible');}
+                {document.querySelector('#finish-button').style.visibility='visible';}
         }else{
 
         }    
+    }
+
+    function handleNext(){
+        for(const i of document.querySelectorAll('.material-icons')){
+            i.style.visibility = 'hidden';
+        }
+        document.querySelector('#next-button').style.visibility='hidden';
+        setCurrentidx(parseInt(currentidx)+1);
+        setAnswered(false); 
     }
 
     return(
@@ -103,8 +113,6 @@ export default function Play(){
                                   </div>
                             );
                         }else{
-                            console.log('image')
-                            console.log(`http://${config.serv}/img/${a.path_file}`)
                             return(
                                 <div className='answer' 
                                 id={'answer'+idx} 
@@ -113,23 +121,18 @@ export default function Play(){
                                 style={{
                                     backgroundImage: 'url(' + `http://${config.server}/img/${a.path_file}` + ')',
                                 }}>
-                                   {/* <img src={`http://${config.server}/img/${a.path_file}`}/> */}
                                   {a.correct ? <i className='material-icons'>check</i> : 
                                                <i className='material-icons'>clear</i>}
-                             </div>
+                                </div>
                                 );  
                         }
-                            
                     }) : "Answers not found"
                 }
             </div>
             
-            <button id='next-button' onClick={e => {
-                $('.material-icons').css('visibility', 'hidden');
-                $('#next-button').css('visibility', 'hidden');
-                setCurrentidx(parseInt(currentidx)+1);
-                setAnswered(false);                              
-            }}>Next</button>
+            <button id='next-button' onClick={e => {handleNext()}}>
+                Next
+            </button>
             
             <button id='finish-button'>
                 GG !
