@@ -19,14 +19,14 @@ CREATE TABLE Quizz(
 
 CREATE TABLE Questions(
     id_question SERIAL primary key,
-    id_quizz integer REFERENCES Quizz(id_quizz) NOT NULL,
+    id_quizz integer REFERENCES Quizz(id_quizz) NOT NULL ON DELETE CASCADE,
     question varchar(50) NOT NULL,
     path_file varchar(50)
 );
 
 CREATE TABLE Answers(
     id_answer SERIAL primary key,
-    id_question integer REFERENCES Questions(id_question) NOT NULL,
+    id_question integer REFERENCES Questions(id_question) NOT NULL ON DELETE CASCADE,
     answer varchar(50),
     path_file varchar(50),
     correct boolean NOT NULL
