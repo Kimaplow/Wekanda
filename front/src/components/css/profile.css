@@ -17,10 +17,14 @@
 
 #user-quizzes {
     margin-left: 2%;
+    position:relative;
 }
 
 #user-quizzes li {
+    position: relative;
     margin-top: 12%;
+    /* display: inline-table; */
+
 }
 
 #user-quizzes #menu-quizz h3 {
@@ -35,3 +39,10 @@
 #user-stats {
     padding-top: 2.6%;
 }
+
+i.material-icons.delete-quizz {
+    position: absolute;
+    right: 0;
+    margin-left: 50px;
+}
+

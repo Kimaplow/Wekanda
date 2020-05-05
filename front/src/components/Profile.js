@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 import './css/profile.css';
+import {Icon} from "react-materialize";
 
 import QuizzCard from './QuizzCard';
 
@@ -12,6 +13,8 @@ export default function Profile() {
     const [user, setUser] = useState({});
     const [userQuizzes, setUserQuizzes] = useState([]);
     const [userScores, setUserScores] = useState([]);
+
+    let totalpts = 0;
 
     async function fetchUser() {
         await axios.get(`http://${config.server}/users/${id_user}`)
@@ -31,6 +34,9 @@ export default function Profile() {
         await axios.get(`http://${config.server}/scores/${id_user}/user`)
             .then((res) => {
                 setUserScores(res.data);
+                userScores.map(score => {
+                    totalpts+= score.score;
+                });
             });
     }
 
@@ -38,21 +44,17 @@ export default function Profile() {
         fetchUser();
         fetchUserQuizzes();
         fetchUserScores();
+        
     }, [])
 
-    function userInfoJSX() {
-        if (user !== undefined) {
-            return (
-                <div id={'top-profile'}>
-                    <img></img>
-                    <h1>{user.pseudo}</h1>
-                </div>
-            );
-        } else {
-            return (
-                <h1>User not Found</h1>
-            );
-        }
+    useEffect(() => {
+
+    }, [userQuizzes])
+
+    function deleteQuizz(quizz, idx) {
+        console.log("deleted")
+        // axios.delete(`http://${config.server}/${quizz.id_quizz}/delete`);
+        // userQuizzes.splice(idx, 1);
     }
 
     function userQuizzesJSX() {
@@ -63,13 +65,17 @@ export default function Profile() {
                 <ul id={"user-quizzes"}>
                     <div id="menu-quizz">
                         <h3>Vos Quizz :</h3>
-                        <a href={`/user/${user.id_user}/addQuizz`} class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">add</i></a>
+                        <a href={`/user/${user.id_user}/addQuizz`} className="btn-floating btn-large waves-effect waves-light"><i className="material-icons">add</i></a>
                     </div>
                     
                     {
-                        userQuizzes.map(quizz => {
+                        userQuizzes.map((quizz,idx) => {
                             return (
-                                <li><QuizzCard width={500} quizz={quizz} /></li>
+                                <li>
+                                    <QuizzCard width={500} quizz={quizz} /> 
+                                    <Icon className='delete-quizz' onClick={e=> {deleteQuizz(quizz,idx)}}>delete</Icon>
+                                </li>
+                                 
                             )
                         })
                     }
@@ -82,25 +88,17 @@ export default function Profile() {
         }
     }
 
-    function userStatsJSX() {
-        let totalpts = 0;
-        userScores.map(score => {
-                totalpts+= score.score;
-        });
-        return (
-            <div>
-                <h5>Nombre de quizz créés : {userQuizzes ? userQuizzes.length : 0}</h5>
-        <h5>Nombre de participations aux quizz : {userScores ? userScores.length : 0}</h5>
-        <h5>Nombre de points marqués au total : {userScores ? totalpts : 0}</h5>
-            </div>
-        );
-    }
-
     return (
         <div id='profile-container'>
 
             <div id={"user-info"}>
-            {userInfoJSX()}
+                {user ? (<div id={'top-profile'}>
+                            <img></img>
+                            <h1>{user.pseudo}</h1>
+                         </div>) 
+
+                      : (<h1>User not found</h1>)
+                }
             </div>
 
             
@@ -112,7 +110,11 @@ export default function Profile() {
                 </div>
 
                 <div id='user-stats'>
-                    {userStatsJSX()}
+                    <div>
+                        <h5>Nombre de quizz créés : {userQuizzes ? userQuizzes.length : 0}</h5>
+                        <h5>Nombre de participations aux quizz : {userScores ? userScores.length : 0}</h5>
+                        <h5>Nombre de points marqués au total : {userScores ? totalpts : 0}</h5>
+                    </div>
                 </div>
 
             </div>
