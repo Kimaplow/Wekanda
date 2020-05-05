@@ -46,3 +46,8 @@ i.material-icons.delete-quizz {
     margin-left: 50px;
 }
 
+.delete-quizz {
+    position: absolute;
+    right: -28px;
+    box-shadow: 5px 5px 5px black;
+}
