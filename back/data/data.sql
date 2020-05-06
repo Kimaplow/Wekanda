@@ -13,7 +13,8 @@ CREATE TABLE Quizz(
     id_creator integer REFERENCES Users(id_user) NOT NULL,
     title varchar(50) NOT NULL,
     path_file varchar(50),
-    difficulty smallint CHECK (difficulty>0 AND difficulty <=3) NOT NULL
+    difficulty smallint CHECK (difficulty>0 AND difficulty <=3) NOT NULL,
+    description varchar(140)
 );
 
 CREATE TABLE Questions(
@@ -55,14 +56,14 @@ INSERT INTO Users(pseudo, password) VALUES
     ('Francois', 'Francois'),
     ('testuser','testuser');
 
-INSERT INTO Quizz(id_creator, title, path_file, difficulty) VALUES
-    ('1', 'Les animaux Africains','animaux_afrique.jpg', '1'),
-    ('2', 'Les Rois de France','rois_France.jpg', '3'),
-    ('2', 'Le Cinema français','cinema.jpg', '3'),
-    ('2', 'Rap U.S.','musique.jpg', '3'),
-    ('3', 'Tableaux et Peintres','bob.jpg', '2'),
-    ('4', 'Culture internet','stonks.jpg', '2'),
-    ('3', 'Anglais', 'britain.jpg', '1');
+INSERT INTO Quizz(id_creator, title, path_file, difficulty, description) VALUES
+    ('1', 'Les animaux Africains','animaux_afrique.jpg', '1', 'Pour apprendre les animaux en s''amusant'),
+    ('2', 'Les Rois de France','rois_France.jpg', '3', 'Il fallait une raison pour manger la galette'),
+    ('2', 'Le Cinema français','cinema.jpg', '3', 'C''est pas ouf'),
+    ('2', 'Rap U.S.','musique.jpg', '3', 'Ca c''est cool'),
+    ('3', 'Tableaux et Peintres','bob.jpg', '2', 'Let''s slap the devil out of it'),
+    ('4', 'Culture internet','stonks.jpg', '2', 'STONKS'),
+    ('3', 'Anglais', 'britain.jpg', '1', 'In English plz');
 
 INSERT INTO Questions(id_quizz, question, path_file) VALUES
     ('1','Qui a le plus long cou ?',''),

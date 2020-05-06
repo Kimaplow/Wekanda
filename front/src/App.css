@@ -5,8 +5,13 @@
 html {
     background-color: #3D3D3E;
     font-family: 'Roboto', sans-serif;
+    height: 100%;
 }
 
 body {
     color: white;
+}
+
+#main-container{
+    height: 100%;
 }

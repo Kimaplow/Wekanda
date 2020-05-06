@@ -1,10 +1,11 @@
 #play-container {
     text-align: center;
     position: relative;
+    height: 100%;
 }
 
 #quizz-title>h2{
-    font-size: 3em;
+    font-size: 3.5em;
 }
 
 #score{
@@ -14,33 +15,42 @@
 }
 
 
-#question>h2, #score>h2{
+#score>h2{
     font-size: 2em;
+}
+
+#question>h2{
+    font-size: 2.5em;
 }
 
 #question{
     max-width: 30%;
     margin: 0 auto;
+    margin-bottom: 3%;
 }
 
 #answers{
-    width: 25%;
-    margin: 0 auto;
-    text-align: center;
+    /* margin-top: 10%; */
+    position: relative;
 }
 
 .answer{
-    position: relative;
     border-radius: 10px;
-    min-height: 25%;
-    width: 80%;
-    padding-right: 3%;
-    padding-left: 3%;
-    padding-bottom: 12%;
-    padding-top: 12%;
-    margin: 0 auto;
-    margin-bottom: 10%;
     cursor: pointer;
+    display: inline-block;
+    position: relative;
+    margin-right: 1%;
+    margin-left: 1%;
+    margin-bottom: 2%;
+    min-width: 160px;
+    width: 12%;
+    height: 100%;
+    min-height: 100px;
+
+    overflow: hidden;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .answer:hover{
     filter: brightness(1.13)
@@ -51,18 +61,14 @@
 }
 
 .answer>h2{
-    font-size: 2em;   
-    padding: unset;
-    margin: unset;
+    font-size: 2em;
 }
 
 .answer>i{
     position: absolute;
-    bottom: 50px;
-    right: 20px;
-    height: 2%;
-    width: 2%;   
     visibility: hidden;
+    bottom:0;
+    right:0;
 }
 
 #answer0{background-color: #3BDB32;}
