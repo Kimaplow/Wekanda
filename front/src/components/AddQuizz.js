@@ -47,7 +47,7 @@ export default function EditQuizz() {
         bodyFormData.set('title', title);
         bodyFormData.set('difficulty', difficulty);
         bodyFormData.set('path_file', fileName);
-        bodyFormData.append('file', file);
+        bodyFormData.set('file', file);
 
         await axios.post(`http://${config.server}/quizzes/`, bodyFormData);
         window.location=`/profile/${id_creator}`;
