@@ -21,7 +21,7 @@ export default function QuizzCard(props) {
                 </div>
                 <div className="card-stacked">
                     <div className="card-content" style = {{color : '#3D3D3E'}}>
-                        <p>I am a very simple card. I am good at containing small bits of information.</p>
+                        <p>{props.quizz.description}</p>
                     </div>
                     <div className="card-action">
                         <a href={`/quizz/${props.quizz.id_quizz}/play`}>Jouer</a>

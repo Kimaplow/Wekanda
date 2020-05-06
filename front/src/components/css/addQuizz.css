@@ -10,10 +10,16 @@
     margin-left: -30px;
 }
 
-.select-wrapper input.select-dropdown {
+.select-wrapper input.select-dropdown, 
+#add-quizz-container label, 
+textarea {
     color: white;
 }
 
 .dropdown-content li > a, .dropdown-content li > span:hover {
     background-color: #212121;
+}
+
+#difficulty{
+    margin-top: px;
 }
