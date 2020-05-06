@@ -30,7 +30,7 @@ router
             const result = await pool.query(
                 `select quizz.id_quizz, id_creator,title, path_file, difficulty, 
             string_agg(tag,',') as tags from quizz left join tagquizz on quizz.id_quizz = tagquizz.id_quizz 
-            group by quizz.id_quizz;`);
+            where tagquizz.id_quizz is not null group by quizz.id_quizz;`);
             res.json(result.rows);
         })
     .get('/withtags/:tag',
@@ -93,7 +93,7 @@ router
     .post('/',
         upload.single('file'), async (req, res) => {
             console.log("=== BACK QUIZZ ===")
-            await pool.query('INSERT INTO quizz (id_creator, title, path_file, difficulty) VALUES($1, $2, $3, $4)',
+            const result = await pool.query('INSERT INTO quizz (id_creator, title, path_file, difficulty) VALUES($1, $2, $3, $4)',
                 [req.body.id_creator, req.body.title, req.body.path_file, req.body.difficulty]);
             res.status(201).end();
         }
