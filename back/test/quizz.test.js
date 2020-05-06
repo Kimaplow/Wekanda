@@ -144,7 +144,7 @@ describe('Quizzes', () => {
         it('should return 404 if the quizz does not exist', function (done) {
             chai
                 .request(app)
-                .get('/quizzes/102432/questions')
+                .get('/quizzes/2042/questions')
                 .end((err, res) => {
                     res.should.have.status(404);
                 });
@@ -181,6 +181,26 @@ describe('Quizzes', () => {
                 .attach('file', fs.readFileSync(path.join(__dirname, '/assets/matrix.jpg')), 'matrix.jpg')
                 .end((err, res) => {
                     res.should.have.status(201);
+                });
+            done();
+        });
+    });
+   describe('DELETE /:id', () => {
+        it('should return 404 if the quizz doesn\'t exist and therefore can\'t be deleted', function(done) {
+            chai
+            .request(app)
+            .delete('/quizzes/1024/delete')
+            .end((err,res) => {
+                res.should.have.status(404);
+            });
+            done();
+        });
+        it('should return 204 if deleted successfully', function (done) {
+            chai
+                .request(app)
+                .delete('/quizzes/2/delete')
+                .end((err, res) => {
+                    res.should.have.status(204);
                 });
             done();
         });
