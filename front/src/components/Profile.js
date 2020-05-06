@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 import './css/profile.css';
-import {Icon} from "react-materialize";
-
+import {Icon, Button} from "react-materialize";
 import QuizzCard from './QuizzCard';
+import {Redirect} from 'react-router-dom';
 
 export default function Profile() {
     const { id_user } = useParams();
@@ -19,7 +19,11 @@ export default function Profile() {
     async function fetchUser() {
         await axios.get(`http://${config.server}/users/${id_user}`)
             .then((res) => {
-                setUser(res.data[0]);
+                if (res.status == 200){
+                    setUser(res.data[0]);
+                }else{
+                    setUser('not found');
+                }
             });
     }
 
@@ -51,10 +55,13 @@ export default function Profile() {
 
     }, [userQuizzes])
 
-    function deleteQuizz(quizz, idx) {
+    async function deleteQuizz(quizz, idx, event) {
+        event.preventDefault();
         console.log("deleted")
-        // axios.delete(`http://${config.server}/${quizz.id_quizz}/delete`);
-        // userQuizzes.splice(idx, 1);
+        console.log(quizz.id_quizz);
+        await axios.delete(`http://${config.server}/quizzes/${quizz.id_quizz}/delete`);
+        let tmp = userQuizzes.filter(item => item !== quizz);
+        setUserQuizzes(tmp);
     }
 
     function userQuizzesJSX() {
@@ -71,9 +78,19 @@ export default function Profile() {
                     {
                         userQuizzes.map((quizz,idx) => {
                             return (
-                                <li>
-                                    <QuizzCard width={500} quizz={quizz} /> 
-                                    <Icon className='delete-quizz' onClick={e=> {deleteQuizz(quizz,idx)}}>delete</Icon>
+                                <li key={idx}>
+                                    <QuizzCard width={500} quizz={quizz} />
+                                    
+                                    <Button
+                                        onClick={event => {deleteQuizz(quizz, idx, event)}}
+                                        node="button"
+                                        waves="light"
+                                        className="delete-quizz"
+                                    >
+                                    <Icon center>
+                                            delete
+                                    </Icon>
+                                    </Button>
                                 </li>
                                  
                             )
@@ -92,6 +109,7 @@ export default function Profile() {
         <div id='profile-container'>
 
             <div id={"user-info"}>
+                {user && user=='not found' ? <Redirect to='/' /> : ''}
                 {user ? (<div id={'top-profile'}>
                             <img></img>
                             <h1>{user.pseudo}</h1>

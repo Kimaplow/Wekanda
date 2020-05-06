@@ -25,3 +25,15 @@
 #fileName{
     color: white;
 }
+
+#title {
+    font-size: 22px;
+}
+
+.col span {
+    font-size: 22px;
+}
+
+.questions {
+    margin-top: 5%;
+}

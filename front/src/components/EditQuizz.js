@@ -69,12 +69,12 @@ export default function EditQuizz() {
 
             <h3>{quizz.title}</h3>
 
-            <form onSubmit={event => editQuizz(event)} enctype="multipart/form-data">
+            <form onSubmit={event => editQuizz(event)} encType="multipart/form-data">
 
                 <div className="col s12">
-                    <span style = {{fontSize: '22px'}}>Title :</span>
+                    <span>Title :</span>
                     <div className="input-field inline">
-                        <input style = {{fontSize: '22px'}} id="title" type="text" className="validate" placeholder={quizz.title}/>
+                        <input id="title" type="text" className="validate" placeholder={quizz.title}/>
                     </div>
                 </div>
 
@@ -96,7 +96,7 @@ export default function EditQuizz() {
                     <div className="input-field inline" >       
                         
                         <Select id="select">
-                            <option value="" disabled selected >Difficulty</option>
+                            <option value="" defaultValue >Difficulty</option>
                             <option value="1">Facile</option>
                             <option value="2">Moyen</option>
                             <option value="3">Difficile</option>
@@ -109,6 +109,11 @@ export default function EditQuizz() {
                 </div>
 
             </form>
+            
+            <div className="questions">           
+                <a href={`/questions/${id_quizz}/edit`} className="waves-effect waves-light btn-large">Modifier les questions</a>
+            </div>
+            
 
         </div>
     );

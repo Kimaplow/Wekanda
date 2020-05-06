@@ -10,6 +10,13 @@ router
             res.status(200).end();
         })
 
+    .get('/:id_question',
+        async (req, res) => {
+            const result = await pool.query('SELECT * FROM questions WHERE id_question=$1', [req.params.id_question]);
+            res.json(result.rows);
+            res.status(200).end();
+        })
+
     .get('/:id_question/answers', async (req, res) => {
         const result = await pool.query('SELECT * FROM answers WHERE id_question=$1', [req.params.id_question]);
         res.json(result.rows);
