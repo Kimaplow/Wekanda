@@ -9,13 +9,12 @@ router
     })
 
     .post('/',
-        async (req, res) => { console.log("files", req.files); console.log("body", [req.body]);
+        async (req, res) => {
             await pool.query('INSERT INTO answers(id_question, answer, correct, path_file) VALUES($1, $2, $3, $4)',
-                [req.body.id_question, req.body.answer, req.body.correct, req.files.file.name]);
-            const moved = moveToPath(req.files.file);
-            if(moved) res.status(201).end();
-            else res.status(500).send('file not allowed or error during the upload');
-    })
+            [req.body.id_question, req.body.answer, req.body.correct, '']);
+            res.status(201).end();
+        }
+    )
 
     .get('/:id', async (req,res) => {
         const result = await pool.query('SELECT * FROM answers WHERE id_answers=$1', [req.params.id]);

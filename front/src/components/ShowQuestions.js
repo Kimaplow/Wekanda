@@ -38,7 +38,7 @@ export default function EditQuizz() {
             return (
                 <div>
                     <h4>Pas de question !</h4>
-                    <a className="waves-effect waves-light btn editQuestion">
+                    <a href={`/questions/${id_quizz}/addQuestion`} className="waves-effect waves-light btn editQuestion">
                         Ajouter question
                     </a>
                 </div>   

@@ -61,11 +61,22 @@ export default function EditQuestion() {
             )
         })
     }
+ 
+    let eventuelReponsesJSX = [];
+    for (let i = answers.length; i < 4; i++) {
+        eventuelReponsesJSX.push(<div key={i} className="col s12">
+            <span className="label-rep">Reponse {i + 1} : </span>
+            <input id={`reponse${i}`} type="text" className="validate" placeholder={"Exemple de réponse"} />
+            <Checkbox label="Correct" id={`checked${i}`}></Checkbox>
+        </div>
+        );
+    }
 
     async function editQuestion(event){
         event.preventDefault();
 
-        console.log(tabCorrect);
+        //On récupère la question
+        let question = event.target.ques.value;
 
         // On récupère les valeurs des "checked" des checkbox
         let tabCb = [];    
@@ -79,38 +90,50 @@ export default function EditQuestion() {
             return false;
         }
 
-        let question = event.target.ques.value;
-  
         // On récupère les valeurs des questions/réponses
         let tabReponses = [];
         for(let i=0; i<4; i++){
             tabReponses.push(document.getElementById("reponse"+i).value);
         }
 
-        for(let i=0; i<4; i++){
+        // on .patch les réponses existantes
+        for(let i=0; i<answers.length; i++){
             if(tabReponses[i] !== '' || (tabCb[i] !== tabCorrect[i]) ){
                 let id_answer = answers[i].id_answer;
                 let answer =  tabReponses[i];
                 //path_file
-                //correct
                 let correct = tabCb[i];
 
                 await axios.patch(`http://${config.server}/answers/${id_answer}`, {
                     'answer' : answer,
                     'correct': correct
                 });
+            }
+        }
+        
+        // on .post les éventuelles nouvelles réponses
+        for(let i=answers.length; i<4; i++){
+            if(tabReponses[i] !== ''){
+                let answer =  tabReponses[i];
+                //path_file
+                let correct = tabCb[i];
 
+                await axios.post(`http://${config.server}/answers/`, {
+                    'id_question' : id_question,
+                    'answer' : answer,
+                    'correct': correct
+                });
             }
         }
 
+        // on .patch la question si elle a changé
         if(question !== ''){
             await axios.patch(`http://${config.server}/questions/${id_question}`, {
                     'question' : question
                 });
         }
-
+        
         window.location.reload();
-
     }
 
     return (
@@ -127,6 +150,7 @@ export default function EditQuestion() {
 
                 <div id="div-reponse">
                     {reponsesJSX(answers)}
+                    {eventuelReponsesJSX}
                 </div>
 
                 <div className="col s12 btn-confirm">
