@@ -185,20 +185,98 @@ describe('Quizzes', () => {
             done();
         });
     });
-   describe('DELETE /:id', () => {
-        it('should return 404 if the quizz doesn\'t exist and therefore can\'t be deleted', function(done) {
+    describe('DELETE /:id', () => {
+        it('should return 404 if the quizz doesn\'t exist and therefore can\'t be deleted', function (done) {
             chai
-            .request(app)
-            .delete('/quizzes/1024/delete')
-            .end((err,res) => {
-                res.should.have.status(404);
-            });
+                .request(app)
+                .delete('/quizzes/1024/delete')
+                .end((err, res) => {
+                    res.should.have.status(404);
+                });
             done();
         });
         it('should return 204 if deleted successfully', function (done) {
             chai
                 .request(app)
                 .delete('/quizzes/2/delete')
+                .end((err, res) => {
+                    res.should.have.status(204);
+                });
+            done();
+        });
+    });
+    describe('PATCH /:id', () => {
+        it('should return 204 if we try to modify both the path_file and add a new image', function (done) {
+            chai
+                .request(app)
+                .patch('/quizzes/1')
+                .field('path_file', 'matrix.jpg')
+                .attach('file', fs.readFileSync(path.join(__dirname, '/assets/matrix.jpg')), 'matrix.jpg')
+                .end((err, res) => {
+                    res.should.have.status(204);
+                });
+            done();
+        });
+        it('should return 404 if the quizz doesn\'t exist and therefore can\'t be patched', function (done) {
+            chai
+                .request(app)
+                .patch('/quizzes/1024')
+                .field('title', 'Totoro')
+                .end((err, res) => {
+                    res.should.have.status(404);
+                });
+            done();
+        });
+        it('should return 204 and patch title', function (done) {
+            chai
+                .request(app)
+                .patch('/quizzes/1')
+                .field('title', "les animaux d''afrique")
+                .end((err, res) => {
+                    res.should.have.status(204);
+                });
+            done();
+        });
+        it('should return 204 and patch difficulty', function (done) {
+            chai
+                .request(app)
+                .patch('/quizzes/1')
+                .field('difficulty', 3)
+                .end((err, res) => {
+                    res.should.have.status(204);
+                });
+            done();
+        });
+        it('should return 500 if we try to modify the path_file  without a new fille associated', function (done) {
+            chai
+                .request(app)
+                .patch('/quizzes/1')
+                .field('path_file', 'test.jpg')
+                .end((err, res) => {
+                    res.should.have.status(500);
+                });
+            done();
+        });
+        it('should return 500 if we try to modify the path_file and another field without a new fille associated', function (done) {
+            chai
+                .request(app)
+                .patch('/quizzes/1')
+                .field('path_file', 'test.jpg')
+                .field('title', 'Matrix')
+                .end((err, res) => {
+                    res.should.have.status(500);
+                });
+            done();
+        });
+        it('should return 204 if we try to modify all infos of a quizz but also the image', function (done) {
+            chai
+                .request(app)
+                .patch('/quizzes/4')
+                .field('title', 'Matrix')
+                .field('difficulty', 2)
+                .field('id_creator', 1)
+                .field('path_file', 'matrix.jpg')
+                .attach('file', fs.readFileSync(path.join(__dirname, '/assets/matrix.jpg')), 'matrix.jpg')
                 .end((err, res) => {
                     res.should.have.status(204);
                 });
