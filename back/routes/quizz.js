@@ -86,40 +86,34 @@ router
 
     .delete('/:id/delete',
         async (req, res) => {
-            const result = await pool.query('DELETE FROM quizz WHERE id_quizz = $1', [req.params.id]);
-            if (result.rowCount === 0) {
+            const result = await pool.query('DELETE FROM quizz WHERE id_quizz = $1', [req.params.id], (err, res) => {
+                if (err) return;
+                else return res;
+            });
+            if (result === undefined) {
                 return res.status(404)
                     .send({
                         error: 'Quizz can\'t be deleted because it doesn\'t exist'
                     });
             }
-            res.status(204).end();
+            res.status(204).send(res);
         })
 
     .patch('/:id',
         upload.single('file'), async (req, res) => {
 
-            let result = undefined;
-            
-            if (req.body.path_file && req.file) {
-                result = await pool.query('UPDATE quizz SET path_file=$1 WHERE id_quizz=$2', [req.body.path_file, req.params.id]);
-            } else if(req.body.path_file && !req.file) {
-                return res.status(500).send({error:'You cant modify the path_file without providing an image'});
+            if (req.body.title !== '') {
+                await pool.query('UPDATE quizz SET title = $1 WHERE id_quizz=$2', [req.body.title, req.params.id]);
             }
 
-            if (req.body.title) {
-                result = await pool.query('UPDATE quizz SET title = $1 WHERE id_quizz=$2', [req.body.title, req.params.id]);
+            if (req.body.path_file !== '') {
+                await pool.query('UPDATE quizz SET path_file=$1 WHERE id_quizz=$2', [req.body.path_file, req.params.id]);
             }
-  
-            if (req.body.difficulty) {
-                result = await pool.query('UPDATE quizz SET difficulty=$1 WHERE id_quizz=$2', [req.body.difficulty, req.params.id]);
+
+            if (req.body.difficulty !== '') {
+                await pool.query('UPDATE quizz SET difficulty=$1 WHERE id_quizz=$2', [req.body.difficulty, req.params.id]);
             }
-           
-            if(result === undefined) {
-                return res.status(500).send({error:'You didnt provide info for one or more field nor quizz doesnt exist'});
-            }else if(result.rowCount === 0) {
-                return res.status(404).send({error: 'Quizz not found and can\'t be patched'});
-            } 
+
             res.status(204).end();
 
         })
