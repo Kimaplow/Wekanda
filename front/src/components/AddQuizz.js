@@ -27,7 +27,7 @@ export default function EditQuizz() {
 
         event.preventDefault();
         let title = event.target.title.value;
-        let difficulty = event.target.select.value;
+        let difficulty = event.target.difficulty.value;
 
         let file;      
         let fileName;
@@ -52,7 +52,7 @@ export default function EditQuizz() {
         bodyFormData.append('file', file);
 
         await axios.post(`http://${config.server}/quizzes/`, bodyFormData);
-        // window.location=`/profile/${id_creator}`;
+        window.location=`/profile/${id_creator}`;
     }
 
     function handleChange(event){
