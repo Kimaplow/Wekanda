@@ -19,7 +19,7 @@ export default function Profile() {
     async function fetchUser() {
         await axios.get(`http://${config.server}/users/${id_user}`)
             .then((res) => {
-                if (res.status == 200){
+                if (res.status === 200){
                     setUser(res.data[0]);
                 }else{
                     setUser('not found');
@@ -109,7 +109,7 @@ export default function Profile() {
         <div id='profile-container'>
 
             <div id={"user-info"}>
-                {user && user=='not found' ? <Redirect to='/' /> : ''}
+                {user && user === 'not found' ? <Redirect to='/' /> : ''}
                 {user ? (<div id={'top-profile'}>
                             <img></img>
                             <h1>{user.pseudo}</h1>

@@ -23,7 +23,7 @@ export default function Play(){
     async function fetchQuizz(){
         await axios.get(`http://${config.server}/quizzes/${id_quizz}`)
                    .then(res => {
-                    if (res.status == 200){
+                    if (res.status === 200){
                         setQuizz(res.data[0]);
                     }else{
                         setQuizz('not found');
@@ -94,7 +94,7 @@ export default function Play(){
 
         <div id='play-container'>
             <div id='quizz-title'>
-            {quizz && quizz=='not found' ? <Redirect to='/' /> : ''}
+            {quizz && quizz === 'not found' ? <Redirect to='/' /> : ''}
                 <h2>{quizz ? quizz.title : "Quizz not found"}</h2>
             </div>
             {currentQuestion ? <Question question={currentQuestion.question} src={currentQuestion.path_file}/> : ''}

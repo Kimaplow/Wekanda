@@ -2,6 +2,10 @@
     text-align: center;
 }
 
+#add-quizz-container #div-title{
+    margin-top: 3%;
+}
+
 #add-quizz-container div input {
     margin-top: 10px;
 }
@@ -20,6 +24,7 @@ textarea {
     background-color: #212121;
 }
 
-#difficulty{
-    margin-top: px;
+#label-diff{
+    font-size: 12px;
+    margin-top: -12px;
 }

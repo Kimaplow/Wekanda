@@ -26,11 +26,11 @@ export default function EditQuizz() {
     async function addQuizz(event){
 
         event.preventDefault();
+
         let title = event.target.title.value;
         let difficulty = event.target.difficulty.value;
-
-        let file;      
-        let fileName;
+        let fileName = event.target.fileName.value;
+        let file;     
 
         if(event.target.file.files[0]){
             file = event.target.file.files[0];
@@ -59,7 +59,7 @@ export default function EditQuizz() {
         /* Update le compteur de caracteres */
         const charCount = event.target.value.length;
         const tmpLeft = 140- charCount;
-        if(tmpLeft == 0){
+        if(tmpLeft === 0){
             
         }
         setCharsLeft(tmpLeft);
@@ -73,12 +73,9 @@ export default function EditQuizz() {
     return (
         <div id='add-quizz-container'>
 
-            {/* Si on enlève le h3, la prochaine div n'est pas centrée */}
-            <h3></h3>
-
             <form onSubmit={event => addQuizz(event)} encType="multipart/form-data">
 
-                <div className="col s12">
+                <div id="div-title" className="col s12">
                     <div className="input-field inline">
                         <label htmlFor='title'>Title</label>
                         <input style = {{fontSize: '22px'}} id="title" type="text" className="validate" placeholder={'Example'}/>
@@ -101,7 +98,7 @@ export default function EditQuizz() {
 
                 <div className="col s12">
                     <div className="input-field inline" >       
-                        <label htmlFor='difficulty'>Difficulty</label>
+                        <label id="label-diff" htmlFor='difficulty'>Difficulty</label>
                         <Select defaultValue= '' id="difficulty">
                             <option value="" disabled >Choose a difficulty</option>
                             <option value="1">Facile</option>

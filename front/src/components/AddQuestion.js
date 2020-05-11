@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import config from '../config';
-import { Checkbox } from 'react-materialize';
 import './css/addQuestion.css';
 
 export default function AddQuestion() {
