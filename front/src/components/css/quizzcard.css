@@ -14,3 +14,12 @@
     animation: mymove 0.8s;
     animation-timing-function: ease-in-out;
 }
+
+#desc{
+    color: #3D3D3E;
+}
+
+#modify-quizz-button{
+    margin-left: 150px;
+}
+
