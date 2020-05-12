@@ -30,7 +30,7 @@ router
     .get('/withtags',
         async (req, res) => {
             const result = await pool.query(
-                `select quizz.id_quizz, id_creator,title, path_file, difficulty, 
+                `select quizz.id_quizz, id_creator,title, path_file, difficulty, description, 
             string_agg(tag,',') as tags from quizz left join tagquizz on quizz.id_quizz = tagquizz.id_quizz 
             group by quizz.id_quizz;`);
             res.json(result.rows);
