@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../config';
-import { Select } from 'react-materialize';
+import { Select, Chip, Icon } from 'react-materialize';
 import './css/addQuizz.css';
 
 export default function EditQuizz() {
@@ -31,6 +31,10 @@ export default function EditQuizz() {
         let title = event.target.title.value;
         let difficulty = event.target.difficulty.value;
         let fileName = event.target.fileName.value;
+        // il faut récupérer les tags mis au quizz
+        //let tags = $('#tags').material_chip('data');
+        //console.log(tags);
+
         let file;     
 
         if(event.target.file.files[0]){
@@ -42,8 +46,9 @@ export default function EditQuizz() {
 
         if(fileName !== ''){
             fileName = uniqueName(event.target.fileName.value);
-        }
+        } 
         
+        /*
         const bodyFormData = new FormData();
         bodyFormData.set('id_creator', id_creator);
         bodyFormData.set('title', title);
@@ -54,6 +59,7 @@ export default function EditQuizz() {
 
         await axios.post(`http://${config.server}/quizzes/`, bodyFormData);
         window.location=`/profile/${id_creator}`;
+        */
     }
 
     function handleChange(event){
@@ -119,6 +125,30 @@ export default function EditQuizz() {
                         />
                         <label htmlFor='description'>Description</label>
                         <p id='charCounter'>{charsLeft}</p>
+                    </div>
+                </div>
+
+
+                <div id="div-tags" className="col s12">
+                    <div className="input-field inline">
+                    <Chip
+                        id="tags"
+                        close={false}
+                        closeIcon={<Icon className="close">close</Icon>}
+                        options={{
+                            //Il faut récupérer les tags ici
+                            autocompleteOptions: {
+                                data: {
+                                    Apple: null,
+                                    Google: null,
+                                    Microsoft: null
+                                },
+                                limit: Infinity,
+                                minLength: 3,
+                                onAutocomplete: function noRefCheck() { }
+                            }
+                        }}
+                    />
                     </div>
                 </div>
 
