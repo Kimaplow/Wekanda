@@ -256,7 +256,7 @@ export default function EditQuestion() {
         }
 
         // On rafraichit la page
-        //window.location.reload();
+        window.location.reload();
     }
 
     return (

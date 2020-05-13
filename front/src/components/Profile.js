@@ -56,8 +56,6 @@ export default function Profile() {
 
     async function deleteQuizz(quizz, idx, event) {
         event.preventDefault();
-        console.log("deleted")
-        console.log(quizz.id_quizz);
         await axios.delete(`http://${config.server}/quizzes/${quizz.id_quizz}/delete`);
         let tmp = userQuizzes.filter(item => item !== quizz);
         setUserQuizzes(tmp);
