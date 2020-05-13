@@ -1,6 +1,19 @@
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+
+let storage = multer.diskStorage(
+    {
+    destination: function (req, file, cb) {
+        cb(null, './public/img');
+    },
+    filename: function (req, file, cb) {
+        cb(null, req.body.path_file);
+    }
+});
+
+let upload = multer({ storage: storage });
 
 router
     .get('/', async (req,res) => {
@@ -9,9 +22,10 @@ router
     })
 
     .post('/',
-        async (req, res) => {
+        upload.single('fileAnswer'), async (req, res) => {
+
             await pool.query('INSERT INTO answers(id_question, answer, correct, path_file) VALUES($1, $2, $3, $4)',
-            [req.body.id_question, req.body.answer, req.body.correct, '']);
+                [req.body.id_question, req.body.answer, req.body.correct, req.body.path_file]);
             res.status(201).end();
         }
     )
@@ -22,14 +36,18 @@ router
     })
 
     .patch('/:id',
-        async (req, res) => {
+        upload.single('fileAnswer'), async (req, res) => {
 
-            if (req.body.answer !== null && req.body.answer !== '') {
+            if (req.body.answer && req.body.answer !== '') {
                 await pool.query('UPDATE answers SET answer=$1 WHERE id_answer=$2', [req.body.answer, req.params.id]);
             }
 
-            if (req.body.correct !== null && req.body.correct !== '') { 
+            if (req.body.correct && req.body.correct !== '') { 
                 await pool.query('UPDATE answers SET correct=$1 WHERE id_answer=$2', [req.body.correct, req.params.id]);
+            }
+
+            if (req.body.path_file && req.body.path_file !== '') { 
+                await pool.query('UPDATE answers SET path_file=$1 WHERE id_answer=$2', [req.body.path_file, req.params.id]);
             }
 
             res.status(204).end();

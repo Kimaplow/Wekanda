@@ -1,4 +1,3 @@
-
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();

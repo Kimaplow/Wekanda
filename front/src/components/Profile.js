@@ -47,8 +47,7 @@ export default function Profile() {
     useEffect(() => {
         fetchUser();
         fetchUserQuizzes();
-        fetchUserScores();
-        
+        fetchUserScores();  
     }, [])
 
     useEffect(() => {

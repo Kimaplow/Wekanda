@@ -93,14 +93,18 @@ export default function Play(){
     return(
 
         <div id='play-container'>
+
             <div id='quizz-title'>
-            {quizz && quizz === 'not found' ? <Redirect to='/' /> : ''}
+                {quizz && quizz === 'not found' ? <Redirect to='/' /> : ''}
                 <h2>{quizz ? quizz.title : "Quizz not found"}</h2>
             </div>
+
             {currentQuestion ? <Question question={currentQuestion.question} src={currentQuestion.path_file}/> : ''}
+            
             <div id='score'>
                 <h2>Score : {score ? score : 0}</h2>
             </div>
+            
             <div id='answers'>
                 { currentAnswers ? 
                     currentAnswers.map((a, idx) => {

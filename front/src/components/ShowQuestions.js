@@ -67,6 +67,10 @@ export default function EditQuizz() {
                 {questionsJSX(questions)}
             </div>
 
+            <a href={`/questions/${id_quizz}/addQuestion`} className="waves-effect waves-light btn editQuestion">
+                Ajouter question
+            </a>
+
         </div>
     );
 }

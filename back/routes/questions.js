@@ -1,6 +1,19 @@
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+
+let storage = multer.diskStorage(
+    {
+    destination: function (req, file, cb) {
+        cb(null, './public/img');
+    },
+    filename: function (req, file, cb) {
+        cb(null, req.body.path_file);
+    }
+});
+
+let upload = multer({ storage: storage });
 
 router
     .get('/',
@@ -37,13 +50,14 @@ router
             res.status(204);
     })
 
-    .patch('/:id', async (req,res) => {
+    .patch('/:id',
+        upload.single('fileQuestion'), async (req,res) => {
         
-        if(req.params.question){
+        if(req.body.question && req.body.question !== ''){
             await pool.query('UPDATE questions SET question = $1 WHERE id_question=$2',[req.body.question, req.params.id]);
         }
 
-        if(req.params.path_file){
+        if(req.body.path_file && req.body.path_file !== ''){
             await pool.query('UPDATE questions SET path_file = $1 WHERE id_question=$2',[req.body.path_file, req.params.id]);
         }
         

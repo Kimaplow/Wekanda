@@ -12,6 +12,7 @@ export default function EditQuizz() {
     const id_creator = id_user;
     const [charsLeft, setCharsLeft] = useState(140);
     const [description, setDescription] = useState('');
+    
     function uniqueName(filename) {
         if(filename){
             const index = filename.indexOf(".");
