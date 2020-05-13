@@ -46,8 +46,8 @@ router
 
     .delete('/:id',
         async (req,res) => {
-            const result = await pool.query('DELETE FROM questions WHERE id_question=$1', [req.params.id]);
-            res.status(204);
+            await pool.query('DELETE FROM questions WHERE id_question=$1', [req.params.id]);
+            res.status(201).end();
     })
 
     .patch('/:id',
