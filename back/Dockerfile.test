@@ -6,4 +6,4 @@ COPY package.json .
 
 RUN npm install
 
-CMD ["npm", "test"]
+CMD ["./wait-for-it.sh","postgres:5432","--","npm", "test"]
