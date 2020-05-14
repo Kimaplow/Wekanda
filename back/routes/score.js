@@ -12,12 +12,18 @@ router
     .get('/:id_quizz/quizz',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM score WHERE id_quizz=$1', [req.params.id_quizz]);
+            if(result.rowCount === 0) {
+                return res.status(404).send({error:'Scores for this quizz not found!'});
+            }
             res.json(result.rows);
         })
 
     .get('/:id_user/user',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM score WHERE id_user=$1', [req.params.id_user]);
+            if(result.rowCount === 0) {
+                return res.status(404).send({error:'Scores for this quizz not found!'});
+            }
             res.json(result.rows);
         })
     .get('/:id_user/user/:id_quizz/quizz',
@@ -35,12 +41,16 @@ router
                         break;
                     default:  // Take highest by default
                         result = await pool.query('SELECT MAX(score) FROM score WHERE id_user=$1 AND id_quizz=$2',
-                            [req.params.id_user, req.params.id_quizz]);
+                            [req.params.id_user, req.params.id_quizz]);   
                 }
+                return res.json(result.rows[0]);
             } else {
                 // If no filter we retrive all the scores of a user for a given quizz
                 result = await pool.query('SELECT * FROM score WHERE id_user=$1 AND id_quizz=$2',
                     [req.params.id_user, req.params.id_quizz]);
+            }
+            if(result.rowCount === 0) {
+                return res.status(404).send({error:'Scores for this quizz not found or user doesnt exist!'});
             }
             res.json(result.rows);
         })
