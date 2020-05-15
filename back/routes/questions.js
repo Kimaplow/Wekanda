@@ -24,30 +24,29 @@ router
     })
 
     .post('/',
-        async (req, res) => { console.log("files", req.files); console.log("body", [req.body]);
-            await pool.query('INSERT INTO pictures(id_quizz,question,path_file) VALUES($1,$2,$3)',
-                [req.body.id_quizz, req.body.question, req.files.file.name] );
-            const moved = moveToPath(req.files.file);
-            if(moved) res.status(201).end();
-            else res.status(500).send('file not allowed or error during the upload');
+        async (req, res) => {
+            const result = await pool.query('INSERT INTO questions (id_quizz, question, path_file) VALUES($1, $2, $3) RETURNING id_question',
+                [req.body.id_quizz, req.body.question, '']);
+            res.json(result.rows);
+            res.status(201).end();
         })
 
     .delete('/:id',
-        async (req,res) => {
+        async (req, res) => {
             const result = await pool.query('DELETE FROM questions WHERE id_question=$1', [req.params.id]);
             res.status(204);
-    })
+        })
 
-    .patch('/:id', async (req,res) => {
-        
-        if(req.params.question){
-            await pool.query('UPDATE questions SET question = $1 WHERE id_question=$2',[req.body.question, req.params.id]);
+    .patch('/:id', async (req, res) => {
+
+        if (req.params.question) {
+            await pool.query('UPDATE questions SET question = $1 WHERE id_question=$2', [req.body.question, req.params.id]);
         }
 
-        if(req.params.path_file){
-            await pool.query('UPDATE questions SET path_file = $1 WHERE id_question=$2',[req.body.path_file, req.params.id]);
+        if (req.params.path_file) {
+            await pool.query('UPDATE questions SET path_file = $1 WHERE id_question=$2', [req.body.path_file, req.params.id]);
         }
-        
+
         res.status(204).end();
     });
 
