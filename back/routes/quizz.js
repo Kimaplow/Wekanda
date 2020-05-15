@@ -71,7 +71,7 @@ router
         }
         res.json(result.rows);
     })
-    
+
     .get('/:id/questions',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM questions WHERE id_quizz=$1', [req.params.id]);
@@ -100,34 +100,41 @@ router
         upload.single('file'), async (req, res) => {
 
             let result = undefined;
-            
+
             if (req.body.path_file && req.file) {
                 result = await pool.query('UPDATE quizz SET path_file=$1 WHERE id_quizz=$2', [req.body.path_file, req.params.id]);
-            } else if(req.body.path_file && !req.file) {
-                return res.status(500).send({error:'You cant modify the path_file without providing an image'});
+            } else if (req.body.path_file && !req.file) {
+                return res.status(500).send({
+                    error: 'You cant modify the path_file without providing an image'
+                });
             }
 
             if (req.body.title) {
                 result = await pool.query('UPDATE quizz SET title = $1 WHERE id_quizz=$2', [req.body.title, req.params.id]);
             }
-  
+
             if (req.body.difficulty) {
                 result = await pool.query('UPDATE quizz SET difficulty=$1 WHERE id_quizz=$2', [req.body.difficulty, req.params.id]);
             }
-           
-            if(result === undefined) {
-                return res.status(500).send({error:'You didnt provide info for one or more field nor quizz doesnt exist'});
-            }else if(result.rowCount === 0) {
-                return res.status(404).send({error: 'Quizz not found and can\'t be patched'});
-            } 
+
+            if (result === undefined) {
+                return res.status(500).send({
+                    error: 'You didnt provide info for one or more field nor quizz doesnt exist'
+                });
+            } else if (result.rowCount === 0) {
+                return res.status(404).send({
+                    error: 'Quizz not found and can\'t be patched'
+                });
+            }
             res.status(204).end();
 
         })
 
     .post('/',
         upload.single('file'), async (req, res) => {
-            await pool.query('INSERT INTO quizz (id_creator, title, path_file, difficulty) VALUES($1, $2, $3, $4)',
+            const result = await pool.query('INSERT INTO quizz (id_creator, title, path_file, difficulty) VALUES($1, $2, $3, $4) RETURNING id_quizz',
                 [req.body.id_creator, req.body.title, req.body.path_file, req.body.difficulty]);
+            res.json(result.rows);
             res.status(201).end();
         }
     );
