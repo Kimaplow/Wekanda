@@ -27,8 +27,7 @@ router
         async (req, res) => {
             const result = await pool.query('INSERT INTO questions (id_quizz, question, path_file) VALUES($1, $2, $3) RETURNING id_question',
                 [req.body.id_quizz, req.body.question, '']);
-            res.json(result.rows);
-            res.status(201).end();
+            res.status(201).send(result.rows);
         })
 
     .delete('/:id',

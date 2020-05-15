@@ -139,8 +139,7 @@ router
             const result = await pool.query(`INSERT INTO quizz (id_creator, title, path_file, difficulty,description) 
             VALUES($1, $2, $3, $4, $5) RETURNING id_quizz`,
                 [req.body.id_creator, req.body.title, req.body.path_file, req.body.difficulty, req.body.description]);
-            res.json(result.rows);
-            res.status(201).end();
+            res.status(201).send(result.rows);
         }
     );
 
