@@ -116,6 +116,10 @@ router
             if (req.body.difficulty) {
                 result = await pool.query('UPDATE quizz SET difficulty=$1 WHERE id_quizz=$2', [req.body.difficulty, req.params.id]);
             }
+            
+            if (req.body.description) {
+                result = await pool.query('UPDATE quizz SET description=$1 where id_quizz=$2', [req.body.description, req.params.id]);
+            }
 
             if (result === undefined) {
                 return res.status(500).send({
@@ -132,8 +136,9 @@ router
 
     .post('/',
         upload.single('file'), async (req, res) => {
-            const result = await pool.query('INSERT INTO quizz (id_creator, title, path_file, difficulty) VALUES($1, $2, $3, $4) RETURNING id_quizz',
-                [req.body.id_creator, req.body.title, req.body.path_file, req.body.difficulty]);
+            const result = await pool.query(`INSERT INTO quizz (id_creator, title, path_file, difficulty,description) 
+            VALUES($1, $2, $3, $4, $5) RETURNING id_quizz`,
+                [req.body.id_creator, req.body.title, req.body.path_file, req.body.difficulty, req.body.description]);
             res.json(result.rows);
             res.status(201).end();
         }
