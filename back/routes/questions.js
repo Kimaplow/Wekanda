@@ -1,6 +1,23 @@
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        console.log(req.file);
+        cb(null, './public/img');
+    },
+    filename: function (req, file, cb) {
+        console.log(req.body.path_file);
+        cb(null, req.body.path_file);
+    }
+});
+
+var upload = multer({
+    storage: storage
+});
+
 
 router
     .get('/',
@@ -24,7 +41,7 @@ router
     })
 
     .post('/',
-        async (req, res) => {
+    upload.single('file'), async (req, res) => {
             const result = await pool.query('INSERT INTO questions (id_quizz, question, path_file) VALUES($1, $2, $3) RETURNING id_question',
                 [req.body.id_quizz, req.body.question, '']);
             res.status(201).send(result.rows);
@@ -36,13 +53,14 @@ router
             res.status(204);
         })
 
-    .patch('/:id', async (req, res) => {
+    .patch('/:id',
+    upload.single('file'), async (req, res) => {
 
         if (req.params.question) {
             await pool.query('UPDATE questions SET question = $1 WHERE id_question=$2', [req.body.question, req.params.id]);
         }
 
-        if (req.params.path_file) {
+        if (req.params.path_file && req.file) {
             await pool.query('UPDATE questions SET path_file = $1 WHERE id_question=$2', [req.body.path_file, req.params.id]);
         }
 
