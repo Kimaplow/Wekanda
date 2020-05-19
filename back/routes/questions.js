@@ -38,8 +38,9 @@ router
 
     .post('/',
         async (req, res) => {
-            await pool.query('INSERT INTO questions (id_quizz, question, path_file) VALUES($1, $2, $3)',
+            await pool.query('INSERT INTO questions (id_quizz, question, path_file) VALUES($1, $2, $3) RETURNING id_question',
                 [req.body.id_quizz, req.body.question, '']);
+            res.json(result.rows);
             res.status(201).end();
         }
     )

@@ -4,7 +4,7 @@ import axios from 'axios';
 import config from '../config';
 import './css/addQuestion.css';
 
-export default function AddQuestion() {
+export default function AddQuestion(props) {
 
     const { id_quizz } = useParams();
 

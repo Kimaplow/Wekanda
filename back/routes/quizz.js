@@ -96,8 +96,10 @@ router
 
     .post('/',
         upload.single('file'), async (req, res) => {
-            await pool.query('INSERT INTO quizz (id_creator, title, path_file, difficulty) VALUES($1, $2, $3, $4)',
+            //pr celui qui doit merge (peut-etre) j'ai add ca pour pouvoir recup l'id a la creation
+            const result = await pool.query('INSERT INTO quizz (id_creator, title, path_file, difficulty) VALUES($1, $2, $3, $4) RETURNING id_quizz',
                 [req.body.id_creator, req.body.title, req.body.path_file, req.body.difficulty]);
+            res.json(result.rows);
             res.status(201).end();
         }
     );

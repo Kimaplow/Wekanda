@@ -5,87 +5,96 @@ import config from '../config';
 import { Select, Chip, Icon } from 'react-materialize';
 import './css/addQuizz.css';
 
-export default function EditQuizz() {
-   
+export default function AddQuizz(props) {
 
     const { id_user } = useParams();
     const id_creator = id_user;
     const [charsLeft, setCharsLeft] = useState(140);
     const [description, setDescription] = useState('');
-    
+
     function uniqueName(filename) {
-        if(filename){
+        if (filename) {
             const index = filename.indexOf(".");
             const rootFilename = filename.substr(0, index);
             return rootFilename + Date.now() + filename.substr(index);
         }
-        else{
+        else {
             return '';
         }
     }
 
-    async function addQuizz(event){
-
+    function onSubmit(event) {
         event.preventDefault();
+        // let file;
+        // event.target.file.files[0] ? file = event.target.file.files[0] : file = 0;
 
-        let title = event.target.title.value;
-        let difficulty = event.target.difficulty.value;
-        let fileName = event.target.fileName.value;
         // il faut récupérer les tags mis au quizz
         //let tags = $('#tags').material_chip('data');
-        //console.log(tags);
-
-        let file;     
-
-        if(event.target.file.files[0]){
-            file = event.target.file.files[0];
-        }
-        else{
-            file = '';
-        }
-
-        if(fileName !== ''){
-            fileName = uniqueName(event.target.fileName.value);
-        } 
-        
-        /*
-        const bodyFormData = new FormData();
-        bodyFormData.set('id_creator', id_creator);
-        bodyFormData.set('title', title);
-        bodyFormData.set('difficulty', difficulty);
-        bodyFormData.set('path_file', fileName);
-        bodyFormData.set('description', description);
-        bodyFormData.append('file', file);
-
-        await axios.post(`http://${config.server}/quizzes/`, bodyFormData);
-        window.location=`/profile/${id_creator}`;
-        */
+        let fileName = event.target.fileName.value;
+        if (fileName) fileName = uniqueName(fileName); else fileName = '';
+        const quizz = {
+            title: event.target.title.value,
+            difficulty: event.target.difficulty.value,
+            fileName: fileName,
+            description: event.target.description.value,
+        };
+        // props.onSubmitQuizz(quizz)
+        // console.log(event.target);
+        console.log({
+            title: event.target.title.value,
+            difficulty: event.target.difficulty.value,
+            fileName: fileName,
+            description: event.target.description.value,
+        });
     }
 
-    function handleChange(event){
+    // async function addQuizz(event){
+    //     event.preventDefault();
+
+    //     let file;     
+
+    //     if(event.target.file.files[0]){
+    //         file = event.target.file.files[0];
+    //     }
+    //     else{
+    //         file = '';
+    //     }
+
+    //     if(fileName !== ''){
+    //         fileName = uniqueName(event.target.fileName.value);
+    //     }         
+    // }
+
+    function handleCounter(event) {
         /* Update le compteur de caracteres */
         const charCount = event.target.value.length;
-        const tmpLeft = 140- charCount;
-        if(tmpLeft === 0){
-            
+        const tmpLeft = 140 - charCount;
+        if (tmpLeft === 0) {
+
         }
         setCharsLeft(tmpLeft);
         setDescription(event.target.value);
     };
 
-    useEffect(()=> {
-
-    }, [charsLeft]);
+    useEffect(() => { console.log(props); }, [charsLeft, props.onSubmitQuizz]);
 
     return (
         <div id='add-quizz-container'>
 
-            <form onSubmit={event => addQuizz(event)} encType="multipart/form-data">
+            <form onSubmit={event => {
+                event.preventDefault();
+                props.onSubmitQuizz({
+                    title: event.target.title.value,
+                    difficulty: event.target.difficulty.value,
+                    fileName: event.target.fileName.value,
+                    description: event.target.description.value,
+                }, 1);
+            }} encType="multipart/form-data">
 
                 <div id="div-title" className="col s12">
                     <div className="input-field inline">
                         <label htmlFor='title'>Title</label>
-                        <input style = {{fontSize: '22px'}} id="title" type="text" className="validate" placeholder={'Example'}/>
+                        <input style={{ fontSize: '22px' }} id="title" type="text" className="validate" defaultValue={props.quizz ? props.quizz.title : ''} placeholder={'Example'} />
                     </div>
                 </div>
 
@@ -94,19 +103,19 @@ export default function EditQuizz() {
                         <div className="file-field input-field">
                             <div className="btn">
                                 <span>File</span>
-                                <input id ="file" type="file" />
+                                <input id="file" type="file" />
                             </div>
                             <div className="file-path-wrapper">
-                                <input id="fileName" className="file-path validate" type="text" />
+                                <input id="fileName" className="file-path validate" type="text" defaultValue={props.quizz ? props.quizz.path_file : ''} />
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="col s12">
-                    <div className="input-field inline" >       
+                    <div className="input-field inline" >
                         <label id="label-diff" htmlFor='difficulty'>Difficulty</label>
-                        <Select defaultValue= '' id="difficulty">
+                        <Select defaultValue={props.quizz ? props.quizz.difficulty : ''} id="difficulty">
                             <option value="" disabled >Choose a difficulty</option>
                             <option value="1">Facile</option>
                             <option value="2">Moyen</option>
@@ -117,11 +126,12 @@ export default function EditQuizz() {
 
                 <div className='col s12'>
                     <div className='input-field inline'>
-                        <textarea id="description"  
-                                  className="materialize-textarea" 
-                                  maxLength='140'
-                                  onChange={e => {handleChange(e)}} 
-                                  placeholder={'My Quizz is super duper teachful!'}
+                        <textarea id="description"
+                            defaultValue={props.quizz ? props.quizz.definition : ''}
+                            className="materialize-textarea"
+                            maxLength='140'
+                            onChange={e => { handleCounter(e) }}
+                            placeholder={'My Quizz is super duper teachful!'}
                         />
                         <label htmlFor='description'>Description</label>
                         <p id='charCounter'>{charsLeft}</p>
@@ -131,29 +141,45 @@ export default function EditQuizz() {
 
                 <div id="div-tags" className="col s12">
                     <div className="input-field inline">
-                    <Chip
-                        id="tags"
-                        close={false}
-                        closeIcon={<Icon className="close">close</Icon>}
-                        options={{
-                            //Il faut récupérer les tags ici
-                            autocompleteOptions: {
-                                data: {
-                                    Apple: null,
-                                    Google: null,
-                                    Microsoft: null
-                                },
-                                limit: Infinity,
-                                minLength: 3,
-                                onAutocomplete: function noRefCheck() { }
-                            }
-                        }}
-                    />
+                        <Chip
+                            id="tags"
+                            close={false}
+                            closeIcon={<Icon className="close">close</Icon>}
+                            options={{
+                                //Il faut récupérer les tags ici
+                                autocompleteOptions: {
+                                    data: {
+                                        Apple: null,
+                                        Google: null,
+                                        Microsoft: null
+                                    },
+                                    limit: Infinity,
+                                    minLength: 3,
+                                    onAutocomplete: function noRefCheck() { }
+                                }
+                            }}
+                        />
                     </div>
                 </div>
 
                 <div className="col s12">
-                    <button className="waves-effect waves-light btn-large" type="submit" name="action">Confirmer</button>
+                    <button className="waves-effect waves-light btn-large"
+                        onClick={event => {}}
+                        name="action">
+                        <i className="material-icons">
+                            navigate_before
+                        </i>
+                    </button>
+                </div>
+
+                <div className="col s12">
+                    <button className="waves-effect waves-light btn-large"
+                        type="submit"
+                        name="action">
+                        <i className="material-icons">
+                            {props.next == true ? 'navigate_next' : 'add'}
+                        </i>
+                    </button>
                 </div>
 
             </form>

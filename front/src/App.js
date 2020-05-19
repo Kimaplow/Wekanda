@@ -15,7 +15,7 @@ import FilterQuizz from './components/FilterQuizz';
 import ShowQuestions from './components/ShowQuestions';
 import EditQuestion from './components/EditQuestion';
 import AddQuestion from './components/AddQuestion';
-
+import CreateQuizz from './components/CreateQuizz';
 
 function App() {
   return (
@@ -38,6 +38,7 @@ function App() {
                 <Route exact={true} path='/questions/:id_quizz/edit' component={ShowQuestions}/>
                 <Route exact={true} path='/questions/:id_quizz/edit/:id_question' component={EditQuestion}/>
                 <Route exact={true} path='/questions/:id_quizz/addQuestion' component={AddQuestion}/>
+                <Route exact={true} path='/user/:id_user/CreateQuizz' component={CreateQuizz}/>
 
                 <Redirect from='*' to='/' />
               </Switch>
