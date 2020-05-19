@@ -74,6 +74,7 @@ export default function AddQuizz(props) {
         }
         setCharsLeft(tmpLeft);
         setDescription(event.target.value);
+        props.onChange();
     };
 
     useEffect(() => { console.log(props); }, [charsLeft, props.onSubmitQuizz]);
@@ -94,7 +95,7 @@ export default function AddQuizz(props) {
                 <div id="div-title" className="col s12">
                     <div className="input-field inline">
                         <label htmlFor='title'>Title</label>
-                        <input style={{ fontSize: '22px' }} id="title" type="text" className="validate" defaultValue={props.quizz ? props.quizz.title : ''} placeholder={'Example'} />
+                        <input style={{ fontSize: '22px' }} onChange={e=>{props.onChange()}} id="title" type="text" className="validate" defaultValue={props.quizz ? props.quizz.title : ''} placeholder={'Example'} />
                     </div>
                 </div>
 
@@ -106,7 +107,7 @@ export default function AddQuizz(props) {
                                 <input id="file" type="file" />
                             </div>
                             <div className="file-path-wrapper">
-                                <input id="fileName" className="file-path validate" type="text" defaultValue={props.quizz ? props.quizz.path_file : ''} />
+                                <input onChange={e=>{props.onChange()}} id="fileName" className="file-path validate" type="text" defaultValue={props.quizz ? props.quizz.path_file : ''} />
                             </div>
                         </div>
                     </div>
@@ -115,7 +116,7 @@ export default function AddQuizz(props) {
                 <div className="col s12">
                     <div className="input-field inline" >
                         <label id="label-diff" htmlFor='difficulty'>Difficulty</label>
-                        <Select defaultValue={props.quizz ? props.quizz.difficulty : ''} id="difficulty">
+                        <Select onChange={e=>{props.onChange()}} defaultValue={props.quizz ? props.quizz.difficulty : ''} id="difficulty">
                             <option value="" disabled >Choose a difficulty</option>
                             <option value="1">Facile</option>
                             <option value="2">Moyen</option>
@@ -142,6 +143,7 @@ export default function AddQuizz(props) {
                 <div id="div-tags" className="col s12">
                     <div className="input-field inline">
                         <Chip
+                            onChange={e=>{props.onChange()}}
                             id="tags"
                             close={false}
                             closeIcon={<Icon className="close">close</Icon>}
@@ -163,23 +165,11 @@ export default function AddQuizz(props) {
                 </div>
 
                 <div className="col s12">
-                    <button className="waves-effect waves-light btn-large"
-                        onClick={event => {}}
-                        name="action">
-                        <i className="material-icons">
-                            navigate_before
-                        </i>
-                    </button>
+                    
                 </div>
 
                 <div className="col s12">
-                    <button className="waves-effect waves-light btn-large"
-                        type="submit"
-                        name="action">
-                        <i className="material-icons">
-                            {props.next == true ? 'navigate_next' : 'add'}
-                        </i>
-                    </button>
+                    
                 </div>
 
             </form>

@@ -18,16 +18,29 @@ export default function CreateQuizz() {
     const [questions, setQuestions] = useState([]);
     const [idQuizzCreated, setIdQuizzCreated] = useState();
     const [answers, setAnswers] = useState([]);
-
+    const [isSaved, setIsSaved] = useState(false);
+    const [tags, setTags] = useState([]);
+    const [tagsQuizz, setTagsQuizz] = useState([]);
     let next;
 
     let onSubmitQuizz = (q, idxPage) => {
         setQuizz(q);
+        setIsSaved(true);
     }
-    function onSubmitQuestion(q) {
+    function onSubmitQuestion(q, a) {
         let tmp = [...questions];
         tmp[idxPage - 1] = q;
         setQuestions(tmp);
+        tmp[idxPage - 1] = a;
+        setAnswers(tmp);
+        setIsSaved(true);
+    }
+
+    async function fetchTags() {
+        await axios.get(`http://${config.server}/tags`)
+            .then(res => {
+                setTags(res.data);
+            });
     }
 
     async function sendQuizz(q) {
@@ -65,48 +78,88 @@ export default function CreateQuizz() {
         await axios.post(`http://${config.server}/answers`, bodyFormData);
     }
 
-    function sendDatas() {
-        sendQuizz(quizz);
-        console.log(quizz);
-        for (const question of questions) {
-            sendQuestion(question);
-        }
+    async function sendTagQuizz(t) {
+        const bodyFormData = new FormData();
+        bodyFormData.set('id_quizz', idQuizzCreated);
+        bodyFormData.set('tag', t.tag);
 
-        for (const answer of answers) {
-            sendAnswer(answer);
-        }
-
-        // id_creator ? window.location=`/profile/${id_creator}` : window.location=`/`;
+        await axios.post(`http://${config.server}/tagsquizzes`, bodyFormData);
+    }
+    async function sendNewTag(t) {
+        const bodyFormData = new FormData();
+        bodyFormData.set('tag', t)
+        axios.post(`http://${config.server}/tags`, bodyFormData);
     }
 
-    useEffect(() => { }, [idxPage]);
-    useEffect(()=>{
-        console.log('quizz :')
-        console.log(quizz)
+    function sendDatas(event) {
+        event.preventDefault();
+        sendQuizz(quizz);
+        // for (const question of questions) {
+        //     sendQuestion(question);
+        // }
+
+        // for (const answer of answers) {
+        //     sendAnswer(answer);
+        // }
+        // for (const tagQuizz of tagsQuizz) {
+        //     sendTagQuizz(tagQuizz)
+        //     if(!tags.contains(tagsQuizz.tag)){
+        //         sendNewTag(tagsQuizz.tag)
+        //     }
+        // }
+        id_creator ? window.location = `/profile/${id_creator}` : window.location = `/`;
+    }
+
+    function onChange() {
+        setIsSaved(false);
+    }
+    useEffect(() => { fetchTags() }, []);
+    useEffect(() => { console.log(idxPage) }, [idxPage, isSaved]);
+    useEffect(() => {
     }, [quizz])
 
     return (
         <div id='createQuizz-container'>
             {next = (questions[idxPage] !== undefined)}
-            
-            {idxPage === 0 && typeof quizz === {} ? <AddQuizz onSubmitQuizz={(q)=>onSubmitQuizz(q)} next={next}/> : ''}
-            {idxPage === 0 && typeof quizz !== {} ? <AddQuizz quizz={quizz} onSubmitQuizz={(q)=>onSubmitQuizz(q)} next={next}/> : ''}
-            {idxPage > 0 && typeof questions[idxPage - 1] !== undefined ? <AddQuestion question={questions[idxPage]} onSubmitQuestion={(q)=>onSubmitQuizz(q)} next={next}/> : ''}
-            {idxPage > 0 && typeof questions[idxPage - 1] === undefined ? <AddQuestion onSubmitQuestion={(q)=>onSubmitQuizz(q)} next={next}/> : ''}
 
-            {idxPage > 0 ?
-                <button className="waves-effect waves-light btn-large"
-                    type="submit"
-                    onClick={() => { setIdxPage(idxPage - 1) }}>
-                    <i className="material-icons">navigate_before</i>
-                </button>
-                : ''}
+            {isSaved ? <p id='saved'>sauvegardé</p> : <p id='saved'>non sauvegardé</p>}
 
+            {idxPage === 0 && typeof quizz === {} ?
+                <AddQuizz onSubmitQuizz={(q) => onSubmitQuizz(q)}
+                          onChange={e => onChange()} /> : ''}
 
+            {idxPage === 0 && typeof quizz !== {} ?
+                <AddQuizz quizz={quizz}
+                    onSubmitQuizz={(q) => onSubmitQuizz(q)}
+                    onChange={e => onChange()} /> : ''}
+
+            {idxPage > 0 && typeof questions[idxPage - 1] !== undefined ?
+                <AddQuestion question={questions[idxPage]}
+                             onSubmitQuestion={(q) => onSubmitQuizz(q)}
+                             onChange={e => onChange()} /> : ''}
+
+            {idxPage > 0 && typeof questions[idxPage - 1] === undefined ?
+                <AddQuestion onSubmitQuestion={(q) => onSubmitQuizz(q)}
+                             onChange={e => onChange()} /> : ''}
+
+            <button className="waves-effect waves-light btn-large"
+                name="action"
+                onClick={event => {setIdxPage(idxPage+1)}}>
+                <i className="material-icons">
+                    {next == true ? 'navigate_next' : 'add'}
+                </i>
+            </button>
+            <button className="waves-effect waves-light btn-large"
+                onClick={event => { setIdxPage(idxPage-1) }}
+                name="action">
+                <i className="material-icons">
+                    navigate_before
+                </i>
+            </button>
             {questions ?
                 <button className="waves-effect waves-light btn-large"
                     type="submit"
-                    onClick={() => { sendDatas() }}>
+                    onClick={e => { sendDatas(e) }}>
                     <i className="material-icons">done</i>
                 </button>
                 : ''}
