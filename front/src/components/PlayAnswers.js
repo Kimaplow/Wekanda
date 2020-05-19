@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Answers(props) {
+export default function PlayAnswers(props) {
 
     return(
         <div id='answers'>

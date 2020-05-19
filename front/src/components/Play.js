@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 import {Redirect} from 'react-router-dom';
-import Question from './Question';
+import PlayQuestion from './PlayQuestion';
 import './css/play.css';
 
 export default function Play(){
@@ -99,7 +99,7 @@ export default function Play(){
                 <h2>{quizz ? quizz.title : "Quizz not found"}</h2>
             </div>
 
-            {currentQuestion ? <Question question={currentQuestion.question} src={currentQuestion.path_file}/> : ''}
+            {currentQuestion ? <PlayQuestion question={currentQuestion.question} src={currentQuestion.path_file}/> : ''}
             
             <div id='score'>
                 <h2>Score : {score ? score : 0}</h2>
