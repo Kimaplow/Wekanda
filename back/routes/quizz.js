@@ -35,6 +35,10 @@ router
             res.json(result.rows);
             res.status(200).end();
         })
+    .get('/:id/tags', async (req, res) => {
+        const result = await pool.query('SELECT tag from tagquizz WHERE id_quizz = $1', [req.params.id]);
+        res.json(result.rows);
+    })
 
     .get('/withtags/:tag',
         async (req, res) => {

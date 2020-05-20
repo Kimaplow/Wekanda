@@ -39,6 +39,7 @@ function App() {
                 <Route exact={true} path='/questions/:id_quizz/edit/:id_question' component={EditQuestion}/>
                 <Route exact={true} path='/questions/:id_quizz/addQuestion' component={AddQuestion}/>
                 <Route exact={true} path='/user/:id_user/CreateQuizz' component={CreateQuizz}/>
+                <Route exact={true} path='/edit/:id_quizz/' component={CreateQuizz}/>
 
                 <Redirect from='*' to='/' />
               </Switch>

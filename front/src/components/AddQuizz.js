@@ -40,12 +40,12 @@ export default function AddQuizz(props) {
         };
         // props.onSubmitQuizz(quizz)
         // console.log(event.target);
-        console.log({
-            title: event.target.title.value,
-            difficulty: event.target.difficulty.value,
-            fileName: fileName,
-            description: event.target.description.value,
-        });
+        // console.log({
+        //     title: event.target.title.value,
+        //     difficulty: event.target.difficulty.value,
+        //     fileName: fileName,
+        //     description: event.target.description.value,
+        // });
     }
 
     // async function addQuizz(event){
@@ -77,7 +77,7 @@ export default function AddQuizz(props) {
         props.onChange();
     };
 
-    useEffect(() => { console.log(props); }, [charsLeft, props.onSubmitQuizz]);
+    useEffect(() => {}, [charsLeft, props.onSubmitQuizz]);
 
     return (
         <div id='add-quizz-container'>
@@ -92,10 +92,17 @@ export default function AddQuizz(props) {
                 }, 1);
             }} encType="multipart/form-data">
 
+                <div className="col s12">
+                    <button className="waves-effect waves-light btn-large"
+                        type="submit">
+                        <i className="material-icons">save</i>
+                    </button>
+                </div>
+
                 <div id="div-title" className="col s12">
                     <div className="input-field inline">
                         <label htmlFor='title'>Title</label>
-                        <input style={{ fontSize: '22px' }} onChange={e=>{props.onChange()}} id="title" type="text" className="validate" defaultValue={props.quizz ? props.quizz.title : ''} placeholder={'Example'} />
+                        <input style={{ fontSize: '22px' }} onChange={e => { props.onChange() }} id="title" type="text" className="validate" defaultValue={props.quizz ? props.quizz.title : ''} placeholder={'Example'} />
                     </div>
                 </div>
 
@@ -107,7 +114,7 @@ export default function AddQuizz(props) {
                                 <input id="file" type="file" />
                             </div>
                             <div className="file-path-wrapper">
-                                <input onChange={e=>{props.onChange()}} id="fileName" className="file-path validate" type="text" defaultValue={props.quizz ? props.quizz.path_file : ''} />
+                                <input onChange={e => { props.onChange() }} id="fileName" className="file-path validate" type="text" defaultValue={props.quizz ? props.quizz.path_file : ''} />
                             </div>
                         </div>
                     </div>
@@ -116,7 +123,7 @@ export default function AddQuizz(props) {
                 <div className="col s12">
                     <div className="input-field inline" >
                         <label id="label-diff" htmlFor='difficulty'>Difficulty</label>
-                        <Select onChange={e=>{props.onChange()}} defaultValue={props.quizz ? props.quizz.difficulty : ''} id="difficulty">
+                        <Select onChange={e => { props.onChange() }} defaultValue={props.quizz ? parseInt(props.quizz.difficulty) : ''} id="difficulty">
                             <option value="" disabled >Choose a difficulty</option>
                             <option value="1">Facile</option>
                             <option value="2">Moyen</option>
@@ -128,7 +135,7 @@ export default function AddQuizz(props) {
                 <div className='col s12'>
                     <div className='input-field inline'>
                         <textarea id="description"
-                            defaultValue={props.quizz ? props.quizz.definition : ''}
+                            value={props.quizz ? props.quizz.definition : ''}
                             className="materialize-textarea"
                             maxLength='140'
                             onChange={e => { handleCounter(e) }}
@@ -143,7 +150,7 @@ export default function AddQuizz(props) {
                 <div id="div-tags" className="col s12">
                     <div className="input-field inline">
                         <Chip
-                            onChange={e=>{props.onChange()}}
+                            onChange={e => { props.onChange() }}
                             id="tags"
                             close={false}
                             closeIcon={<Icon className="close">close</Icon>}
@@ -164,13 +171,7 @@ export default function AddQuizz(props) {
                     </div>
                 </div>
 
-                <div className="col s12">
-                    
-                </div>
 
-                <div className="col s12">
-                    
-                </div>
 
             </form>
 
