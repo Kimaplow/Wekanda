@@ -16,12 +16,11 @@ describe('Questions', () => {
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('array');
-                res.body.forEach(score => {
-                    score.should.be.a('object');
-                    score.should.have.property('id_question');
-                    score.should.have.property('id_quizz');
-                    score.should.have.property('question');
-                    score.should.have.property('score');
+                res.body.forEach(question => {
+                    question.should.be.a('object');
+                    question.should.have.property('id_question');
+                    question.should.have.property('id_quizz');
+                    question.should.have.property('question');
                 });
                 done();
             });
@@ -43,11 +42,10 @@ describe('Questions', () => {
             .get("/questions/1")
             .end((err,res) => {
                 res.should.have.status(200);
-                    score.should.be.a('object');
-                    score.should.have.property('id_question');
-                    score.should.have.property('id_quizz');
-                    score.should.have.property('question');
-                    score.should.have.property('score');
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('id_question');
+                    res.body.should.have.property('id_quizz');
+                    res.body.should.have.property('question');
                 done();
             });
         });
@@ -59,6 +57,7 @@ describe('Questions', () => {
             .get("/questions/1024/answers")
             .end((err,res) => {
                 res.should.have.status(404);
+                done();
             });
        });
        it('should return 200 with a correct id question', function(done) {
@@ -68,12 +67,11 @@ describe('Questions', () => {
         .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('array');
-            res.body.forEach(score => {
-                score.should.be.a('object');
-                score.should.have.property('id_question');
-                score.should.have.property('id_quizz');
-                score.should.have.property('question');
-                score.should.have.property('score');
+            res.body.forEach(question => {
+                question.should.be.a('object');
+                question.should.have.property('id_question');
+                question.should.have.property('id_answer');
+                question.should.have.property('correct');
             });
             done();
         });
@@ -123,7 +121,7 @@ describe('Questions', () => {
             .request(app)
             .patch('/questions/1024')
             .end((err,res) => {
-                res.should.have.status(404);
+                res.should.have.status(400);
                 done();
             });
         });
@@ -131,7 +129,9 @@ describe('Questions', () => {
             chai
             .request(app)
             .patch('/questions/1')
-            .field('question','toto')
+            .send({
+                question: "toto?"
+            })
             .end((err,res) => {
                 res.should.have.status(204);
                 done();
@@ -152,7 +152,7 @@ describe('Questions', () => {
             chai
             .request(app)
             .patch('/questions/2')
-            .patch('question','Qui est la personne à droite?')
+            .field('question','Qui est la personne à droite?')
             .field('path_file','matrix.jpg')
             .attach('file', fs.readFileSync(path.join(__dirname, '/assets/matrix.jpg')), 'matrix.jpg')
             .end((err,res) => {
@@ -174,7 +174,7 @@ describe('Questions', () => {
         it('should return 204 if the question has been deleted succesfully', function(done) {
             chai
             .request(app)
-            .delete('/questions/1')
+            .delete('/questions/3')
             .end((err, res) => {
                 res.should.have.status(204);
                 done();
