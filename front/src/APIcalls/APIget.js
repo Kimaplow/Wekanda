@@ -10,26 +10,35 @@ export async function fetchQuizz(id) {
     return q;
 }
 export async function fetchQuestionsOfQuizz(id) {
+    let q;
     await axios.get(`http://${config.server}/quizzes/${id}/questions`)
         .then(res => {
-            return (res.data);
+            q = (res.data);
         });
+    return q;
 }
 export async function fetchAllTags() {
+    let t;
     await axios.get(`http://${config.server}/tags`)
         .then(res => {
-            return (res.data);
+            console.log(res.data)
+            t = (res.data);
         });
+    return t;
 }
 export async function fetchAnswersOfQuestion(id) {
+    let a;
     await axios.get(`http://${config.server}/questions/${id}/answers`)
         .then(res => {
-            return (res.data);
+            a = (res.data);
         });
+    return a;
 }
 export async function fetchTagsOfQuizz(id) {
+    let t;
     await axios.get(`http://${config.server}/quizzes/${id}/tags`)
         .then(res => {
-            return (res.data);
+            t = (res.data);
         });
+    return t;
 }
