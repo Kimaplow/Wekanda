@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 import {Redirect} from 'react-router-dom';
-import PlayQuestion from './PlayQuestion';
+import ReactPlayer from 'react-player'
 import './css/play.css';
 
 export default function Play(){
@@ -30,6 +30,7 @@ export default function Play(){
                     }
                    });
     }
+
     async function fetchQuestions(){
         await axios.get(`http://${config.server}/quizzes/${id_quizz}/questions`)
                    .then(res => {
@@ -43,6 +44,23 @@ export default function Play(){
                    .then(res => {
                        setCurrentAnswers(res.data);
                    });        
+    }
+
+    function playQuestion(question){
+        return (
+            <div id='question'>
+                {question.path_file !== '' ? 
+                        <ReactPlayer 
+                            id='player' 
+                            controls={true}
+                            volume={0.5}
+                            wrapper='question'
+                            url={`http://${config.server}/video/${question.path_file}`}
+                        />
+                        : ''}
+                <h2>{question.question}</h2>
+            </div>
+        );
     }
 
     useEffect(() => {
@@ -81,13 +99,13 @@ export default function Play(){
         }    
     }
 
-    function handleNext(){
+    function handleNext(){       
         for(const i of document.querySelectorAll('.material-icons')){
             i.style.visibility = 'hidden';
         }
         document.querySelector('#next-button').style.visibility='hidden';
         setCurrentidx(parseInt(currentidx)+1);
-        setAnswered(false); 
+        setAnswered(false);
     }
 
     return(
@@ -99,17 +117,19 @@ export default function Play(){
                 <h2>{quizz ? quizz.title : "Quizz not found"}</h2>
             </div>
 
-            {currentQuestion ? <PlayQuestion question={currentQuestion.question} src={currentQuestion.path_file}/> : ''}
+            {currentQuestion ? playQuestion(currentQuestion) : ''}
             
             <div id='score'>
                 <h2>Score : {score ? score : 0}</h2>
+            </div>
+
+            <div id='chrono'>
             </div>
             
             <div id='answers'>
                 { currentAnswers ? 
                     currentAnswers.map((a, idx) => {
                         if(a.path_file.split('.')[1] !== 'jpg'){
-                            console.log('pas image')
                             return(
                                 <div className='answer' 
                                      id={'answer'+idx} 
