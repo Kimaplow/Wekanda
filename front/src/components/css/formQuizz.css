@@ -1,0 +1,11 @@
+.input-field.inline input, .input-field.inline .select-dropdown {
+    margin-bottom: 0;
+}
+
+.input-field.col label {
+    left: 0;
+}
+
+.chips .input {
+    color : white;
+}

@@ -3,19 +3,22 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 
-var storage = multer.diskStorage(
+let storage = multer.diskStorage(
     {
     destination: function (req, file, cb) {
-        console.log(req.file);
+        console.log('MULTER DEST');
+        //console.log(req.file);
+        //console.log(file);
         cb(null, './public/img');
     },
     filename: function (req, file, cb) {
-        console.log(req.body.path_file);
+        //console.log('MULTER FILENAME');
+        //console.log(req.body);
         cb(null, req.body.path_file);
     }
 });
 
-var upload = multer({ storage: storage });
+let upload = multer({ storage: storage });
 
 router
 
@@ -81,7 +84,7 @@ router
 
     .patch('/:id',
         upload.single('file'), async (req, res) => {
-
+            
             if (req.body.title !== '') {
                 await pool.query('UPDATE quizz SET title = $1 WHERE id_quizz=$2', [req.body.title, req.params.id]);
             }
@@ -94,8 +97,11 @@ router
                 await pool.query('UPDATE quizz SET difficulty=$1 WHERE id_quizz=$2', [req.body.difficulty, req.params.id]);
             }
 
+            if (req.body.description !== '') {
+                await pool.query('UPDATE quizz SET description=$1 WHERE id_quizz=$2', [req.body.description, req.params.id]);
+            }
+            
             res.status(204).end();
-
         })
 
     .post('/',
