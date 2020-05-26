@@ -65,7 +65,7 @@ router
     .delete('/:id', async (req,res) => {
         const result = await pool.query('DELETE FROM users WHERE id_user=$1', [req.params.id]);
         if(result.rowCount === 0) {
-            return res.status(404).send({error: "Question not found and therefore cant be deleted"});
+            return res.status(404).send({error: "User not found and therefore cant be deleted"});
         }
         res.status(204).end();
     });
