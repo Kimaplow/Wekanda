@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./app.js"
+    "start": "nodemon ./app.js",
+    "test": "mocha --exit"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -16,6 +17,9 @@
     "pg": "^8.0.2"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^7.1.2",
     "nodemon": "^2.0.3"
   }
 }
