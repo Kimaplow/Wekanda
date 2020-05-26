@@ -8,7 +8,7 @@ const auth = require('../tools/auth')();
 
 router
     .get('/', async (req, res) => {
-        const result = await pool.query("select * from users");
+        const result = await pool.query("select id_user,pseudo from users");
         res.json(result.rows);
     })
     .get('/profile', auth.authenticate(), async (req, res) => {
