@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors');
 const morgan = require('morgan');
 const app = express();
+const auth = require('./tools/auth')();
 
 const router_answers = require('./routes/answers');
 const router_quizzes = require('./routes/quizz');
@@ -16,6 +17,7 @@ const fileUpload = require('express-fileupload');
 const port = process.env.PORT || 8000;
 
 app
+    .use(auth.initialize())
     .use(morgan('combined'))
     .use(cors())
     .use(express.json())
