@@ -1,0 +1,47 @@
+#header-container {
+    background-color: #212121;
+    width: 100%;
+    text-align: center;
+    min-height: 5%;
+    height: 45px;
+}
+
+#title {
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+#header-right{
+    position: absolute;
+    right: 1%;
+    top: 0;
+    align-content: center;
+    max-width: 30%;
+    display: inline-block;
+    vertical-align:middle;
+}
+
+.right-item {
+    display: inline-table;
+    vertical-align:middle;
+    margin-bottom: 0;
+}
+
+input.right-item {
+    background: url("/circle.png") no-repeat white 0 -5px;
+    border-radius: 20px;
+    font-size: 18px;
+    width: 150px;
+    height: 26px;
+    padding-left: 35px;
+}
+
+a.right-item img {
+    margin-top: 3px;
+}
+
+input[type="search"] {
+    height: 64px !important; 
+}

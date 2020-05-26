@@ -1,0 +1,25 @@
+#add-quizz-container div {
+    text-align: center;
+}
+
+#add-quizz-container div input {
+    margin-top: 10px;
+}
+
+#add-quizz-container .btn{
+    margin-left: -30px;
+}
+
+.select-wrapper input.select-dropdown, 
+#add-quizz-container label, 
+textarea {
+    color: white;
+}
+
+.dropdown-content li > a, .dropdown-content li > span:hover {
+    background-color: #212121;
+}
+
+#difficulty{
+    margin-top: px;
+}

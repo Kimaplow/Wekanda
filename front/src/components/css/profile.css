@@ -1,0 +1,53 @@
+#profile-container {
+    height: 100%;
+}
+
+/** USER INFO (TOP)**/
+
+#user-info {
+    text-align: center;
+}
+
+#center-profile #quizz {
+    float: left;
+    margin-right: 13%;
+}
+
+/** USER QUIZZ (LEFT) **/
+
+#user-quizzes {
+    margin-left: 2%;
+    position:relative;
+}
+
+#user-quizzes li {
+    position: relative;
+    margin-top: 12%;
+    /* display: inline-table; */
+
+}
+
+#user-quizzes #menu-quizz h3 {
+    float: left;
+}
+
+#user-quizzes #menu-quizz a {
+    margin-top: 6%;
+    margin-left: 42%;
+}
+
+#user-stats {
+    padding-top: 2.6%;
+}
+
+i.material-icons.delete-quizz {
+    position: absolute;
+    right: 0;
+    margin-left: 50px;
+}
+
+.delete-quizz {
+    position: absolute;
+    right: -28px;
+    box-shadow: 5px 5px 5px black;
+}
