@@ -26,6 +26,7 @@ export default function Home() {
             .catch(err => console.log(err));
         // Eventually we bring themp up together to have for a tag all the quizzes associated to it
         let tmp = [];
+        
         tags.map((t) => {
             quizzes.forEach(q => {
                 if (q.tags && q.tags.includes(t.tag)) tmp.push(q);
@@ -40,26 +41,24 @@ export default function Home() {
         getQuizzes();
     }, []);
 
-    let quizzJSX = tagsQuizzes.map((tq, index) =>
-        <div className={"tq_tag"} key={index}>
-            <h1>{tq.tag}</h1>
-            {renderEachQuizz(tq.quizzes)}
-        </div>
-    );
-
     function renderEachQuizz(quizzes) {
         return quizzes.map(function (q, index){
             return (
-            <div className={'card_quizz'} key={index}>
+            <li className={'card_quizz'} key={index}>
                 <QuizzCard width={500} key={index} quizz={q} />
-            </div>)
+            </li>)
         });
     }
 
 
     return (
         <div id='container'>
-            {quizzJSX}
+            {tagsQuizzes ? tagsQuizzes.map((tq, index) =>
+                <div className={"tq_tag"} key={index}>
+                    <h1>{tq.tag}</h1>
+                    <ul className='cards'>{renderEachQuizz(tq.quizzes)}</ul>
+                </div>)
+            : 'no quizz found'}
         </div>
     );
 }

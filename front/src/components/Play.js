@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 import {Redirect} from 'react-router-dom';
-import Question from './Question';
+import PlayQuestion from './PlayQuestion';
 import './css/play.css';
 
 export default function Play(){
@@ -23,7 +23,7 @@ export default function Play(){
     async function fetchQuizz(){
         await axios.get(`http://${config.server}/quizzes/${id_quizz}`)
                    .then(res => {
-                    if (res.status == 200){
+                    if (res.status === 200){
                         setQuizz(res.data[0]);
                     }else{
                         setQuizz('not found');
@@ -93,14 +93,18 @@ export default function Play(){
     return(
 
         <div id='play-container'>
+
             <div id='quizz-title'>
-            {quizz && quizz=='not found' ? <Redirect to='/' /> : ''}
+                {quizz && quizz === 'not found' ? <Redirect to='/' /> : ''}
                 <h2>{quizz ? quizz.title : "Quizz not found"}</h2>
             </div>
-            {currentQuestion ? <Question question={currentQuestion.question} src={currentQuestion.path_file}/> : ''}
+
+            {currentQuestion ? <PlayQuestion question={currentQuestion.question} src={currentQuestion.path_file}/> : ''}
+            
             <div id='score'>
                 <h2>Score : {score ? score : 0}</h2>
             </div>
+            
             <div id='answers'>
                 { currentAnswers ? 
                     currentAnswers.map((a, idx) => {

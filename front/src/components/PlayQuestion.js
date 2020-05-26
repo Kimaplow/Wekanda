@@ -2,7 +2,7 @@ import React from "react";
 import config from '../config'
 import ReactPlayer from 'react-player'
 
-export default function Question(props){
+export default function PlayQuestion(props){
     return (
         <div id='question'>
             {props.src !== '' ? 

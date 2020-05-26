@@ -3,20 +3,19 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 
-var storage = multer.diskStorage({
+
+let storage = multer.diskStorage(
+    {
     destination: function (req, file, cb) {
-        console.log(req.file);
         cb(null, './public/img');
     },
     filename: function (req, file, cb) {
-        console.log(req.body.path_file);
         cb(null, req.body.path_file);
     }
 });
 
-var upload = multer({
-    storage: storage
-});
+
+let upload = multer({ storage: storage });
 
 router
     .get('/', async (req, res) => {
@@ -25,11 +24,13 @@ router
     })
 
     .post('/',
-        upload.single('file'), async (req, res) => {
+        upload.single('fileAnswer'), async (req, res) => {
+
             await pool.query('INSERT INTO answers(id_question, answer, correct, path_file) VALUES($1, $2, $3, $4)',
                 [req.body.id_question, req.body.answer, req.body.correct, req.body.path_file]);
             res.status(201).end();
-        })
+        }
+    )
 
     .get('/:id', async (req, res) => {
         const result = await pool.query('SELECT * FROM answers WHERE id_answer=$1', [req.params.id]);
@@ -41,8 +42,7 @@ router
         res.json(result.rows[0]);
     })
     .patch('/:id',
-        async (req, res) => {
-
+        upload.single('fileAnswer'), async (req, res) => {
             let result = undefined;
           
 

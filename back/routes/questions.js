@@ -3,21 +3,18 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 
-var storage = multer.diskStorage({
+
+let storage = multer.diskStorage(
+    {
     destination: function (req, file, cb) {
-        console.log(req.file);
         cb(null, './public/img');
     },
     filename: function (req, file, cb) {
-        console.log(req.body.path_file);
         cb(null, req.body.path_file);
     }
 });
 
-var upload = multer({
-    storage: storage
-});
-
+let upload = multer({ storage: storage });
 
 router
     .get('/',

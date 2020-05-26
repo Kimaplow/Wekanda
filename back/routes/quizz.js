@@ -29,11 +29,15 @@ router
     .get('/withtags',
         async (req, res) => {
             const result = await pool.query(
-                `select quizz.id_quizz, id_creator,title, path_file, difficulty, 
+                `select quizz.id_quizz, id_creator,title, path_file, difficulty, description, 
             string_agg(tag,',') as tags from quizz left join tagquizz on quizz.id_quizz = tagquizz.id_quizz 
             where tagquizz.id_quizz is not null group by quizz.id_quizz;`);
             res.json(result.rows);
         })
+    .get('/:id/tags', async (req, res) => {
+        const result = await pool.query('SELECT tag from tagquizz WHERE id_quizz = $1', [req.params.id]);
+        res.json(result.rows);
+    })
 
     .get('/withtags/:tag',
         async (req, res) => {
@@ -140,6 +144,7 @@ router
             VALUES($1, $2, $3, $4, $5) RETURNING id_quizz`,
                 [req.body.id_creator, req.body.title, req.body.path_file, req.body.difficulty, req.body.description]);
             res.status(201).send(result.rows);
+
         }
     );
 

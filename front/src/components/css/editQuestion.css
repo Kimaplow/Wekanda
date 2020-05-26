@@ -19,3 +19,18 @@ input {
 .label-rep {
     margin-left: 68px;
 }
+
+#div-media{
+    margin-top: 1%;
+    width: 400px;
+    margin: auto;
+}
+
+#div-media img {
+    width: 400px;
+    height: 400px;
+}
+
+.btn span {
+    font-size: 22px;
+}
