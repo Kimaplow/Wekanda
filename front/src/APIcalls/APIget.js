@@ -21,7 +21,6 @@ export async function fetchAllTags() {
     let t;
     await axios.get(`http://${config.server}/tags`)
         .then(res => {
-            console.log(res.data)
             t = (res.data);
         });
     return t;

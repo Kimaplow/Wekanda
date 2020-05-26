@@ -5,13 +5,16 @@ import config from '../config';
 import { Select, Chip, Icon } from 'react-materialize';
 import './css/addQuizz.css';
 
-export default function AddQuizz(props) {
 
+
+
+export default function AddQuizz(props) {
     const { id_user } = useParams();
     const id_creator = id_user;
     const [charsLeft, setCharsLeft] = useState(140);
-    const [description, setDescription] = useState('');
-
+    const option1 = 1;
+    const option2 = 2;
+    const option3 = 3;
     function uniqueName(filename) {
         if (filename) {
             const index = filename.indexOf(".");
@@ -48,23 +51,6 @@ export default function AddQuizz(props) {
         // });
     }
 
-    // async function addQuizz(event){
-    //     event.preventDefault();
-
-    //     let file;     
-
-    //     if(event.target.file.files[0]){
-    //         file = event.target.file.files[0];
-    //     }
-    //     else{
-    //         file = '';
-    //     }
-
-    //     if(fileName !== ''){
-    //         fileName = uniqueName(event.target.fileName.value);
-    //     }         
-    // }
-
     function handleCounter(event) {
         /* Update le compteur de caracteres */
         const charCount = event.target.value.length;
@@ -73,12 +59,10 @@ export default function AddQuizz(props) {
 
         }
         setCharsLeft(tmpLeft);
-        setDescription(event.target.value);
         props.onChange();
     };
 
-    useEffect(() => {}, [charsLeft, props.onSubmitQuizz]);
-
+    useEffect(() => {}, [charsLeft]);
     return (
         <div id='add-quizz-container'>
 
@@ -119,15 +103,15 @@ export default function AddQuizz(props) {
                         </div>
                     </div>
                 </div>
-
+            {/* {props.quizz ? console.log(props.quizz) : ''} */}
                 <div className="col s12">
                     <div className="input-field inline" >
                         <label id="label-diff" htmlFor='difficulty'>Difficulty</label>
-                        <Select onChange={e => { props.onChange() }} defaultValue={props.quizz ? parseInt(props.quizz.difficulty) : ''} id="difficulty">
-                            <option value="" disabled >Choose a difficulty</option>
-                            <option value="1">Facile</option>
-                            <option value="2">Moyen</option>
-                            <option value="3">Difficile</option>
+                        <Select onChange={e => props.onChange()} id="difficulty" value={props.quizz ? props.quizz.difficulty : ''}>
+                            <option value='' disabled>Choose a difficulty</option>
+                            <option value={option1} >Facile</option>
+                            <option value={option2} >Moyen</option>
+                            <option value={option3} >Difficile</option>
                         </Select>
                     </div>
                 </div>
@@ -135,11 +119,12 @@ export default function AddQuizz(props) {
                 <div className='col s12'>
                     <div className='input-field inline'>
                         <textarea id="description"
-                            value={props.quizz ? props.quizz.definition : ''}
+                            defaultValue={props.quizz ? props.quizz.description : ''}
                             className="materialize-textarea"
                             maxLength='140'
                             onChange={e => { handleCounter(e) }}
-                            placeholder={'My Quizz is super duper teachful!'}
+                            placeholder={props.quizz ? '' : 'My Quizz is super duper teachful!'}
+
                         />
                         <label htmlFor='description'>Description</label>
                         <p id='charCounter'>{charsLeft}</p>

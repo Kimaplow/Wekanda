@@ -4,6 +4,7 @@ import axios from 'axios';
 import config from '../config';
 import * as apipost from '../APIcalls/APIpost';
 import * as apiget from '../APIcalls/APIget';
+import * as apipatch from '../APIcalls/APIpatch';
 
 import AddQuizz from './AddQuizz';
 import AddQuestion from './AddQuestion';
@@ -11,7 +12,7 @@ import AddQuestion from './AddQuestion';
 export default function CreateQuizz() {
 
     const { id_user } = useParams();
-    const { id_quizz} = useParams();
+    const { id_quizz } = useParams();
     const id_creator = id_user;
 
     const [idxPage, setIdxPage] = useState(0);
@@ -41,32 +42,49 @@ export default function CreateQuizz() {
         event.preventDefault();
         if (id_creator) {
             quizz.id_creator = id_creator;
-        }
-        setIdQuizzCreated(apipost.sendQuizz(quizz));
-        // for (const question of questions) {
-        // question.id_quizz = idQuizzCreated;
-        //     apipost.sendQuestion(question);
-        // }
+            setIdQuizzCreated(apipost.sendQuizz(quizz));
 
-        // for (const answer of answers) {
-        //     apipost.sendAnswer(answer);
-        // }
+            // for (const question of questions) {
+            // question.id_quizz = idQuizzCreated;
+            //     apipost.sendQuestion(question);
+            // }
+
+            // for (const answer of answers) {
+            //     apipost.sendAnswer(answer);
+            // }
+
+        } else {
+            console.log(quizz)
+            apipatch.updateQuizz(quizz);
+            // console.log('update')
+            for (const question of questions) {
+                apipatch.updateQuestion(question);
+            }
+
+            for (const answer of answers) {
+                apipatch.updateAnswer(answer);
+            }
+        }
+
         // for (const tagQuizz of tagsQuizz) {
         //     apipost.sendTagQuizz(tagQuizz.tag, idQuizzCreated)
         //     if(!tags.contains(tagsQuizz.tag)){
         //         apipost.sendNewTag(tagsQuizz.tag)
         //     }
         // }
-        id_creator ? window.location = `/profile/${id_creator}` : window.location = `/`;
+
+        // id_creator ? window.location = `/profile/${id_creator}` : window.location = `/`;
     }
 
-    function onChange() { setIsSaved(false); }
-    
+    function onChange() {
+        setIsSaved(false);
+    }
+
     useEffect(() => {
         if (id_quizz) {
             apiget.fetchQuizz(id_quizz).then(res => setQuizz(res));
-            apiget.fetchQuestionsOfQuizz(id_quizz).then(res => {setQuestions(res)});
-            for (const question of questions){
+            apiget.fetchQuestionsOfQuizz(id_quizz).then(res => { setQuestions(res);});
+            for (const question of questions) {
                 const tmp = [...answers];
                 apiget.fetchAnswersOfQuestion(question.id_question).then(res => {
                     setAnswers(tmp, [res])
@@ -75,6 +93,7 @@ export default function CreateQuizz() {
             apiget.fetchTagsOfQuizz(id_quizz).then(res => {
                 setTagsQuizz(res);
             });
+            setIsSaved(true);
         }
         apiget.fetchAllTags().then(res => setTags(res));
     }, []);
@@ -82,7 +101,6 @@ export default function CreateQuizz() {
         if (questions) {
             next = (questions[idxPage] !== undefined)
         }
-        console.log(quizz)
     }, [idxPage, isSaved, quizz, questions]);
 
     return (
@@ -101,11 +119,11 @@ export default function CreateQuizz() {
 
             {idxPage > 0 && typeof questions[idxPage - 1] !== undefined ?
                 <AddQuestion question={questions[idxPage]}
-                    onSubmitQuestion={(q) => onSubmitQuizz(q)}
+                    onSubmitQuestion={(q) => onSubmitQuestion(q)}
                     onChange={e => onChange()} /> : ''}
 
             {idxPage > 0 && typeof questions[idxPage - 1] === undefined ?
-                <AddQuestion onSubmitQuestion={(q) => onSubmitQuizz(q)}
+                <AddQuestion onSubmitQuestion={(q) => onSubmitQuestion(q)}
                     onChange={e => onChange()} /> : ''}
 
             {idxPage > 0 ?
@@ -123,7 +141,7 @@ export default function CreateQuizz() {
                     name="action"
                     onClick={event => { setIdxPage(idxPage + 1) }}>
                     <i className="material-icons">
-                        {next == true ? 'navigate_next' : 'add'}
+                        {next === true ? 'navigate_next' : 'add'}
                     </i>
                 </button>
                 : ''}
