@@ -1,26 +1,7 @@
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
-<<<<<<< HEAD
-const multer = require('multer');
-
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        console.log(req.file);
-        cb(null, './public/img');
-    },
-    filename: function (req, file, cb) {
-        console.log(req.body.path_file);
-        cb(null, req.body.path_file);
-    }
-});
-
-var upload = multer({
-    storage: storage
-});
-=======
 const upload = require('../tools/multer_config');
->>>>>>> 3cf4fbd... :twisted_rightwards_arrows: Merge manually answers
 
 router
     .get('/', async (req, res) => {
