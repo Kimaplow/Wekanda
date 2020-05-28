@@ -5,6 +5,7 @@ set search_path to wekanda;
 CREATE TABLE Users(
     id_user SERIAL primary key,
     pseudo varchar(50) NOT NULL,
+    mail varchar(50) UNIQUE NOT NULL,
     password varchar(200) NOT NULL
 );
 
@@ -49,12 +50,12 @@ CREATE TABLE TagQuizz(
     PRIMARY KEY (id_quizz,tag)
 );
 
-INSERT INTO Users(pseudo, password) VALUES
-    ('Admin', 'Admin'),
-    ('Christophe', 'Christophe'),
-    ('Mathieu', 'Mathieu'),
-    ('Francois', 'Francois'),
-    ('testuser','testuser');
+INSERT INTO Users(pseudo, mail, password) VALUES
+    ('Admin', 'admin@admin.com', 'Admin'),
+    ('Christophe', 'christophe@test.com','Christophe'),
+    ('Mathieu','mathieu@test.com', 'Mathieu'),
+    ('Francois', 'francois@test.com','Francois'),
+    ('testuser', 'testuser@test.com', 'testuser');
 
 INSERT INTO Quizz(id_creator, title, path_file, difficulty, description) VALUES
     ('1', 'Les animaux Africains','animaux_afrique.jpg', '1', 'Pour apprendre les animaux en s''amusant'),
