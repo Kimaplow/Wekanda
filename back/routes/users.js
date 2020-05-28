@@ -16,10 +16,10 @@ router
         res.json(result.rows[0]);
     })
     .post('/login', async (req, res) => {
-        if (req.body.pseudo && req.body.password) {
-            const pseudo = req.body.pseudo;
+        if (req.body.mail && req.body.password) {
+            const mail = req.body.mail;
             const password = req.body.password;
-            const result = await pool.query("select * from users where pseudo=$1", [pseudo]);
+            const result = await pool.query("select * from users where mail=$1", [mail]);
             const user = result.rows[0];
             let isMatching = await bcrypt
                 .compare(password, user.password)
@@ -44,8 +44,9 @@ router
         }
     })
     .post('/signup', async (req, res) => {
-        if (req.body.pseudo && req.body.password) {
+        if (req.body.pseudo && req.body.mail && req.body.password) {
             const pseudo = req.body.pseudo;
+            const mail = req.body.mail;
             const plainPassword = req.body.password;
             let hashed = "";
             await bcrypt.genSalt(cfg.saltRounds)
@@ -56,7 +57,7 @@ router
                     hashed = hash;
                 })
                 .catch(err => console.error(err.message));
-            await pool.query("insert into users(pseudo,password) values($1,$2)", [pseudo, hashed]);
+            await pool.query("insert into users(pseudo,mail,password) values($1,$2,$3)", [pseudo, mail, hashed]);
             res.status(201).end();
         } else {
             res.status(401).end();
