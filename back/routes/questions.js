@@ -1,6 +1,7 @@
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
+<<<<<<< HEAD
 const multer = require('multer');
 
 var storage = multer.diskStorage({
@@ -18,6 +19,9 @@ var upload = multer({
     storage: storage
 });
 
+=======
+const upload = require('../tools/multer_config');
+>>>>>>> 5a39e73... :twisted_rightwards_arrows:Merge manually question
 
 router
     .get('/',
