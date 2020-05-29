@@ -14,7 +14,7 @@ const params = {
 
 module.exports = function () {
     const strategy = new Strategy(params, async function(payload, done) {
-        // Here we verify that that the id given in the payload is an id corresponding to an user in the db 
+        // Here we verify that the id given in the payload is an id corresponding to an user in the db 
         const result = await pool.query("select * from users where id_user=$1",[payload.id]);
         const user = result.rows[0] || null;
         if (user) {
