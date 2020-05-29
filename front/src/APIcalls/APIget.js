@@ -4,8 +4,14 @@ import config from '../config';
 export async function fetchQuizz(id) {
     let q;
     await axios.get(`http://${config.server}/quizzes/${id}`)
-        .then(res => {
-            q = res.data[0];
+        .then(async res => {
+            q = res.data;
+            if(q.path_file !== ''){
+                await axios.get(`http://${config.server}/img/${q.path_file}`)
+                           .then(result => {
+                                q.file = result.data;
+                            });
+            }
         });
     return q;
 }

@@ -12,7 +12,6 @@ export async function sendQuizz(q) {
     bodyFormData.set('path_file', q.fileName);
     bodyFormData.set('description', q.description);
     bodyFormData.append('file', q.file);
-
     const res = await axios.post(`http://${config.server}/quizzes/`, bodyFormData);
     return(res.data.id_quizz);
 }
@@ -22,7 +21,7 @@ export async function sendQuestion(q) {
     bodyFormData.set('id_quizz', q.id_quizz);
     bodyFormData.set('question', q.question);
     bodyFormData.set('path_file', q.pathfile);
-
+    bodyFormData.append('file', q.file);
     await axios.post(`http://${config.server}/questions`, bodyFormData);
 }
 
@@ -31,7 +30,7 @@ export async function sendAnswer(a) {
     bodyFormData.set('path_file', a.pathfile);
     bodyFormData.set('answer', a.answer);
     bodyFormData.set('correct', a.correct);
-
+    bodyFormData.append('file', a.file);
     await axios.post(`http://${config.server}/answers`, bodyFormData);
 }
 
