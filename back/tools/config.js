@@ -3,5 +3,6 @@ module.exports = {
     jwtSession: {
         session: false
     },
+    expiration : process.env.expiration || "4 weeks", // Format need to be expressed in seconds or as zeit/ms format
     saltRounds: 10
 }

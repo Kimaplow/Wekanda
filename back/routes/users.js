@@ -8,11 +8,11 @@ const auth = require('../tools/auth')();
 
 router
     .get('/', async (req, res) => {
-        const result = await pool.query("select id_user,pseudo from users");
+        const result = await pool.query("select id_user,pseudo,mail from users");
         res.json(result.rows);
     })
     .get('/profile', auth.authenticate(), async (req, res) => {
-        const result = await pool.query("select id_user,pseudo from users where id_user=$1", [req.user.id]);
+        const result = await pool.query("select id_user,pseudo,mail from users where id_user=$1", [req.user.id]);
         res.json(result.rows[0]);
     })
     .post('/login', async (req, res) => {
@@ -34,7 +34,7 @@ router
                 const payload = {
                     id: user.id_user
                 }
-                const token = jwt.sign(payload, cfg.jwtSecret);
+                const token = jwt.sign(payload, cfg.jwtSecret, {expiresIn:cfg.expiration});
                 res.json({
                     token: token
                 })
