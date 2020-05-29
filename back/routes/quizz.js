@@ -105,12 +105,8 @@ router
 
             let result = undefined;
 
-            if (req.body.path_file && req.file) {
+            if (req.body.path_file) {
                 result = await pool.query('UPDATE quizz SET path_file=$1 WHERE id_quizz=$2', [req.body.path_file, req.params.id]);
-            } else if (req.body.path_file && !req.file) {
-                return res.status(500).send({
-                    error: 'You cant modify the path_file without providing an image'
-                });
             }
 
             if (req.body.title) {

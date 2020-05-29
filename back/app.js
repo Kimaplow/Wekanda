@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors');
 const morgan = require('morgan');
 const app = express();
+const fs = require('fs');
 
 const router_answers = require('./routes/answers');
 const router_quizzes = require('./routes/quizz');
@@ -32,8 +33,22 @@ app
     .use('/scores', router_scores)
     .use('/tagsquizzes', router_tags_quizzes)
     .use('/tags', router_tags)
-    .use(express.static(__dirname + '/public'));
-
+    .use(express.static(__dirname + '/public'))
+    .delete('/file/:filename',(req,res)=>{
+        let directory='video';
+        if(req.params.filename.includes('jpg') || req.params.filename.includes('jpeg')){
+            directory='img';
+        }
+        fs.unlink('./public/'+directory+req.params.filename , (err) => {
+            if (err) {
+                res.status(204);
+                throw err;
+            }else{
+                console.log(req.params.filename+' was deleted');
+                res.status(200);    
+            }
+          });
+    });
 app.listen(port, () => console.log('Wekanda QUIZZ API server listening on port ' + port));
 
 module.exports = app;
