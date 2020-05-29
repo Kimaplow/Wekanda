@@ -26,6 +26,12 @@ export default function CreateQuizz() {
     let next;
 
     let onSubmitQuizz = (q, idxPage) => {
+        if (quizz.id_quizz){
+            q.id_quizz = quizz.id_quizz;
+        }
+        if (quizz.file){
+            q.file = quizz.file
+        }
         setQuizz(q);
         setIsSaved(true);
     }
@@ -54,9 +60,7 @@ export default function CreateQuizz() {
             // }
 
         } else {
-            console.log(quizz)
             apipatch.updateQuizz(quizz);
-            // console.log('update')
             for (const question of questions) {
                 apipatch.updateQuestion(question);
             }
@@ -78,6 +82,7 @@ export default function CreateQuizz() {
 
     function onChange() {
         setIsSaved(false);
+        console.log('form changed')
     }
 
     useEffect(() => {
@@ -101,30 +106,33 @@ export default function CreateQuizz() {
         if (questions) {
             next = (questions[idxPage] !== undefined)
         }
-    }, [idxPage, isSaved, quizz, questions]);
+    }, [idxPage, questions]);
 
+    useEffect(()=> {
+        if(quizz){
+        }
+        
+    }, [quizz, isSaved])
     return (
         <div id='createQuizz-container'>
 
             {isSaved ? <p id='saved'>sauvegardé</p> : <p id='saved'>non sauvegardé</p>}
 
             {idxPage === 0 && typeof quizz === {} ?
-                <AddQuizz onSubmitQuizz={(q) => onSubmitQuizz(q)}
-                    onChange={e => onChange()} /> : ''}
+                <AddQuizz onSubmitQuizz={(q) => onSubmitQuizz(q)} onChange={e => onChange()} /> 
+            : ''}
 
             {idxPage === 0 && typeof quizz !== {} ?
-                <AddQuizz quizz={quizz}
-                    onSubmitQuizz={(q) => onSubmitQuizz(q)}
-                    onChange={e => onChange()} /> : ''}
+                <AddQuizz quizz={quizz} onSubmitQuizz={(q) => onSubmitQuizz(q)} onChange={e => onChange()} /> 
+            : ''}
 
             {idxPage > 0 && typeof questions[idxPage - 1] !== undefined ?
-                <AddQuestion question={questions[idxPage]}
-                    onSubmitQuestion={(q) => onSubmitQuestion(q)}
-                    onChange={e => onChange()} /> : ''}
+                <AddQuestion question={questions[idxPage]} onSubmitQuestion={(q) => onSubmitQuestion(q)} onChange={e => onChange()} /> 
+            : ''}
 
             {idxPage > 0 && typeof questions[idxPage - 1] === undefined ?
-                <AddQuestion onSubmitQuestion={(q) => onSubmitQuestion(q)}
-                    onChange={e => onChange()} /> : ''}
+                <AddQuestion onSubmitQuestion={(q) => onSubmitQuestion(q)} onChange={e => onChange()} /> 
+            : ''}
 
             {idxPage > 0 ?
                 <button className="waves-effect waves-light btn-large"

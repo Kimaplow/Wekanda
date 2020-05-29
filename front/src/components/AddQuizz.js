@@ -12,9 +12,7 @@ export default function AddQuizz(props) {
     const { id_user } = useParams();
     const id_creator = id_user;
     const [charsLeft, setCharsLeft] = useState(140);
-    const option1 = 1;
-    const option2 = 2;
-    const option3 = 3;
+
     function uniqueName(filename) {
         if (filename) {
             const index = filename.indexOf(".");
@@ -26,29 +24,29 @@ export default function AddQuizz(props) {
         }
     }
 
-    function onSubmit(event) {
+    async function onSubmit(event) {
         event.preventDefault();
+        if(props.quizz.fileName){
+            await axios.delete(`http://${config.server}/file/${props.quizz.fileName}`);
+        }
+        let res = {
+            title: event.target.title.value,
+            difficulty: event.target.difficulty.value,
+            fileName: uniqueName(event.target.fileName.value),      
+            description: event.target.description.value
+        };
+        if (event.target.file.files[0] != null){
+            res.file = event.target.file.files[0];
+        }
+        props.onSubmitQuizz(res, 1);
+        
+
         // let file;
         // event.target.file.files[0] ? file = event.target.file.files[0] : file = 0;
 
         // il faut récupérer les tags mis au quizz
         //let tags = $('#tags').material_chip('data');
-        let fileName = event.target.fileName.value;
-        if (fileName) fileName = uniqueName(fileName); else fileName = '';
-        const quizz = {
-            title: event.target.title.value,
-            difficulty: event.target.difficulty.value,
-            fileName: fileName,
-            description: event.target.description.value,
-        };
-        // props.onSubmitQuizz(quizz)
-        // console.log(event.target);
-        // console.log({
-        //     title: event.target.title.value,
-        //     difficulty: event.target.difficulty.value,
-        //     fileName: fileName,
-        //     description: event.target.description.value,
-        // });
+        // if (fileName) fileName = uniqueName(fileName); else fileName = '';
     }
 
     function handleCounter(event) {
@@ -62,18 +60,12 @@ export default function AddQuizz(props) {
         props.onChange();
     };
 
-    useEffect(() => {}, [charsLeft]);
+    useEffect(() => { }, [charsLeft]);
     return (
         <div id='add-quizz-container'>
 
             <form onSubmit={event => {
-                event.preventDefault();
-                props.onSubmitQuizz({
-                    title: event.target.title.value,
-                    difficulty: event.target.difficulty.value,
-                    fileName: event.target.fileName.value,
-                    description: event.target.description.value,
-                }, 1);
+                onSubmit(event);
             }} encType="multipart/form-data">
 
                 <div className="col s12">
@@ -103,15 +95,15 @@ export default function AddQuizz(props) {
                         </div>
                     </div>
                 </div>
-            {/* {props.quizz ? console.log(props.quizz) : ''} */}
+                {/* {props.quizz ? console.log(props.quizz) : ''} */}
                 <div className="col s12">
                     <div className="input-field inline" >
                         <label id="label-diff" htmlFor='difficulty'>Difficulty</label>
                         <Select onChange={e => props.onChange()} id="difficulty" value={props.quizz ? props.quizz.difficulty : ''}>
                             <option value='' disabled>Choose a difficulty</option>
-                            <option value={option1} >Facile</option>
-                            <option value={option2} >Moyen</option>
-                            <option value={option3} >Difficile</option>
+                            <option value={1} >Facile</option>
+                            <option value={2} >Moyen</option>
+                            <option value={3} >Difficile</option>
                         </Select>
                     </div>
                 </div>

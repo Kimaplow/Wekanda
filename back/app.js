@@ -35,9 +35,9 @@ app
     .use('/tags', router_tags)
     .use(express.static(__dirname + '/public'))
     .delete('/file/:filename',(req,res)=>{
-        let directory='video';
+        let directory='video/';
         if(req.params.filename.includes('jpg') || req.params.filename.includes('jpeg')){
-            directory='img';
+            directory='img/';
         }
         fs.unlink('./public/'+directory+req.params.filename , (err) => {
             if (err) {
