@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import config from '../config';
 import * as apipost from '../APIcalls/APIpost';
 import * as apiget from '../APIcalls/APIget';
 import * as apipatch from '../APIcalls/APIpatch';
@@ -25,12 +23,9 @@ export default function CreateQuizz() {
     const [tagsQuizz, setTagsQuizz] = useState([]);
     let next;
 
-    let onSubmitQuizz = (q, idxPage) => {
+    let onSubmitQuizz = (q) => {
         if (quizz.id_quizz){
             q.id_quizz = quizz.id_quizz;
-        }
-        if (quizz.file){
-            q.file = quizz.file
         }
         setQuizz(q);
         setIsSaved(true);
@@ -50,12 +45,13 @@ export default function CreateQuizz() {
             quizz.id_creator = id_creator;
             setIdQuizzCreated(apipost.sendQuizz(quizz));
 
-            // for (const question of questions) {
-            // question.id_quizz = idQuizzCreated;
-            //     apipost.sendQuestion(question);
-            // }
+            for (const question of questions) {
+            question.id_quizz = idQuizzCreated;
+                apipost.sendQuestion(question);
+            }
 
             // for (const answer of answers) {
+            // answer.id_question = 
             //     apipost.sendAnswer(answer);
             // }
 
@@ -95,12 +91,12 @@ export default function CreateQuizz() {
                     setAnswers(tmp, [res])
                 })
             }
-            apiget.fetchTagsOfQuizz(id_quizz).then(res => {
-                setTagsQuizz(res);
-            });
+            // apiget.fetchTagsOfQuizz(id_quizz).then(res => {
+            //     setTagsQuizz(res);
+            // });
             setIsSaved(true);
         }
-        apiget.fetchAllTags().then(res => setTags(res));
+        // apiget.fetchAllTags().then(res => setTags(res));
     }, []);
     useEffect(() => {
         if (questions) {
@@ -109,9 +105,7 @@ export default function CreateQuizz() {
     }, [idxPage, questions]);
 
     useEffect(()=> {
-        if(quizz){
-        }
-        
+
     }, [quizz, isSaved])
     return (
         <div id='createQuizz-container'>

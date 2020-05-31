@@ -1,7 +1,5 @@
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import config from '../config';
 import { Select, Chip, Icon } from 'react-materialize';
 import './css/addQuizz.css';
 
@@ -9,8 +7,6 @@ import './css/addQuizz.css';
 
 
 export default function AddQuizz(props) {
-    const { id_user } = useParams();
-    const id_creator = id_user;
     const [charsLeft, setCharsLeft] = useState(140);
 
     function uniqueName(filename) {
@@ -24,21 +20,20 @@ export default function AddQuizz(props) {
         }
     }
 
-    async function onSubmit(event) {
-        event.preventDefault();
-        if(props.quizz.fileName){
-            await axios.delete(`http://${config.server}/file/${props.quizz.fileName}`);
-        }
+    function onSubmit(e) {
+        e.preventDefault();
         let res = {
-            title: event.target.title.value,
-            difficulty: event.target.difficulty.value,
-            fileName: uniqueName(event.target.fileName.value),      
-            description: event.target.description.value
+            title: e.target.title.value,
+            difficulty: e.target.difficulty.value,
+            fileName: e.target.fileName.value,      
+            description: e.target.description.value
         };
-        if (event.target.file.files[0] != null){
-            res.file = event.target.file.files[0];
+        if (e.target.file.files[0]){
+            res.file = e.target.file.files[0];
+            console.log(e.target.file.files[0]);
         }
-        props.onSubmitQuizz(res, 1);
+        console.log(res)
+        props.onSubmitQuizz(res);
         
 
         // let file;
@@ -49,9 +44,9 @@ export default function AddQuizz(props) {
         // if (fileName) fileName = uniqueName(fileName); else fileName = '';
     }
 
-    function handleCounter(event) {
+    function handleCounter(e) {
         /* Update le compteur de caracteres */
-        const charCount = event.target.value.length;
+        const charCount = e.target.value.length;
         const tmpLeft = 140 - charCount;
         if (tmpLeft === 0) {
 
@@ -61,6 +56,7 @@ export default function AddQuizz(props) {
     };
 
     useEffect(() => { }, [charsLeft]);
+    
     return (
         <div id='add-quizz-container'>
 
@@ -99,7 +95,7 @@ export default function AddQuizz(props) {
                 <div className="col s12">
                     <div className="input-field inline" >
                         <label id="label-diff" htmlFor='difficulty'>Difficulty</label>
-                        <Select onChange={e => props.onChange()} id="difficulty" value={props.quizz ? props.quizz.difficulty : ''}>
+                        <Select onChange={e => {props.onChange();console.log('lele');}} id="difficulty" value={props.quizz ? props.quizz.difficulty : ''}>
                             <option value='' disabled>Choose a difficulty</option>
                             <option value={1} >Facile</option>
                             <option value={2} >Moyen</option>

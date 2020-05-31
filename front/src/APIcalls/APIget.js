@@ -9,12 +9,23 @@ export async function fetchQuizz(id) {
             if(q.path_file !== ''){
                 await axios.get(`http://${config.server}/img/${q.path_file}`)
                            .then(result => {
-                                q.file = result.data;
+                                q.file = result;
                             });
             }
         });
     return q;
 }
+
+export async function fetchFile(filename){
+    let f;
+    let directory = filename.includes('jpg') || filename.includes('jpeg') ? 'img' : 'video';
+    await axios.get(`http://${config.server}/${directory}/${filename}`)
+               .then(res => {
+                   f = res;
+               });
+    return f;
+}
+
 export async function fetchQuestionsOfQuizz(id) {
     let q;
     await axios.get(`http://${config.server}/quizzes/${id}/questions`)

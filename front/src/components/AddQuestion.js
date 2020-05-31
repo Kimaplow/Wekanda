@@ -1,58 +1,56 @@
 import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import config from '../config';
 import './css/addQuestion.css';
 
 export default function AddQuestion(props) {
 
-    const { id_quizz } = useParams();
+    function onSubmit(e){
+        e.preventDefault();
+        let res = {
+            question: e.question.value,
+            answers: [
+                e.answer0.value,
+                e.answer1.value,
+                e.answer2.value,
+                e.answer3.value
+            ],
+            path_file: e.path_file.value
+        }
 
-    const [quizz, setQuizz] = useState({});
-
-    async function getQuizz() {
-        await axios.get(`http://${config.server}/quizzes/${id_quizz}`)
-            .then(res => {
-                setQuizz(res.data[0]);
-            });
+        props.onSubmitQuestion(res)
     }
 
     useEffect(() => {
-        getQuizz();
+
     }, [])
 
-    async function addQuestion(event){
-        event.preventDefault();
 
-        let question = event.target.ques.value;
-
-        if(question !== ''){
-            await axios.post(`http://${config.server}/questions`, {
-                    'id_quizz' : quizz.id_quizz,
-                    'question' : question
-                });
-        }
-        window.location=`/questions/${quizz.id_quizz}/edit`;
-    }
 
     return (
         <div id="add-questions-container">
 
-            <h3>{quizz.title}</h3>
-
-            <form onSubmit={event => addQuestion(event)} encType="multipart/form-data">
+            <form onSubmit={e => onSubmit(e)} encType="multipart/form-data">
 
                 <div className="col s12">
-                    <span className="span-ques">Question : </span>
-                    <input id="ques" type="text" className="validate itest" placeholder={"Exemple de question"} />
+                    <label htmlFor='question'>Question</label>
+                    <input id="question" onChange={e => {props.onChange()}} defaultValue={props.question ? props.question.question : ''} placeholder={'Quelle est la difference entre un hibou et une corde ?'}  type="text" className="validate itest" />
                 </div>
-
-                <div className="col s12 btn-confirm">
-                    <button className="waves-effect waves-light btn-large" type="submit">
-                        Confirmer
-                    </button>
+                <div className="col s12">
+                    <label htmlFor='answer0'>Answer 1</label>
+                    <input id='answer0' onChange={e => {props.onChange()}} defaultValue={props.answers ? props.answers[0].answer : ''} placeholder={'Reponse A'}  type="text" className="validate itest" />
                 </div>
-
+                <div className="col s12">
+                    <label htmlFor='answer1'>Answer 2</label>
+                    <input id='answer1' onChange={e => {props.onChange()}} defaultValue={props.answers ? props.answers[1].answer : ''} placeholder={'Reponse B'}  type="text" className="validate itest" />
+                </div>
+                <div className="col s12">
+                    <label htmlFor='answer2'>Answer 3</label>
+                    <input id='answer2' onChange={e => {props.onChange()}} defaultValue={props.answers ? props.answers[2].answer : ''} placeholder={'Reponse C'}  type="text" className="validate itest" />
+                </div>
+                <div className="col s12">
+                    <label htmlFor='answer3'>Answer 4</label>
+                    <input id='answer3' onChange={e => {props.onChange()}} defaultValue={props.answers ? props.answers[3].answer : ''} placeholder={'Reponse D'}  type="text" className="validate itest" />
+                </div>
             </form>
 
         </div>

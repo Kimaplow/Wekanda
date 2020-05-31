@@ -4,12 +4,12 @@ import config from '../config';
 export async function updateQuizz(q){
     console.log('dans le patch '+ `http://${config.server}/quizzes/${q.id_quizz}`);
     console.log(q);
+    console.log(q.file)
     const bodyFormData = new FormData();
     bodyFormData.set('title', q.title);
     bodyFormData.set('path_file', q.fileName);
     bodyFormData.set('difficulty', q.difficulty);
     bodyFormData.append('file', q.file);
-    bodyFormData.append('_method', 'PATCH');
     for (var pair of bodyFormData.entries()) {
         console.log(pair[0]+ ', ' + pair[1]); 
     }
