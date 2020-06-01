@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { Select, Chip, Icon } from 'react-materialize';
 import './css/addQuizz.css';

@@ -1,10 +1,12 @@
-import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import ReactPlayer from 'react-player'
+
+import config from '../config';
 import './css/addQuestion.css';
 
 export default function AddQuestion(props) {
 
-    function onSubmit(e){
+    function onSubmit(e) {
         e.preventDefault();
         let res = {
             question: e.question.value,
@@ -21,7 +23,7 @@ export default function AddQuestion(props) {
     }
 
     useEffect(() => {
-        
+
     }, [])
 
 
@@ -33,23 +35,30 @@ export default function AddQuestion(props) {
 
                 <div className="col s12">
                     <label htmlFor='question'>Question</label>
-                    <input id="question" onChange={e => {props.onChange()}} value={props.question ? props.question.question : ''} placeholder={'Quelle est la difference entre un hibou et une corde ?'}  type="text" className="validate itest" />
+                    <input id="question" onChange={e => { props.onChange() }} value={props.question ? props.question.question : ''} placeholder={'Quelle est la difference entre un hibou et une corde ?'} type="text" className="validate itest" />
+                    {props.question && props.question.path_file.includes('.jpg') ? <img src={props.question.path_file} /> : ''}
+                    {props.question && props.question.path_file.includes('.mp4') ? <ReactPlayer
+                                                                    id='player'
+                                                                    controls={true}
+                                                                    volume={0.5}
+                                                                    wrapper='question'
+                                                                    url={`http://${config.server}/video/${props.question.path_file}`} />:''}
                 </div>
                 <div className="col s12">
                     <label htmlFor='answer0'>Answer 1</label>
-                    <input id='answer0' onChange={e => {props.onChange()}} value={props.answers && props.answers[0] ? props.answers[0].answer : ''} placeholder={'Reponse A'}  type="text" className="validate itest" />
+                    <input id='answer0' onChange={e => { props.onChange() }} value={props.answers && props.answers[0] ? props.answers[0].answer : ''} placeholder={'Reponse A'} type="text" className="validate itest" />
                 </div>
                 <div className="col s12">
                     <label htmlFor='answer1'>Answer 2</label>
-                    <input id='answer1' onChange={e => {props.onChange()}} value={props.answers && props.answers[1] ? props.answers[1].answer : ''} placeholder={'Reponse B'}  type="text" className="validate itest" />
+                    <input id='answer1' onChange={e => { props.onChange() }} value={props.answers && props.answers[1] ? props.answers[1].answer : ''} placeholder={'Reponse B'} type="text" className="validate itest" />
                 </div>
                 <div className="col s12">
                     <label htmlFor='answer2'>Answer 3</label>
-                    <input id='answer2' onChange={e => {props.onChange()}} value={props.answers && props.answers[2] ? props.answers[2].answer : ''} placeholder={'Reponse C'}  type="text" className="validate itest" />
+                    <input id='answer2' onChange={e => { props.onChange() }} value={props.answers && props.answers[2] ? props.answers[2].answer : ''} placeholder={'Reponse C'} type="text" className="validate itest" />
                 </div>
                 <div className="col s12">
                     <label htmlFor='answer3'>Answer 4</label>
-                    <input id='answer3' onChange={e => {props.onChange()}} value={props.answers && props.answers[3] ? props.answers[3].answer : ''} placeholder={'Reponse D'}  type="text" className="validate itest" />
+                    <input id='answer3' onChange={e => { props.onChange() }} value={props.answers && props.answers[3] ? props.answers[3].answer : ''} placeholder={'Reponse D'} type="text" className="validate itest" />
                 </div>
             </form>
 
