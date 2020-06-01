@@ -21,7 +21,8 @@ export default function CreateQuizz() {
     const [isSaved, setIsSaved] = useState(false);
     const [tags, setTags] = useState([]);
     const [tagsQuizz, setTagsQuizz] = useState([]);
-    let next;
+    const [next, setNext] = useState();
+
 
     let onSubmitQuizz = (q) => {
         if (quizz.id_quizz){
@@ -84,13 +85,23 @@ export default function CreateQuizz() {
     useEffect(() => {
         if (id_quizz) {
             apiget.fetchQuizz(id_quizz).then(res => setQuizz(res));
-            apiget.fetchQuestionsOfQuizz(id_quizz).then(res => { setQuestions(res);});
-            for (const question of questions) {
-                const tmp = [...answers];
-                apiget.fetchAnswersOfQuestion(question.id_question).then(res => {
-                    setAnswers(tmp, [res])
-                })
-            }
+            apiget.fetchQuestionsOfQuizz(id_quizz).then(res => 
+                { 
+                    setQuestions(res);
+                    console.log('a')
+                    for (const question of res) {
+                        console.log('b')
+                        let tmp = answers;
+                        console.log(tmp)
+
+                        apiget.fetchAnswersOfQuestion(question.id_question).then(result => {
+                            tmp.push(result)
+                            setAnswers(tmp)
+
+                        });
+                    }
+                });
+            
             // apiget.fetchTagsOfQuizz(id_quizz).then(res => {
             //     setTagsQuizz(res);
             // });
@@ -100,61 +111,59 @@ export default function CreateQuizz() {
     }, []);
     useEffect(() => {
         if (questions) {
-            next = (questions[idxPage] !== undefined)
+            setNext(questions[idxPage] !== undefined);
         }
+        
     }, [idxPage, questions]);
 
     useEffect(()=> {
-
-    }, [quizz, isSaved])
+    }, [quizz, isSaved, next])
     return (
         <div id='createQuizz-container'>
 
             {isSaved ? <p id='saved'>sauvegardé</p> : <p id='saved'>non sauvegardé</p>}
-
+            
+            {idxPage>0 ? <p>Question {idxPage}</p> : <p>Quizz</p>}
+            
+            {/* form quizz vierge */}
             {idxPage === 0 && typeof quizz === {} ?
                 <AddQuizz onSubmitQuizz={(q) => onSubmitQuizz(q)} onChange={e => onChange()} /> 
             : ''}
 
+            {/* form quizz preset */}
             {idxPage === 0 && typeof quizz !== {} ?
                 <AddQuizz quizz={quizz} onSubmitQuizz={(q) => onSubmitQuizz(q)} onChange={e => onChange()} /> 
             : ''}
 
-            {idxPage > 0 && typeof questions[idxPage - 1] !== undefined ?
-                <AddQuestion question={questions[idxPage]} onSubmitQuestion={(q) => onSubmitQuestion(q)} onChange={e => onChange()} /> 
+            {/* form question preset */}
+            {idxPage > 0 && typeof questions[idxPage-1] !== undefined ?
+                <AddQuestion answers={answers[idxPage-1]} question={questions[idxPage-1]} onSubmitQuestion={(q) => onSubmitQuestion(q)} onChange={e => onChange()} /> 
             : ''}
 
-            {idxPage > 0 && typeof questions[idxPage - 1] === undefined ?
+            {/* form question vierge  */}
+            {idxPage > 0 && typeof questions[idxPage-1] === undefined ?
                 <AddQuestion onSubmitQuestion={(q) => onSubmitQuestion(q)} onChange={e => onChange()} /> 
             : ''}
 
             {idxPage > 0 ?
-                <button className="waves-effect waves-light btn-large"
-                    onClick={event => { setIdxPage(idxPage - 1) }}
-                    name="action">
-                    <i className="material-icons">
-                        navigate_before
-                    </i>
+                <button className="waves-effect waves-light btn-large" onClick={event => { setIdxPage(idxPage - 1); setIsSaved(true); }} name="action">
+                    <i className="material-icons">navigate_before</i>
                 </button>
-                : ''}
+            : ''}
 
             {quizz ?
-                <button className="waves-effect waves-light btn-large"
-                    name="action"
-                    onClick={event => { setIdxPage(idxPage + 1) }}>
+                <button className="waves-effect waves-light btn-large" name="action" onClick={event => { setIdxPage(idxPage + 1); setIsSaved(true); }}>
                     <i className="material-icons">
                         {next === true ? 'navigate_next' : 'add'}
                     </i>
                 </button>
-                : ''}
+            : ''}
 
             {questions ?
-                <button className="waves-effect waves-light btn-large"
-                    type="submit"
-                    onClick={e => { sendDatas(e) }}>
+                <button className="waves-effect waves-light btn-large" type="submit" onClick={e => { sendDatas(e) }}>
                     <i className="material-icons">done</i>
                 </button>
-                : ''}
+            : ''}
         </div>
     );
 }
