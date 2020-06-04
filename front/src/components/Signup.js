@@ -1,20 +1,23 @@
 import React from 'react';
 import './css/signup.css';
 import { TextInput, Button } from "react-materialize";
-import {signUp} from "../APIcalls/APIpost";
+import { signUp } from "../APIcalls/APIpost";
+import { useHistory } from "react-router-dom";
 
 export default function Signup() {
+    const history = useHistory();
 
-   async function onSubmit(e) {
+    async function onSubmit(e) {
         e.preventDefault();
         const pseudo = e.target.pseudo.value;
         const mail = e.target.email.value;
         const password = e.target.password.value;
-        const fullfiled = await signUp(pseudo,mail,password);
-        if(!fullfiled) {
-            alert('Erreur lors de la requete'); 
+        const fullfiled = await signUp(pseudo, mail, password);
+        if (!fullfiled) {
+            alert('Erreur lors de la requete');
         } else {
             alert('Votre compte a bien été créée');
+            history.push('/signin');
         }
     }
 
