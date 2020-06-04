@@ -1,20 +1,8 @@
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
+const upload = require('../tools/multer_config');
 
-
-let storage = multer.diskStorage(
-    {
-    destination: function (req, file, cb) {
-        cb(null, './public/img');
-    },
-    filename: function (req, file, cb) {
-        cb(null, req.body.path_file);
-    }
-});
-
-let upload = multer({ storage: storage });
 
 router
     .get('/',

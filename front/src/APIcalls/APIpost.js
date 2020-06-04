@@ -46,3 +46,14 @@ export async function sendNewTag(t) {
     bodyFormData.set('tag', t)
     axios.post(`http://${config.server}/tags`, bodyFormData);
 }
+
+export async function signUp(pseudo,mail,password) {   
+   const res = await axios.post(`http://${config.server}/users/signup`, {
+       pseudo: pseudo,
+       mail:mail,
+       password:password
+   }).catch(() => {
+       return undefined;
+   });
+   return res;
+}
