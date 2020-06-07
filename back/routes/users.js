@@ -16,11 +16,15 @@ router
         res.json(result.rows[0]);
     })
     .post('/login', async (req, res) => {
+        console.log(req.body.mail,req.body.password);
         if (req.body.mail && req.body.password) {
             const mail = req.body.mail;
             const password = req.body.password;
             const result = await pool.query("select * from users where mail=$1", [mail]);
             const user = result.rows[0];
+            if(!user) return res.status(401).send({
+                error: "Wrong credentials"
+            });
             let isMatching = await bcrypt
                 .compare(password, user.password)
                 .then(res => {
