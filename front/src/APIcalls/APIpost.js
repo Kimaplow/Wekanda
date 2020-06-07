@@ -57,3 +57,14 @@ export async function signUp(pseudo,mail,password) {
    });
    return res;
 }
+
+export async function signIn(mail,password) {
+    console.log(mail,password);
+    const res = await axios.post(`http://${config.server}/users/login`, {
+       mail:mail,
+       password:password
+   }).catch(() => {
+       return undefined;
+   });
+   return res;
+}

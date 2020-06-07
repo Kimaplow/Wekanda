@@ -24,7 +24,7 @@ export default function Signup() {
     return (
         <div>
             <h1>S'inscrire</h1>
-            <div id='signup-container'>
+            <div id="signup-container">
                 <div id="form-container">
                     <form onSubmit={e => onSubmit(e)}>
                         <TextInput
