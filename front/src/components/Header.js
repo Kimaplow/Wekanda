@@ -5,10 +5,12 @@ import 'materialize-css';
 import config from '../config';
 import axios from "axios";
 import { Dropdown, Icon } from 'react-materialize';
+import { useCookies } from 'react-cookie';
 
 export default function Header() {
 
     const [tags, setTags] = useState([]);
+    const [cookie, setCookie, removeCookie] = useCookies(['login']);
 
     async function getTags() {
         await axios.get(`http://${config.server}/tags`)
@@ -26,6 +28,18 @@ export default function Header() {
         return tags.map(function (t, index){
             return (<Link key={index} to={`/quizzes/${t.tag}`}>{t.tag}</Link>)
         });
+    }
+
+    function logout() {
+        removeCookie('login');
+    }
+
+    function checkLogin() {
+        if(cookie.login) {
+            return [<a href="#" onClick={logout}>Se déconnecter</a>, <Link to={'/profile'}>Profil</Link>];
+        } else {
+            return [<Link to={'/signin'}>Se connecter</Link>];
+        }
     }
 
     return (
@@ -72,7 +86,29 @@ export default function Header() {
                             </Dropdown>
                         </li>
 
-                        <li><a href="#"><i className="material-icons">person_outline</i></a></li>
+                        <li>
+                        <Dropdown
+                                id="dropdown-login"
+                                options={{
+                                    alignment: 'left',
+                                    autoTrigger: false,
+                                    closeOnClick: false,
+                                    constrainWidth: false,
+                                    container: null,
+                                    coverTrigger: true,
+                                    hover: true,
+                                    inDuration: 150,
+                                    onCloseEnd: null,
+                                    onCloseStart: null,
+                                    onOpenEnd: null,
+                                    onOpenStart: null,
+                                    outDuration: 250
+                                }}
+                                trigger={<a node="button"><Icon>person_outline</Icon></a>}
+                            >
+                            {checkLogin()}
+                            </Dropdown>
+                        </li>
                     </ul>
                 </div>
             </nav>

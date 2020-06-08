@@ -39,9 +39,7 @@ router
                     id: user.id_user
                 }
                 const token = jwt.sign(payload, cfg.jwtSecret, {expiresIn:cfg.expiration});
-                res.json({
-                    token: token
-                })
+                res.json(token)
             }
         } else {
             res.status(401).end();

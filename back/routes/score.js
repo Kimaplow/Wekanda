@@ -1,6 +1,7 @@
 const pool = require('../data/pg.js');
 const express = require('express');
 const router = express.Router();
+const auth = require('../tools/auth')();
 
 router
     .get('/',
@@ -18,9 +19,9 @@ router
             res.json(result.rows);
         })
 
-    .get('/:id_user/user',
-        async (req, res) => {
-            const result = await pool.query('SELECT * FROM score WHERE id_user=$1', [req.params.id_user]);
+    .get('/user',
+        auth.authenticate(), async (req, res) => {
+            const result = await pool.query('SELECT * FROM score WHERE id_user=$1', [req.user.id]);
             if(result.rowCount === 0) {
                 return res.status(404).send({error:'Scores for this quizz not found!'});
             }

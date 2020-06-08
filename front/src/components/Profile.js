@@ -3,52 +3,68 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 import './css/profile.css';
-import {Icon, Button} from "react-materialize";
+import { Icon, Button } from "react-materialize";
 import QuizzCard from './QuizzCard';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { useHistory } from "react-router-dom";
 
 export default function Profile() {
     const { id_user } = useParams();
 
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(undefined);
     const [userQuizzes, setUserQuizzes] = useState([]);
     const [userScores, setUserScores] = useState([]);
+    const [cookies, setCookie, removeCookie] = useCookies(['login']);
 
     let totalpts = 0;
+    const history = useHistory();
 
     async function fetchUser() {
-        await axios.get(`http://${config.server}/users/${id_user}`)
-            .then((res) => {
-                if (res.status === 200){
-                    setUser(res.data[0]);
-                }else{
-                    setUser('not found');
-                }
-            });
+        if (cookies.login) {
+            const res = await axios.get(`http://${config.server}/users/profile`)
+                .then(res => {
+                    setUser(res.data);
+                    return true;
+                })
+                .catch(err => false);
+            if (!res) {
+                setUser('not found');
+                alert("Votre session a expirée");
+                removeCookie('login');
+                history.push('/signin')
+            }
+        } else {
+            alert("Vous n'êtes pas connecté");
+            history.push('/signin');
+        }
+
     }
 
     async function fetchUserQuizzes() {
-        await axios.get(`http://${config.server}/quizzes/${id_user}/fromuser/`)
+        await axios.get(`http://${config.server}/quizzes/fromuser/`)
             .then((res) => {
                 setUserQuizzes(res.data);
             });
     }
 
     async function fetchUserScores() {
-        await axios.get(`http://${config.server}/scores/${id_user}/user`)
+        await axios.get(`http://${config.server}/scores/user`)
             .then((res) => {
                 setUserScores(res.data);
                 userScores.map(score => {
-                    totalpts+= score.score;
+                    totalpts += score.score;
                 });
             });
     }
 
     useEffect(() => {
+        axios.defaults.headers.common['Authorization'] = (cookies.login ? 'Bearer ' + cookies.login.token : null);
         fetchUser();
         fetchUserQuizzes();
-        fetchUserScores();  
+        fetchUserScores();
     }, [])
+
 
     useEffect(() => {
 
@@ -61,79 +77,93 @@ export default function Profile() {
         setUserQuizzes(tmp);
     }
 
+    function renderUserJSX() {
+        if (user) {
+            return (
+                <div id={"user-info"}>
+                    <div>
+                        <h1>Bonjour, {user.pseudo}</h1>
+                    </div>
+                </div>
+            );
+        }
+
+    }
+
+    function renderStatsJSX() {
+        return (
+            <div>
+                <h5>Nombre de quizz créés : {userQuizzes ? userQuizzes.length : 0}</h5>
+                <h5>Nombre de participations aux quizz : {userScores ? userScores.length : 0}</h5>
+                <h5>Nombre de points marqués au total : {userScores ? totalpts : 0}</h5>
+            </div>
+        );
+    }
+
     function userQuizzesJSX() {
         if (userQuizzes !== undefined && userQuizzes.length > 0) {
 
             return (
-                
+
                 <ul id={"user-quizzes"}>
                     <div id="menu-quizz">
                         <h3>Vos Quizz :</h3>
                         <a href={`/user/${user.id_user}/addQuizz`} className="btn-floating btn-large waves-effect waves-light"><i className="material-icons">add</i></a>
                     </div>
-                    
+
                     {
-                        userQuizzes.map((quizz,idx) => {
+                        userQuizzes.map((quizz, idx) => {
                             return (
                                 <li key={idx}>
                                     <QuizzCard width={500} quizz={quizz} />
-                                    
+
                                     <Button
-                                        onClick={event => {deleteQuizz(quizz, idx, event)}}
+                                        onClick={event => { deleteQuizz(quizz, idx, event) }}
                                         node="button"
                                         waves="light"
                                         className="delete-quizz"
                                     >
-                                    <Icon center>
+                                        <Icon center>
                                             delete
                                     </Icon>
                                     </Button>
                                 </li>
-                                 
+
                             )
                         })
                     }
                 </ul>
             );
         } else {
-            return(
+            return (
                 <h2>Aucun Quizz créé</h2>
             );
         }
     }
 
-    return (
-        <div id='profile-container'>
 
-            <div id={"user-info"}>
-                {user && user === 'not found' ? <Redirect to='/' /> : ''}
-                {user ? (<div id={'top-profile'}>
-                            <img></img>
-                            <h1>{user.pseudo}</h1>
-                         </div>) 
 
-                      : (<h1>User not found</h1>)
-                }
-            </div>
+    if (!cookies.login) return null;
+    else {
+        return (
+            <div id='profile-container'>
 
-            
+                {renderUserJSX()}
 
-            <div id={'center-profile'}>
+                <div id={'center-profile'}>
 
-                <div id={"quizz"}>
-                    {userQuizzesJSX()}
-                </div>
-
-                <div id='user-stats'>
-                    <div>
-                        <h5>Nombre de quizz créés : {userQuizzes ? userQuizzes.length : 0}</h5>
-                        <h5>Nombre de participations aux quizz : {userScores ? userScores.length : 0}</h5>
-                        <h5>Nombre de points marqués au total : {userScores ? totalpts : 0}</h5>
+                    <div id={"quizz"}>
+                        {userQuizzesJSX()}
                     </div>
+
+                    <div id='user-stats'>
+                        {renderStatsJSX()}
+                    </div>
+
                 </div>
 
             </div>
+        );
+    }
 
-        </div>
-    );
 }

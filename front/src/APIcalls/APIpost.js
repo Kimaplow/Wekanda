@@ -53,9 +53,9 @@ export async function signUp(pseudo,mail,password) {
        mail:mail,
        password:password
    }).catch(() => {
-       return undefined;
+       console.error('SignUp Problem');
    });
-   return res;
+   return res ? res.data : undefined;
 }
 
 export async function signIn(mail,password) {
@@ -64,7 +64,7 @@ export async function signIn(mail,password) {
        mail:mail,
        password:password
    }).catch(() => {
-       return undefined;
+        console.error('SignIn Problem');
    });
-   return res;
+   return res ? res.data : undefined;
 }
