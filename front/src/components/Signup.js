@@ -13,8 +13,8 @@ export default function Signup() {
         const mail = e.target.email.value;
         const password = e.target.password.value;
         const fullfiled = await signUp(pseudo, mail, password);
-        if (!fullfiled) {
-            alert('Erreur lors de la requete');
+        if (!fullfiled || !(pseudo && mail && password)) {
+            alert("Erreur lors de l'inscription");
         } else {
             alert('Votre compte a bien été créée');
             history.push('/signin');
