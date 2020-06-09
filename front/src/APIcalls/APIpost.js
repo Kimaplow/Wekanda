@@ -55,7 +55,7 @@ export async function signUp(pseudo,mail,password) {
    }).catch(() => {
        console.error('SignUp Problem');
    });
-   return res ? res.data : undefined;
+   return res !== undefined;
 }
 
 export async function signIn(mail,password) {

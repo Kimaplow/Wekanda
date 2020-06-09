@@ -5,15 +5,14 @@ import { Link } from "react-router-dom";
 import { signIn } from "../APIcalls/APIpost";
 import { useCookies } from 'react-cookie';
 import { useHistory } from "react-router-dom";
+import sleep from "../tools/sleep";
 
 export default function Signin() {
 
     const [cookie, setCookie] = useCookies(['login']);
     const history = useHistory();
     const [alert, setAlert] = useState();
-    const sleep = (ms) => {
-        return new Promise(resolve => setTimeout(resolve, ms))
-    }
+    
 
 
 
@@ -23,7 +22,7 @@ export default function Signin() {
         const password = e.target.password.value;
         const token = await signIn(user.mail, password);
         if(!(user.mail && password)) {
-            setAlert(<CardPanel className="red"><Icon tiny>error</Icon>Un ou plusieurs champs n'a pas été rempli</CardPanel>);
+            setAlert(<CardPanel className="orange"><Icon tiny>error</Icon> Un ou plusieurs champs n'a pas été rempli</CardPanel>);
         } else if (!token) {
             setAlert(<CardPanel className="red"><Icon tiny>error</Icon> Identifiants Incorrect</CardPanel>);
             document.querySelector("#login-form").reset();
