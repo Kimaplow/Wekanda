@@ -80,19 +80,19 @@ export default function Profile() {
     function renderUserJSX() {
         if (user) {
             return (
-                <div id={"user-info"}>
-                    <div>
+                <div id="user-info">
                         <h1>Bonjour, {user.pseudo}</h1>
-                    </div>
                 </div>
             );
         }
 
     }
 
+    
+
     function renderStatsJSX() {
         return (
-            <div>
+            <div id='user-stats'>
                 <h5>Nombre de quizz créés : {userQuizzes ? userQuizzes.length : 0}</h5>
                 <h5>Nombre de participations aux quizz : {userScores ? userScores.length : 0}</h5>
                 <h5>Nombre de points marqués au total : {userScores ? totalpts : 0}</h5>
@@ -105,38 +105,50 @@ export default function Profile() {
 
             return (
 
-                <ul id={"user-quizzes"}>
-                    <div id="menu-quizz">
+                <ul id="user-quizzes">
+                    <div className='menu-quizz'>
                         <h3>Vos Quizz :</h3>
-                        <a href={`/user/${user.id_user}/addQuizz`} className="btn-floating btn-large waves-effect waves-light"><i className="material-icons">add</i></a>
+                        {user ?
+                            <a href={`/user/${user.id_user}/createQuizz`} className="btn-floating btn-large waves-effect waves-light">
+                                <Icon>add</Icon>
+                            </a>
+                            : undefined
+                        }
                     </div>
 
-                    {
-                        userQuizzes.map((quizz, idx) => {
+                    {userQuizzes.map((quizz, idx) => {
                             return (
                                 <li key={idx}>
-                                    <QuizzCard width={500} quizz={quizz} />
+                                    <QuizzCard quizz={quizz} />
 
                                     <Button
-                                        onClick={event => { deleteQuizz(quizz, idx, event) }}
+                                        onClick={event => {deleteQuizz(quizz, idx, event)}}
                                         node="button"
                                         waves="light"
                                         className="delete-quizz"
                                     >
-                                        <Icon center>
-                                            delete
-                                    </Icon>
+                                        <Icon center>delete</Icon>
                                     </Button>
                                 </li>
-
                             )
                         })
                     }
+
                 </ul>
             );
-        } else {
+        }
+        else{
             return (
-                <h2>Aucun Quizz créé</h2>
+                <div className='menu-quizz'>
+                    <h3>Aucun Quizz créé : </h3>
+                    {user ?
+                        <a href={`/user/${user.id_user}/createQuizz`} className="btn-floating btn-large waves-effect waves-light">
+                            <Icon>add</Icon>
+                        </a>
+                        : undefined
+                    }
+                </div>
+                
             );
         }
     }
@@ -152,14 +164,12 @@ export default function Profile() {
 
                 <div id={'center-profile'}>
 
-                    <div id={"quizz"}>
+                    <div id="quizz">
                         {userQuizzesJSX()}
                     </div>
-
-                    <div id='user-stats'>
-                        {renderStatsJSX()}
-                    </div>
-
+            
+                    {renderStatsJSX()}
+                    
                 </div>
 
             </div>
