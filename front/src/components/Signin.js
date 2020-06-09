@@ -22,7 +22,9 @@ export default function Signin() {
         const user = { mail: e.target.email.value};
         const password = e.target.password.value;
         const token = await signIn(user.mail, password);
-        if (!token) {
+        if(!(user.mail && password)) {
+            setAlert(<CardPanel className="red"><Icon tiny>error</Icon>Un ou plusieurs champs n'a pas été rempli</CardPanel>);
+        } else if (!token) {
             setAlert(<CardPanel className="red"><Icon tiny>error</Icon> Identifiants Incorrect</CardPanel>);
             document.querySelector("#login-form").reset();
         } else {
