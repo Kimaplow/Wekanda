@@ -162,7 +162,7 @@ export default function FormQuizz(props) {
         else{
             let newId = await axios.post(`http://${config.server}/quizzes/`, bodyFormData);
             id_quizz_post = newId.data[0].id_quizz;
-            //window.location=`/profile/${id_user}`;
+            //window.location='/profile';
         }
 
         // On récupère les tags

@@ -52,6 +52,7 @@ router
     })
 
     .get('/fromuser', auth.authenticate(), async (req, res) => {
+        console.log('USER ID : ', req.user.id)
         const result = await pool.query('SELECT * FROM quizz WHERE id_creator=$1', [req.user.id]);
         if (result.rows.length === 0) {
             return res.status(404).send({
