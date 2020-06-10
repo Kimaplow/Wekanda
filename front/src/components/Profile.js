@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 import './css/profile.css';
@@ -109,7 +109,7 @@ export default function Profile() {
                     <div className='menu-quizz'>
                         <h3>Vos Quizz :</h3>
                         {user ?
-                            <a href={`/user/${user.id_user}/createQuizz`} className="btn-floating btn-large waves-effect waves-light">
+                            <a href={`/addQuizz/${user.id_user}/`} className="btn-floating btn-large waves-effect waves-light">
                                 <Icon>add</Icon>
                             </a>
                             : undefined
@@ -142,7 +142,7 @@ export default function Profile() {
                 <div className='menu-quizz'>
                     <h3>Aucun Quizz créé : </h3>
                     {user ?
-                        <a href={`/user/${user.id_user}/createQuizz`} className="btn-floating btn-large waves-effect waves-light">
+                        <a href={`/addQuizz/${user.id_user}/`} className="btn-floating btn-large waves-effect waves-light">
                             <Icon>add</Icon>
                         </a>
                         : undefined

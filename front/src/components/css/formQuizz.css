@@ -1,0 +1,28 @@
+.input-field.inline input, .input-field.inline .select-dropdown {
+    margin-bottom: 0;
+}
+
+.input-field.col label {
+    left: 0;
+}
+
+#title, .select-wrapper, .select-wrapper input.select-dropdown, #description, .chips .input{
+    color : white;
+    width : 300px;
+}
+
+div {
+    text-align: center;
+}
+
+#div-questions{
+    margin-top : 2%;
+}
+
+.chip {
+    font-size: 16px;
+}
+
+.chip .close {
+    color: inherit;
+}

@@ -15,11 +15,26 @@
     animation-timing-function: ease-in-out;
 }
 
-#desc{
-    color: #3D3D3E;
+#quizz-card-card{
+    height: 150px;
+    width: 500px;
 }
 
-#modify-quizz-button{
-    margin-left: 150px;
+.card.horizontal .card-image img{
+    height: 150px;
+    width: 150px;
 }
 
+div.card-content>div>*{
+    color: black;
+}
+
+#title-quizz-card{
+    font-weight: 900;
+    font-size: large;
+    margin-top: -2px;
+}
+
+div.modal-content>*{
+    color: black
+}

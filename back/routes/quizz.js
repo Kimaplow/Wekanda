@@ -116,7 +116,6 @@ router
                 });
             }
             res.status(204).end();
-
         })
 
     .post('/',

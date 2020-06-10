@@ -12,8 +12,8 @@ const storage = multer.diskStorage({
         cb(null, './public/img');
     },
     filename: function (req, file, cb) {
-        let chemin = uniqueName(req.body.path_file);
-        cb(null, chemin);
+        req.body.path_file = uniqueName(req.body.path_file);
+        cb(null, req.body.path_file);
     }
 });
 

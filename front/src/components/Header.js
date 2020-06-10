@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {Link} from "react-router-dom";
-import './css/header.css';
 import 'materialize-css';
 import config from '../config';
 import axios from "axios";
@@ -46,8 +45,6 @@ export default function Header() {
         <div className="header">
             <nav>
                 <div className="nav-wrapper grey darken-4">
-
-
 
                     <a href="/home" className="brand-logo center">Wekanda</a>
 

@@ -34,6 +34,7 @@ export async function fetchQuestionsOfQuizz(id) {
         });
     return q;
 }
+
 export async function fetchAllTags() {
     let t;
     await axios.get(`http://${config.server}/tags`)
@@ -42,6 +43,7 @@ export async function fetchAllTags() {
         });
     return t;
 }
+
 export async function fetchAnswersOfQuestion(id) {
     let a;
     await axios.get(`http://${config.server}/questions/${id}/answers`)
@@ -50,6 +52,7 @@ export async function fetchAnswersOfQuestion(id) {
         });
     return a;
 }
+
 export async function fetchTagsOfQuizz(id) {
     let t;
     await axios.get(`http://${config.server}/quizzes/${id}/tags`)
@@ -57,4 +60,32 @@ export async function fetchTagsOfQuizz(id) {
             t = (res.data);
         });
     return t;
+}
+
+export async function fetchScoreMax(id) {
+    let s;
+    await axios.get(`http://${config.server}/scores/${id}/max`)
+        .then(res => {
+            s = (res.data);
+        });
+    return s;
+}
+
+export async function fetchScoreByQuizzAndUser(id_user, id_quizz) {
+    let s;
+    await axios.get(`http://${config.server}/scores/${id_user}/user/${id_quizz}/quizz`)
+        .then(res => {
+            s = (res.data);
+        });
+    return s;
+}
+
+export async function fetchUser(id) {
+    let j;
+    await axios.get(`http://${config.server}/users/${id}`)
+        .then(res => {
+            j = (res.data[0]);
+        });
+    console.log('back api', j)
+    return j;
 }

@@ -10,6 +10,15 @@ router
             res.json(result.rows);
         })
 
+    .get('/:id_quizz/max',
+        async (req, res) => {
+            const result = await pool.query('SELECT id_user, MAX(score) AS maxi FROM score WHERE id_quizz=$1 GROUP BY id_user', [req.params.id_quizz]);
+            if(result.rowCount === 0) {
+                return res.status(404).send({error:'Scores for this quizz not found!'});
+            }
+            res.json(result.rows[0]);
+        })
+
     .get('/:id_quizz/quizz',
         async (req, res) => {
             const result = await pool.query('SELECT * FROM score WHERE id_quizz=$1', [req.params.id_quizz]);
@@ -27,6 +36,7 @@ router
             }
             res.json(result.rows);
         })
+
     .get('/:id_user/user/:id_quizz/quizz',
         async (req, res) => {
             let result = '';

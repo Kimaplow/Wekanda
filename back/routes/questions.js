@@ -29,11 +29,12 @@ router
     })
 
     .post('/',
-    upload.single('file'), async (req, res) => {
-            const result = await pool.query('INSERT INTO questions (id_quizz, question, path_file) VALUES($1, $2, $3) RETURNING id_question',
-                [req.body.id_quizz, req.body.question, '']);
-            res.status(201).send(result.rows);
-        })
+        upload.single('fileQuestion'), async (req,res) => {
+            await pool.query('INSERT INTO questions (id_quizz, question, path_file) VALUES($1, $2, $3)',
+                [req.body.id_quizz, req.body.question, req.body.path_file]);
+            res.status(201).end();
+        }
+    )
 
     .delete('/:id',
         async (req, res) => {
@@ -45,7 +46,7 @@ router
         })
 
     .patch('/:id',
-    upload.single('file'), async (req, res) => {
+    upload.single('fileQuestion'), async (req, res) => {
 
         let result = undefined;
 
