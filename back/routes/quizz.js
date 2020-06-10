@@ -10,7 +10,7 @@ router
             const result = await pool.query('SELECT * FROM quizz');
             res.json(result.rows);
         })
-
+        
     .get('/withtags',
         async (req, res) => {
             const result = await pool.query(
@@ -35,7 +35,18 @@ router
             }
             res.json(result.rows);
         })
-
+    
+    .get('/fromuser', auth.authenticate(), async (req, res) => {
+            console.log('USER ID : ', req.user.id)
+            const result = await pool.query('SELECT * FROM quizz WHERE id_creator=$1', [req.user.id]);
+            if (result.rows.length === 0) {
+                return res.status(404).send({
+                    error: 'Quizz not found for this user or user does not exist'
+                });
+            }
+            res.json(result.rows);
+    })
+    
     .get('/:id', async (req, res) => {
         if (isNaN(+req.params.id)) {
             return res.status(500).send({
@@ -49,17 +60,6 @@ router
             });
         }
         res.json(result.rows[0]);
-    })
-
-    .get('/fromuser', auth.authenticate(), async (req, res) => {
-        console.log('USER ID : ', req.user.id)
-        const result = await pool.query('SELECT * FROM quizz WHERE id_creator=$1', [req.user.id]);
-        if (result.rows.length === 0) {
-            return res.status(404).send({
-                error: 'Quizz not found for this user or user does not exist'
-            });
-        }
-        res.json(result.rows);
     })
 
     .get('/:id/questions',
