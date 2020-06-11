@@ -98,7 +98,7 @@ export default function FormQuizz() {
         axios.defaults.headers.common['Authorization'] = (cookies.login ? 'Bearer ' + cookies.login.token : null);
         fetchUser();
         getTags();
-        if(user !== undefined){
+        if(id_quizz){
             setEdit(true);
             getQuizz();
             getTagsQuizz();
