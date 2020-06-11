@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../config';
@@ -7,6 +7,8 @@ import ReactPlayer from 'react-player';
 import './css/formQuizz.css';
 
 export default function FormQuizz(props) {
+
+    const [redirection, setRedirection] = useState(false);
 
     // Mode ADD
     const { id_user } = useParams();
@@ -111,9 +113,10 @@ export default function FormQuizz(props) {
         }
     }
 
-    async function sendResquest(event){
+    async function sendRequest(event){
         event.preventDefault();
 
+        // On récupère les données entrées par l'user
         let title = event.target.title.value;
         let pathFile = '';
         let file = null;
@@ -155,14 +158,11 @@ export default function FormQuizz(props) {
             if(title !== '' || pathFile !== '' || difficulty !== '' || description !== '' || file !== null){
                 await axios.patch(`http://${config.server}/quizzes/${id_quizz}`, bodyFormData);
             }
-            //window.location.reload();
-            //window.location=`/home`;
         }
         // Sinon on .post
         else{
             let newId = await axios.post(`http://${config.server}/quizzes/`, bodyFormData);
             id_quizz_post = newId.data[0].id_quizz;
-            //window.location='/profile';
         }
 
         // On récupère les tags
@@ -232,7 +232,9 @@ export default function FormQuizz(props) {
             if(!edit){
                 return alert("Entrez au moins un tag s'il vous plait !");
             }
-        }       
+        }
+
+        
 
     }
     
@@ -241,7 +243,7 @@ export default function FormQuizz(props) {
 
             {edit ? <h3>{quizz.title}</h3> : <h3>Créer votre quizz !</h3>}
 
-            <form onSubmit={event => sendResquest(event)} encType="multipart/form-data">
+            <form onSubmit={event => sendRequest(event)} encType="multipart/form-data">
 
                 <div id="div-title" className="col s12">
                     <div className="input-field inline">

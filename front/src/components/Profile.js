@@ -38,7 +38,6 @@ export default function Profile() {
             alert("Vous n'êtes pas connecté");
             history.push('/signin');
         }
-
     }
 
     async function fetchUserQuizzes() {
@@ -81,14 +80,12 @@ export default function Profile() {
         if (user) {
             return (
                 <div id="user-info">
-                        <h1>Bonjour, {user.pseudo}</h1>
+                    <h1>Bonjour, {user.pseudo}</h1>
                 </div>
             );
         }
 
     }
-
-    
 
     function renderStatsJSX() {
         return (
@@ -117,27 +114,25 @@ export default function Profile() {
                     </div>
 
                     {userQuizzes.map((quizz, idx) => {
-                            return (
-                                <li key={idx}>
-                                    <QuizzCard quizz={quizz} />
+                        return (
+                            <li key={idx}>
+                                <QuizzCard quizz={quizz} />
 
-                                    <Button
-                                        onClick={event => {deleteQuizz(quizz, idx, event)}}
-                                        node="button"
-                                        waves="light"
-                                        className="delete-quizz"
-                                    >
-                                        <Icon center>delete</Icon>
-                                    </Button>
-                                </li>
-                            )
-                        })
-                    }
-
+                                <Button
+                                    onClick={event => {deleteQuizz(quizz, idx, event)}}
+                                    node="button"
+                                    waves="light"
+                                    className="delete-quizz"
+                                >
+                                    <Icon center>delete</Icon>
+                                </Button>
+                            </li>
+                        )
+                    })}
                 </ul>
             );
         }
-        else{
+        else {
             return (
                 <div className='menu-quizz'>
                     <h3>Aucun Quizz créé : </h3>
@@ -148,7 +143,7 @@ export default function Profile() {
                         : undefined
                     }
                 </div>
-                
+
             );
         }
     }
@@ -167,9 +162,9 @@ export default function Profile() {
                     <div id="quizz">
                         {userQuizzesJSX()}
                     </div>
-            
+
                     {renderStatsJSX()}
-                    
+
                 </div>
 
             </div>
