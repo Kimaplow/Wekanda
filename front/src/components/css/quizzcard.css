@@ -38,3 +38,7 @@ div.card-content>div>*{
 div.modal-content>*{
     color: black
 }
+
+.close-modal{
+    color: #333333;
+}

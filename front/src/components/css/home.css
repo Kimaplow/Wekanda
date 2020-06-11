@@ -1,14 +1,8 @@
-#container {
-    position: relative;
-}
-
 .tq_tag{
     position: flex;
-    width: 100%;
     min-height: 300px;
 }
 .cards{
-    width: 100%;
     position: relative;
 }
 .card_quizz{
@@ -23,9 +17,6 @@
 }
 .cards li {
     float: left;
-    min-width: 100px;
     margin-top: 5%;
     margin-left: 1%;
 }
-
-/* aucune idée de pourquoi ca marche lol */

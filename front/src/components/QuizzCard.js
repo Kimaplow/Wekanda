@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import config from '../config';
-import { Icon, Modal, Card, CardTitle } from 'react-materialize';
+import { Icon, Modal, Card, CardTitle, Button } from 'react-materialize';
 import * as apiget from '../APIcalls/APIget';
 import './css/quizzcard.css';
 
@@ -16,7 +16,6 @@ export default function QuizzCard(props) {
             setScoreMax(res),
         );
     }
-    console.log(scoreMax)
 
     function getCreator(id_user){
         apiget.fetchUser(id_user).then(res =>
@@ -58,7 +57,11 @@ export default function QuizzCard(props) {
                 actions={[
                     <a key="1" href={`/quizz/${props.quizz.id_quizz}/play`}>Jouer</a>,
                     <a key="2" href={`/edit/${props.quizz.id_quizz}`}>Modifier</a>,
-                    <Modal key='3' header={props.quizz.title} trigger={trigger}>
+                    <Modal key='3' header={props.quizz.title} trigger={trigger}
+                        actions={[
+                        <Button flat modal="close" node="button"><Icon className="close-modal">close</Icon></Button>
+                        ]}
+                    >
                         <p>Createur du quizz : {creator ? creator.pseudo : undefined}</p>
                         <p>{displayDiff(props.quizz.difficulty)}</p>
                         <p>Meilleur score : {scoreMax.maxi ? scoreMax.maxi : 'Pas encore de score !'}</p>
