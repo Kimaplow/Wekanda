@@ -77,6 +77,5 @@ export async function fetchUser(id) {
         .then(res => {
             j = (res.data);
         });
-    console.log('FETCH JOUEUR : ', j)
     return j;
 }

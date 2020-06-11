@@ -5,13 +5,17 @@ import config from '../config';
 import { Select, Chip, Icon, TextInput } from 'react-materialize';
 import ReactPlayer from 'react-player';
 import './css/formQuizz.css';
+import { useCookies } from 'react-cookie';
+import { useHistory } from "react-router-dom";
 
-export default function FormQuizz(props) {
+export default function FormQuizz() {
 
-    const [redirection, setRedirection] = useState(false);
+    // Pour récupérer la personne connectée
+    const history = useHistory();
+    const [cookies, setCookie, removeCookie] = useCookies(['login']);
 
     // Mode ADD
-    const { id_user } = useParams();
+    const [user, setUser] = useState(undefined);
 
     // Mode EDIT
     const { id_quizz } = useParams();
@@ -21,6 +25,26 @@ export default function FormQuizz(props) {
     const [tagsChips, setTagsChips] = useState({});
     const [tagsQuizz, setTagsQuizz] = useState([]);
     const [tagsQuizzChips, setTagsQuizzChips] = useState([]);
+
+    async function fetchUser() {
+        if (cookies.login) {
+            const res = await axios.get(`http://${config.server}/users/profile`)
+                .then(res => {
+                    setUser(res.data);
+                    return true;
+                })
+                .catch(err => false);
+            if (!res) {
+                setUser('not found');
+                alert("Votre session a expirée");
+                removeCookie('login');
+                history.push('/signin')
+            }
+        } else {
+            alert("Vous n'êtes pas connecté");
+            history.push('/signin');
+        }
+    }
 
     async function getQuizz() {
         await axios.get(`http://${config.server}/quizzes/${id_quizz}`)
@@ -71,8 +95,10 @@ export default function FormQuizz(props) {
     
 
     useEffect(() => {
+        axios.defaults.headers.common['Authorization'] = (cookies.login ? 'Bearer ' + cookies.login.token : null);
+        fetchUser();
         getTags();
-        if(id_quizz !== undefined){
+        if(user !== undefined){
             setEdit(true);
             getQuizz();
             getTagsQuizz();
@@ -143,7 +169,7 @@ export default function FormQuizz(props) {
         // Les infos du quizz
         let bodyFormData = new FormData();
         if(!edit){
-            bodyFormData.set('id_creator', id_user);
+            bodyFormData.set('id_creator', user.id_user);
         }
         bodyFormData.set('title', title);
         bodyFormData.set('path_file', pathFile);
@@ -233,9 +259,6 @@ export default function FormQuizz(props) {
                 return alert("Entrez au moins un tag s'il vous plait !");
             }
         }
-
-        
-
     }
     
     return (

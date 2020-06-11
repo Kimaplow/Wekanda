@@ -31,9 +31,9 @@ function App() {
                 <Route exact={true} path='/signup' component={Signup}/>
 
                 <Route exact={true} path='/edit/:id_quizz' component={FormQuizz}/>
-                <Route exact={true} path='/addQuizz/:id_user' component={FormQuizz}/>
+                <Route exact={true} path='/addQuizz' component={FormQuizz}/>
 
-                <Route exact={true} path='/quizzes/:tag' component={FilterQuizz}  />
+                <Route exact={true} path='/quizzes/:tag' component={FilterQuizz}/>
 
                 <Route exact={true} path='/quizz/:id_quizz/play' component={Play}/>
 

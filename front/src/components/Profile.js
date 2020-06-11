@@ -106,7 +106,7 @@ export default function Profile() {
                     <div className='menu-quizz'>
                         <h3>Vos Quizz :</h3>
                         {user ?
-                            <a href={`/addQuizz/${user.id_user}/`} className="btn-floating btn-large waves-effect waves-light">
+                            <a href={`/addQuizz/`} className="btn-floating btn-large waves-effect waves-light">
                                 <Icon>add</Icon>
                             </a>
                             : undefined
@@ -137,7 +137,7 @@ export default function Profile() {
                 <div className='menu-quizz'>
                     <h3>Aucun Quizz créé : </h3>
                     {user ?
-                        <a href={`/addQuizz/${user.id_user}/`} className="btn-floating btn-large waves-effect waves-light">
+                        <a href={`/addQuizz/`} className="btn-floating btn-large waves-effect waves-light">
                             <Icon>add</Icon>
                         </a>
                         : undefined
