@@ -64,16 +64,7 @@ export async function fetchTagsOfQuizz(id) {
 
 export async function fetchScoreMax(id) {
     let s;
-    await axios.get(`http://${config.server}/scores/${id}/max`)
-        .then(res => {
-            s = (res.data);
-        });
-    return s;
-}
-
-export async function fetchScoreByQuizzAndUser(id_user, id_quizz) {
-    let s;
-    await axios.get(`http://${config.server}/scores/${id_user}/user/${id_quizz}/quizz`)
+    await axios.get(`http://${config.server}/scores/${id}/quizz/max`)
         .then(res => {
             s = (res.data);
         });
@@ -84,8 +75,8 @@ export async function fetchUser(id) {
     let j;
     await axios.get(`http://${config.server}/users/${id}`)
         .then(res => {
-            j = (res.data[0]);
+            j = (res.data);
         });
-    console.log('back api', j)
+    console.log('FETCH JOUEUR : ', j)
     return j;
 }

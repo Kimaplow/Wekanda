@@ -4,10 +4,8 @@ import { Icon, Modal, Card, CardTitle, Button } from 'react-materialize';
 import * as apiget from '../APIcalls/APIget';
 import './css/quizzcard.css';
 
-
 export default function QuizzCard(props) {
 
-    //Récupérer le score
     const [scoreMax, setScoreMax] = useState({});
     const [creator, setCreator] = useState({});
 
@@ -64,8 +62,8 @@ export default function QuizzCard(props) {
                     >
                         <p>Createur du quizz : {creator ? creator.pseudo : undefined}</p>
                         <p>{displayDiff(props.quizz.difficulty)}</p>
-                        <p>Meilleur score : {scoreMax.maxi ? scoreMax.maxi : 'Pas encore de score !'}</p>
-                        <p>Meilleur joueur : </p>
+                        <p>Meilleur score : {scoreMax.highest ? scoreMax.highest : 'Pas encore de score !'}</p>
+                        <p>Meilleur joueur : {scoreMax.pseudo ? scoreMax.pseudo : 'Pas encore de meilleur joueur !'}</p>
                     </Modal>
                 ]}
                 closeIcon={<Icon>close</Icon>}
