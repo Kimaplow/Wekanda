@@ -5,11 +5,13 @@ import config from '../config';
 import axios from "axios";
 import { Dropdown, Icon } from 'react-materialize';
 import { useCookies } from 'react-cookie';
+import { useHistory } from "react-router-dom";
 
 export default function Header() {
 
     const [tags, setTags] = useState([]);
     const [cookie, setCookie, removeCookie] = useCookies(['login']);
+    const history = useHistory();
 
     async function getTags() {
         await axios.get(`http://${config.server}/tags`)
@@ -29,8 +31,10 @@ export default function Header() {
         });
     }
 
-    function logout() {
-        removeCookie('login');
+    async function logout(e) {
+        e.preventDefault();
+        removeCookie('login', {path:"/"})
+        history.push('/home');
     }
 
     function checkLogin() {

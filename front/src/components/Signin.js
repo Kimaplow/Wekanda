@@ -28,7 +28,7 @@ export default function Signin() {
             document.querySelector("#login-form").reset();
         } else {
             user.token = token;
-            setCookie('login', user, '/');
+            setCookie('login', user, {path:'/'});
             setAlert(<CardPanel className="green"><Icon tiny>check</Icon> Connexion réussie</CardPanel>);
             await sleep(500);
             history.push('/home');
