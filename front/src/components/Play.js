@@ -7,6 +7,7 @@ import { Redirect, useHistory } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import './css/play.css';
 import * as apiget from '../APIcalls/APIget';
+import { useCookies } from 'react-cookie';
 import sleep from '../tools/sleep';
 
 export default function Play() {
@@ -29,12 +30,15 @@ export default function Play() {
     const [answered, setAnswered] = useState(false);
 
     const [alert,setAlert] = useState();
+    const [cookies, setCookie, removeCookie] = useCookies(['login']);
 
     /** We first verify that the user is connected in order to play a quizz */
     async function verifyToken() {
-        await axios.get(`http://${config.server}/users/verify_token`, { responseType: 'text'}).catch(async err => {
+        axios.defaults.headers.common['Authorization'] = (cookies.login ? 'Bearer ' + cookies.login.token : null);
+        await axios.get(`http://${config.server}/users/verify_token`, { responseType: 'text'})
+        .catch(async err => {
             setAlert(<CardPanel className="orange"><Icon tiny>error</Icon>Merci de vous connecter</CardPanel>);
-                await sleep(10000);
+                await sleep(800);
                 history.push('/signin');
         })
       
