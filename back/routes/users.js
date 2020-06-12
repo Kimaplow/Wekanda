@@ -15,6 +15,10 @@ router
         const result = await pool.query("select id_user,pseudo,mail from users where id_user=$1", [req.user.id]);
         res.json(result.rows[0]);
     })
+    .get('/:id_user', async (req, res) => {
+        const result = await pool.query("select id_user,pseudo,mail from users where id_user=$1", [req.params.id_user]);
+        res.json(result.rows[0]);
+    })
     .post('/login', async (req, res) => {
         console.log(req.body.mail,req.body.password);
         if (req.body.mail && req.body.password) {

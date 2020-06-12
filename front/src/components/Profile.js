@@ -38,7 +38,6 @@ export default function Profile() {
             alert("Vous n'êtes pas connecté");
             history.push('/signin');
         }
-
     }
 
     async function fetchUserQuizzes() {
@@ -81,14 +80,12 @@ export default function Profile() {
         if (user) {
             return (
                 <div id="user-info">
-                        <h1>Bonjour, {user.pseudo}</h1>
+                    <h1>Bonjour, {user.pseudo}</h1>
                 </div>
             );
         }
 
     }
-
-    
 
     function renderStatsJSX() {
         return (
@@ -109,7 +106,7 @@ export default function Profile() {
                     <div className='menu-quizz'>
                         <h3>Vos Quizz :</h3>
                         {user ?
-                            <a href={`/addQuizz/${user.id_user}/`} className="btn-floating btn-large waves-effect waves-light">
+                            <a href={`/addQuizz/`} className="btn-floating btn-large waves-effect waves-light">
                                 <Icon>add</Icon>
                             </a>
                             : undefined
@@ -117,38 +114,36 @@ export default function Profile() {
                     </div>
 
                     {userQuizzes.map((quizz, idx) => {
-                            return (
-                                <li key={idx}>
-                                    <QuizzCard quizz={quizz} />
+                        return (
+                            <li key={idx}>
+                                <QuizzCard quizz={quizz} />
 
-                                    <Button
-                                        onClick={event => {deleteQuizz(quizz, idx, event)}}
-                                        node="button"
-                                        waves="light"
-                                        className="delete-quizz"
-                                    >
-                                        <Icon center>delete</Icon>
-                                    </Button>
-                                </li>
-                            )
-                        })
-                    }
-
+                                <Button
+                                    onClick={event => {deleteQuizz(quizz, idx, event)}}
+                                    node="button"
+                                    waves="light"
+                                    className="delete-quizz"
+                                >
+                                    <Icon center>delete</Icon>
+                                </Button>
+                            </li>
+                        )
+                    })}
                 </ul>
             );
         }
-        else{
+        else {
             return (
                 <div className='menu-quizz'>
                     <h3>Aucun Quizz créé : </h3>
                     {user ?
-                        <a href={`/addQuizz/${user.id_user}/`} className="btn-floating btn-large waves-effect waves-light">
+                        <a href={`/addQuizz/`} className="btn-floating btn-large waves-effect waves-light">
                             <Icon>add</Icon>
                         </a>
                         : undefined
                     }
                 </div>
-                
+
             );
         }
     }
@@ -167,9 +162,9 @@ export default function Profile() {
                     <div id="quizz">
                         {userQuizzesJSX()}
                     </div>
-            
+
                     {renderStatsJSX()}
-                    
+
                 </div>
 
             </div>
