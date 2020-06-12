@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './css/signin.css';
 import { TextInput, Button, CardPanel, Card, Icon } from "react-materialize";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { signIn } from "../APIcalls/APIpost";
 import { useCookies } from 'react-cookie';
-import { useHistory } from "react-router-dom";
 import sleep from "../tools/sleep";
 
 export default function Signin() {
@@ -31,7 +30,11 @@ export default function Signin() {
             setCookie('login', user, {path:'/'});
             setAlert(<CardPanel className="green"><Icon tiny>check</Icon> Connexion réussie</CardPanel>);
             await sleep(500);
-            history.push('/home');
+            if(!document.referrer) {
+                history.push('/home')
+            } else {
+                history.goBack();
+            }
         }
     }
 
