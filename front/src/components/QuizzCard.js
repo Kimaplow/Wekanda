@@ -3,11 +3,27 @@ import config from '../config';
 import { Icon, Modal, Card, CardTitle, Button } from 'react-materialize';
 import * as apiget from '../APIcalls/APIget';
 import './css/quizzcard.css';
+import { useCookies } from 'react-cookie';
+import axios from 'axios';
 
 export default function QuizzCard(props) {
 
+    const [cookies, setCookie, removeCookie] = useCookies(['login']);
+    const [user, setUser] = useState(undefined);
+
     const [scoreMax, setScoreMax] = useState({});
     const [creator, setCreator] = useState({});
+
+    async function fetchUser() {
+        if (cookies.login) {
+            const res = await axios.get(`http://${config.server}/users/profile`)
+                .then(res => {
+                    setUser(res.data);
+                    return true;
+                })
+                .catch(err => false);
+        }
+    }
 
     function getScore(id_quizz){
         apiget.fetchScoreMax(id_quizz).then(res =>
@@ -41,6 +57,8 @@ export default function QuizzCard(props) {
     }
 
     useEffect(() => {
+        axios.defaults.headers.common['Authorization'] = (cookies.login ? 'Bearer ' + cookies.login.token : null);
+        fetchUser();
         getScore(props.quizz.id_quizz);
         getCreator(props.quizz.id_creator);
     }, []);
@@ -54,7 +72,11 @@ export default function QuizzCard(props) {
                 id='quizz-card-card'
                 actions={[
                     <a key="1" href={`/quizz/${props.quizz.id_quizz}/play`}>Jouer</a>,
-                    <a key="2" href={`/edit/${props.quizz.id_quizz}`}>Modifier</a>,
+                    user && creator ?
+                        user.id_user === creator.id_user ?        
+                            <a key="2" href={`/edit/${props.quizz.id_quizz}`}>Modifier</a>
+                            : undefined
+                        :undefined,
                     <Modal key='3' header={props.quizz.title} trigger={trigger}
                         actions={[
                         <Button flat modal="close" node="button"><Icon className="close-modal">close</Icon></Button>
