@@ -51,11 +51,11 @@ CREATE TABLE TagQuizz(
 );
 
 INSERT INTO Users(pseudo, mail, password) VALUES
-    ('Admin', 'admin@admin.com', 'Admin'),
-    ('Christophe', 'christophe@test.com','Christophe'),
-    ('Mathieu','mathieu@test.com', 'Mathieu'),
-    ('Francois', 'francois@test.com','Francois'),
-    ('testuser', 'testuser@test.com', 'testuser');
+    ('Admin', 'admin@test.com', '$2b$10$uudLDjCCQF/SHhut2dcZVOiSm5dE3nw8dAb.tF6b.wBVpw6B4PNzu'),
+    ('Christophe', 'christophe@test.com','$2b$10$9UEwbdEw3gmwovs9bLaTWekHAK6YvjjTIffpfekx.RsWZB3u9Q9re'),
+    ('Mathieu','mathieu@test.com', '$2b$10$HfvnZiiBEFhkR21XgCC9.esRId2GdQPGTmctgXcEofJlGui1vY7nu'),
+    ('Francois', 'francois@test.com','$2b$10$h4Zj6vVtiEGaFbsk6QPWBe0mkDP.dNjWXGqREzz0NJI/Lx0z4D8mC'),
+    ('Testuser', 'testuser@test.com', '$2b$10$0C66vlK7CJItKcipiurfE.XxosFoJRdjWUMwJK1.b72hyGXvqw1he');
 
 INSERT INTO Quizz(id_creator, title, path_file, difficulty, description) VALUES
     ('1', 'Les animaux Africains','animaux_afrique.jpg', '1', 'Pour apprendre les animaux en s''amusant'),
