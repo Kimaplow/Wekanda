@@ -5,6 +5,8 @@ import { Link, useHistory } from "react-router-dom";
 import { signIn } from "../APIcalls/APIpost";
 import { useCookies } from 'react-cookie';
 import sleep from "../tools/sleep";
+import axios from "axios";
+import config from "../config";
 
 export default function Signin() {
 
@@ -12,7 +14,24 @@ export default function Signin() {
     const history = useHistory();
     const [alert, setAlert] = useState();
     
+    function redirectBack() {
+        if(!document.referrer) {
+            history.push('/home')
+        } else {
+            history.goBack();
+        }
+    }
 
+    async function verifyToken() {
+        axios.defaults.headers.common['Authorization'] = (cookie.login ? 'Bearer ' + cookie.login.token : null);
+        await axios.get(`http://${config.server}/users/verify_token`, { responseType: 'text'})
+        .then(() => redirectBack())
+        .catch();
+    }
+
+    useEffect(() => {
+        verifyToken();
+    },[])
 
 
     async function onSubmit(e) {
@@ -30,11 +49,7 @@ export default function Signin() {
             setCookie('login', user, {path:'/'});
             setAlert(<CardPanel className="green"><Icon tiny>check</Icon> Connexion réussie</CardPanel>);
             await sleep(500);
-            if(!document.referrer) {
-                history.push('/home')
-            } else {
-                history.goBack();
-            }
+            redirectBack();
         }
     }
 
