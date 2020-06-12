@@ -15,6 +15,9 @@ router
         const result = await pool.query("select id_user,pseudo,mail from users where id_user=$1", [req.user.id]);
         res.json(result.rows[0]);
     })
+    .get('/verify_token', auth.authenticate(), (req,res) => {
+        res.json({message:'User is connected'});
+    })
     .get('/:id_user', async (req, res) => {
         const result = await pool.query("select id_user,pseudo,mail from users where id_user=$1", [req.params.id_user]);
         res.json(result.rows[0]);
@@ -49,6 +52,7 @@ router
             res.status(401).end();
         }
     })
+   
     .post('/signup', async (req, res) => {
         if (req.body.pseudo && req.body.mail && req.body.password) {
             const pseudo = req.body.pseudo;

@@ -3,14 +3,16 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 import { Icon, Button, CardPanel} from 'react-materialize';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import './css/play.css';
 import * as apiget from '../APIcalls/APIget';
+import sleep from '../tools/sleep';
 
 export default function Play() {
     const { id_quizz } = useParams();
-
+    const history = useHistory();
+    
     const [quizz, setQuizz] = useState({});
     const [questions, setQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState({});
@@ -25,6 +27,18 @@ export default function Play() {
 
     /* flag to make it impossible to answer the same Q several times */
     const [answered, setAnswered] = useState(false);
+
+    const [alert,setAlert] = useState();
+
+    /** We first verify that the user is connected in order to play a quizz */
+    async function verifyToken() {
+        await axios.get(`http://${config.server}/users/verify_token`, { responseType: 'text'}).catch(async err => {
+            setAlert(<CardPanel className="orange"><Icon tiny>error</Icon>Merci de vous connecter</CardPanel>);
+                await sleep(10000);
+                history.push('/signin');
+        })
+      
+    }
        
 
     async function fetchQuizz() {
@@ -62,6 +76,7 @@ export default function Play() {
 
     useEffect(() => {
         //setScoreDB(apiget.fetchScoreByQuizzAndUser(id_user, id_quizz)));
+        verifyToken();
         fetchQuizz();
         fetchQuestions();
     }, [])
@@ -175,7 +190,9 @@ export default function Play() {
     return (
 
         <div id='play-container'>
-
+            <span id="alert-box">
+                {alert}
+            </span>
             <div id='quizz-title'>
                 {quizz && quizz === 'not found' ? <Redirect to='/' /> : ''}
                 <h2>{quizz ? quizz.title : "Quizz not found"}</h2>
