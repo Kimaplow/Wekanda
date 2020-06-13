@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
-import { Icon, Button, CardPanel} from 'react-materialize';
+import { Icon, Button, CardPanel, Modal } from 'react-materialize';
 import { Redirect, useHistory } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import './css/play.css';
@@ -16,7 +16,7 @@ export default function Play() {
     
     const [quizz, setQuizz] = useState({});
     const [questions, setQuestions] = useState([]);
-    const [currentQuestion, setCurrentQuestion] = useState({});
+    const [currentQuestion, setCurrentQuestion] = useState(undefined);
     const [currentAnswers, setCurrentAnswers] = useState([]);
     const [currentidx, setCurrentidx] = useState(0);
 
@@ -31,6 +31,7 @@ export default function Play() {
 
     const [alert,setAlert] = useState();
     const [cookies, setCookie, removeCookie] = useCookies(['login']);
+    const [user, setUser] = useState(undefined);
 
     /** We first verify that the user is connected in order to play a quizz */
     async function verifyToken() {
@@ -41,11 +42,28 @@ export default function Play() {
                 await sleep(800);
                 history.push('/signin');
         })
-      
     }
-       
+
+    async function fetchUser() {
+        if (cookies.login) {
+            const res = await axios.get(`http://${config.server}/users/profile`)
+                .then(res => {
+                    setUser(res.data);
+                    return true;
+                })
+                .catch(err => false);
+        }
+    }
+    
+    async function getScore(){
+        await axios.get(`http://${config.server}/scores/${user.id_user}/user/${id_quizz}/quizz`)
+            .then(res => {
+                setScoreDB(res.data);
+            });
+    }
 
     async function fetchQuizz() {
+        axios.defaults.headers.common['Authorization'] = (cookies.login ? 'Bearer ' + cookies.login.token : null);
         await axios.get(`http://${config.server}/quizzes/${id_quizz}`)
             .then(res => {
                 if (res.status === 200) {
@@ -71,19 +89,28 @@ export default function Play() {
             });
     }
 
-    async function fetchCurrentAnswers() {
-        await axios.get(`http://${config.server}/questions/${currentQuestion.id_question}/answers`)
-            .then(res => {
-                setCurrentAnswers(res.data);
-            });
+    async function postScore(){
+        let req = {
+            id_quizz : quizz.id_quizz,
+            score : score
+        }
+        await axios.post(`http://${config.server}/scores`, req);
+        document.querySelector('#postScore').innerHTML = 'Score envoyé !'
     }
 
     useEffect(() => {
-        //setScoreDB(apiget.fetchScoreByQuizzAndUser(id_user, id_quizz)));
+        axios.defaults.headers.common['Authorization'] = (cookies.login ? 'Bearer ' + cookies.login.token : null);
+        fetchUser();
         verifyToken();
         fetchQuizz();
         fetchQuestions();
     }, [])
+
+    useEffect(() => {
+        if(user){
+            getScore();
+        }
+    }, [user])
 
     useEffect(() => {
         setCurrentQuestion(questions[currentidx]);
@@ -154,7 +181,6 @@ export default function Play() {
                 document.querySelector('#next-button').style.visibility = 'visible';
             }
             else{
-                //On post le score
                 document.querySelector('#finish-button').style.visibility = 'visible';
             }
         }
@@ -173,9 +199,7 @@ export default function Play() {
         setSecond(15);
     }
 
-    function displayQuestion(q) {
-        console.log(q)
-        
+    function displayQuestion(q) { 
         return (
             <div id='question'>
                 {q.path_file !== '' ?
@@ -188,8 +212,9 @@ export default function Play() {
                 <h2>{q.question}</h2>
             </div>
         )
-        
     }
+
+    const trigger = <Button id='finish-button'>Terminer</Button>
   
     return (
 
@@ -247,7 +272,15 @@ export default function Play() {
             </div>
 
             <div>
-                <Button id='finish-button'>Terminer</Button>
+                <Modal header={quizz ? quizz.title : undefined} trigger={trigger} 
+                    actions={[
+                        <Button id="postScore" node="button" onClick={e => {postScore()} }>Envoyer le score</Button>,
+                        <Button flat modal="close" node="button"><Icon className="close-modal">close</Icon></Button>                  
+                    ]}
+                >
+                    <p>Votre meilleur score : {scoreDB ? scoreDB.score : 'Vous n\'avez pas encore de score pour ce quizz'}</p>
+                    <p>Votre score actuel : {score ? score : undefined}</p>
+                </Modal>
             </div>
 
         </div>

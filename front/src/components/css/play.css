@@ -101,3 +101,7 @@
 #bad{
     margin-top: -22px;
 }
+
+button#postScore.btn{
+    margin-right: 370px;
+}

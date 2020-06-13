@@ -65,12 +65,11 @@ auth.authenticate(), async (req, res) => {
             if(result.rowCount === 0) {
                 return res.status(404).send({error:'Scores for this quizz not found or user doesnt exist!'});
             }
-            res.json(result.rows);
+            res.json(result.rows[0]);
         })
-        .post('/', 
-        async(req,res) => {
+        .post('/', auth.authenticate(), async(req,res) => {
             const result = await pool.query('INSERT INTO score (id_user,id_quizz,score) VALUES ($1,$2,$3)', 
-            [req.body.id_user,req.body.id_quizz,req.body.score])
+            [req.user.id,req.body.id_quizz,req.body.score])
             res.status(201).end();
         });
 
