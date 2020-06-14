@@ -37,7 +37,7 @@ CREATE TABLE Score(
     id_score SERIAL primary key,
     id_user integer REFERENCES Users(id_user) NOT NULL,
     id_quizz integer REFERENCES Quizz(id_quizz) ON DELETE CASCADE NOT NULL,
-    score integer DEFAULT 0 CHECK(score>0)
+    score integer DEFAULT 0
 );
 
 CREATE TABLE Tags(
@@ -124,6 +124,8 @@ INSERT INTO Answers(id_question, answer, correct, path_file) VALUES
     ('7','Jamel Debbouze','false', ''),
     ('7','Alain Chabat','true', ''),
     ('7','Guillaume Canet','false', '');
+
+
 
 
 INSERT INTO Quizz(id_creator, title, path_file, difficulty, description) VALUES
