@@ -180,7 +180,7 @@ INSERT INTO Answers(id_question, answer, correct, path_file) VALUES
 
 
 INSERT INTO Quizz(id_creator, title, path_file, difficulty, description) VALUES
-    ('4', 'Jeux vidéo','', '1', 'My body is ready');
+    ('4', 'Jeux vidéo','jv.jpg', '1', 'My body is ready');
 
 INSERT INTO Questions(id_quizz, question, path_file) VALUES
     ('7','Comment s''appelle cette console ?','ps2.png');
@@ -215,7 +215,8 @@ INSERT INTO Tags(tag) VALUES
     ('Animaux'),
     ('Afrique'),
     ('Art'),
-    ('Jeux vidéo');
+    ('Jeux vidéo'),
+    ('Anglais');
 
 INSERT INTO TagQuizz(id_quizz, tag) VALUES
     ('1', 'Animaux'),
@@ -224,8 +225,9 @@ INSERT INTO TagQuizz(id_quizz, tag) VALUES
     ('3', 'Art'),
     ('4', 'Internet'),
     ('5', 'Art'),
-    ('6','Internet'),
-    ('7','Jeux vidéo');
+    ('6', 'Internet'),
+    ('7', 'Jeux vidéo'),
+    ('8', 'Anglais');
 
 
 
