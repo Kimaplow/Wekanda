@@ -288,7 +288,7 @@ export default function EditQuestion() {
                         <div className="file-field input-field">
                             <TextInput
                             id="fileQuestion"
-                            label="File"
+                            label="Fichier"
                             type="file"
                             name="fileQuestion"
                             />

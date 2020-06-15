@@ -272,7 +272,7 @@ export default function FormQuizz() {
                     <div className="input-field inline">
                         <TextInput
                             id="title"
-                            label='Title'
+                            label='Titre'
                             placeholder={edit ? quizz.title : undefined}
                         />
                     </div>
@@ -286,7 +286,7 @@ export default function FormQuizz() {
                     <div className="input-field inline">
                         <TextInput
                             id="file"
-                            label="File"
+                            label="Fichier"
                             type="file"
                             name="file"
                         />
@@ -329,7 +329,7 @@ export default function FormQuizz() {
                                     minLength: 3,
                                     onAutocomplete: function noRefCheck() {}
                                 },
-                                placeholder: 'Enter a tag',
+                                placeholder: 'Entrer un tag',
                                 secondaryPlaceholder: '+Tag'
                             }}
                         />
