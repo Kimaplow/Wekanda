@@ -71,11 +71,10 @@ export default function QuizzCard(props) {
             <Card
                 id='quizz-card-card'
                 actions={[
-                    <a key="1" href={`/quizz/${props.quizz.id_quizz}/play`}>Jouer</a>,
                     user && creator ?
                         user.id_user === creator.id_user ?        
                             <a key="2" href={`/edit/${props.quizz.id_quizz}`}>Modifier</a>
-                            : undefined
+                            : <a key="1" href={`/quizz/${props.quizz.id_quizz}/play`}>Jouer</a>
                         :undefined,
                     <Modal key='3' header={props.quizz.title} trigger={trigger}
                         actions={[
