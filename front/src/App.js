@@ -13,6 +13,7 @@ import FormQuestion from './components/FormQuestions';
 import FormQuizz from './components/FormQuizz';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
+import SearchQuizz from './components/SearchQuizz'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
                 <Route exact={true} path='/addQuizz' component={FormQuizz}/>
 
                 <Route exact={true} path='/quizzes/:tag' component={FilterQuizz}/>
+                <Route exact={true} path='/quizzes/search/:search' component={SearchQuizz}/>
 
                 <Route exact={true} path='/quizz/:id_quizz/play' component={Play}/>
 

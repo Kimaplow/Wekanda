@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import 'materialize-css';
 import config from '../config';
 import axios from "axios";
 import { Dropdown, Icon } from 'react-materialize';
 import { useCookies } from 'react-cookie';
 import { useHistory } from "react-router-dom";
+import SearchQuizz from './SearchQuizz';
 
 export default function Header() {
 
@@ -45,6 +46,12 @@ export default function Header() {
         }
     }
 
+    function search(event){
+        event.preventDefault();
+        let str = event.target.search.value;
+        history.push(`quizzes/search/${str}`)
+    }
+
     return (
         <div className="header">
             <nav>
@@ -54,7 +61,7 @@ export default function Header() {
 
                     <ul className="right hide-on-med-and-down">
                         <li>
-                            <form>
+                            <form onSubmit={event => search(event)} encType="multipart/form-data">
                                 <div className="input-field">
                                     <input id="search" type="search" required />
                                     <label className="label-icon" htmlFor="search"><i

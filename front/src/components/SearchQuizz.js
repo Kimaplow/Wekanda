@@ -4,13 +4,13 @@ import axios from "axios";
 import config from "../config";
 import QuizzCard from "./QuizzCard";
 
-export default function FilterQuizz() {
+export default function SearchQuizz() {
 
-    const { tag } = useParams();
+    const { search } = useParams();
     const [quizzes, setQuizzes] = useState([]);
 
-    async function getQuizzesFiltered() {
-        await axios.get(`http://${config.server}/quizzes/withtags/${tag}`)
+    async function getQuizzes(str){
+        axios.get(`http://${config.server}/quizzes/search/${search}`)
             .then(res => {
                 setQuizzes(res.data);
             })
@@ -22,12 +22,12 @@ export default function FilterQuizz() {
     });
 
     useEffect(() => {
-        getQuizzesFiltered() 
-    },[tag]);
+        getQuizzes() 
+    },[search]);
 
     return (
         <div id="quizzes-filtered">
-            <h1> Quizz appartenant à la catégorie: {tag} </h1>
+            <h1> Quizz ayant {search} dans leur titre :</h1>
             {quizzJSX}
         </div>
     );

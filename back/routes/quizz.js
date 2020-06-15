@@ -46,6 +46,13 @@ router
             }
             res.json(result.rows);
     })
+
+    .get('/search/:search', async (req, res) => {
+        console.log('SEARCH')
+        let search = '%'+req.params.search+'%'
+        const result = await pool.query('SELECT * FROM quizz WHERE title LIKE $1', [search]);
+        res.json(result.rows);
+    })    
     
     .get('/:id', async (req, res) => {
         if (isNaN(+req.params.id)) {
