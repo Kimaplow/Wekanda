@@ -7,6 +7,7 @@ import ReactPlayer from 'react-player';
 import './css/formQuizz.css';
 import { useCookies } from 'react-cookie';
 import { useHistory } from "react-router-dom";
+import sleep from '../tools/sleep';
 
 export default function FormQuizz() {
 
@@ -250,6 +251,7 @@ export default function FormQuizz() {
                             }
                         }
                         await postTagQuizz(req);
+
                     }                  
                 }
             })
@@ -259,6 +261,9 @@ export default function FormQuizz() {
                 return alert("Entrez au moins un tag s'il vous plait !");
             }
         }
+        
+        history.push('/profile');      
+
     }
     
     return (
