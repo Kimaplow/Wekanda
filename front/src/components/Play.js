@@ -201,32 +201,32 @@ export default function Play() {
     }
 
     function displayQuestion(q) {
+        let media = undefined;
         let chemin = q.path_file;
 
         if (chemin !== '') {
             if (chemin.match(/\.(jpeg|jpg|gif|png)$/) != null) {
-                return (
-                    <div id='question'>
-                        <img src={`http://${config.server}/img/${q.path_file}`} alt={`${q.path_file}`}></img>
-                    <h2>{q.question}</h2>
-                </div>
-                )           
+                media = <img src={`http://${config.server}/img/${q.path_file}`} alt={`${q.path_file}`}></img>
+
             }
             else {
-                return (
-                    <div id='question'>
-                        <ReactPlayer
-                            id='player'
-                            controls={true}
-                            volume={0.5}
-                            wrapper='question'
-                            url={`http://${config.server}/video/${q.path_file}`} />
-                        <h2>{q.question}</h2>
-                    </div>
-                )
+                media = <ReactPlayer
+                    id='player'
+                    controls={true}
+                    volume={0.5}
+                    wrapper='question'
+                    url={`http://${config.server}/video/${q.path_file}`}
+                />
             }
         }
+        return (
+            <div id='question'>
+                {media}
+                <h2>{q.question}</h2>
+            </div>
+        )
     }
+
 
     const trigger = <Button id='finish-button'>Terminer</Button>
   
