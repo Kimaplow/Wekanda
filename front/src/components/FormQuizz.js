@@ -295,11 +295,11 @@ export default function FormQuizz() {
 
                 <div id="div-difficulty" className="col s12">
                     <div className="input-field inline" >
-                        <Select defaultValue='' id="difficulty">
+                        <Select defaultValue='' id="difficulty" value={quizz ? quizz.difficulty : ''}>
                             <option value="" disabled >Choose a difficulty</option>
-                            <option value="1">Facile</option>
-                            <option value="2">Moyen</option>
-                            <option value="3">Difficile</option>
+                            <option value={1}>Facile</option>
+                            <option value={2}>Moyen</option>
+                            <option value={3}>Difficile</option>
                         </Select>
                     </div>
                 </div>
