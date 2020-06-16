@@ -49,7 +49,7 @@ export default function Header() {
     function search(event){
         event.preventDefault();
         let str = event.target.search.value;
-        history.push(`quizzes/search/${str}`)
+        history.push(`/quizzes/search/${str}`)
     }
 
     return (

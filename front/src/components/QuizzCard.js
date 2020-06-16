@@ -8,7 +8,7 @@ import axios from 'axios';
 
 export default function QuizzCard(props) {
 
-    const [cookies, setCookie, removeCookie] = useCookies(['login']);
+    const [cookies] = useCookies(['login']);
     const [user, setUser] = useState(undefined);
 
     const [scoreMax, setScoreMax] = useState({});
@@ -75,7 +75,7 @@ export default function QuizzCard(props) {
                         user.id_user === creator.id_user ?        
                             <a key="2" href={`/edit/${props.quizz.id_quizz}`}>Modifier</a>
                             : <a key="1" href={`/quizz/${props.quizz.id_quizz}/play`}>Jouer</a>
-                        :undefined,
+                        :<a key="1" href={`/quizz/${props.quizz.id_quizz}/play`}>Jouer</a>,
                     <Modal key='3' header={props.quizz.title} trigger={trigger}
                         actions={[
                         <Button flat modal="close" node="button"><Icon className="close-modal">close</Icon></Button>
