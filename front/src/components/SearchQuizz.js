@@ -9,8 +9,8 @@ export default function SearchQuizz() {
     const { search } = useParams();
     const [quizzes, setQuizzes] = useState([]);
 
-    async function getQuizzes(str){
-        axios.get(`http://${config.server}/quizzes/search/${search}`)
+    async function getQuizzes(){
+        axios.get(`http://${config.server}/quizzes/search/${search.toLowerCase()}`)
             .then(res => {
                 setQuizzes(res.data);
             })

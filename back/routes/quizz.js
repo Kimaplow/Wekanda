@@ -49,8 +49,10 @@ router
 
     .get('/search/:search', async (req, res) => {
         console.log('SEARCH')
-        let search = '%'+req.params.search+'%'
-        const result = await pool.query('SELECT * FROM quizz WHERE title LIKE $1', [search]);
+        let search = '%'+req.params.search+'%';
+        let search2 = req.params.search;
+        const result = await pool.query('SELECT * FROM quizz WHERE title ~* $1', [search2]);
+        console.log(result.rows);
         res.json(result.rows);
     })    
     

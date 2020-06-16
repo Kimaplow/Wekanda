@@ -7,6 +7,7 @@ import { Dropdown, Icon } from 'react-materialize';
 import { useCookies } from 'react-cookie';
 import { useHistory } from "react-router-dom";
 import SearchQuizz from './SearchQuizz';
+import "./css/header.css";
 
 export default function Header() {
 
@@ -48,8 +49,18 @@ export default function Header() {
 
     function search(event){
         event.preventDefault();
-        let str = event.target.search.value;
-        history.push(`/quizzes/search/${str}`)
+        let search = event.target.value;
+        
+        if(!search) return history.push('/home');
+            
+        return history.push(`/quizzes/search/${search}`)
+    }
+
+    function clearSearch(e) {
+        e.preventDefault();
+
+        document.querySelector("#search").value = "";
+        return history.push('/home');
     }
 
     return (
@@ -60,16 +71,16 @@ export default function Header() {
                     <a href="/home" className="brand-logo center">Wekanda</a>
 
                     <ul className="right hide-on-med-and-down">
-                        <li>
-                            <form onSubmit={event => search(event)} encType="multipart/form-data">
-                                <div className="input-field">
-                                    <input id="search" type="search" required />
+                    <li>
+                        <form>
+                            <div className="input-field">
+                                <input id="search" type="search" onChange={e => search(e)} required />
                                     <label className="label-icon" htmlFor="search"><i
                                         className="material-icons">search</i></label>
-                                    <i className="material-icons">close</i>
-                                </div>
-                            </form>
-                        </li>
+                                    <i className="material-icons" onClick={e => clearSearch(e)}>close</i>
+                            </div>
+                        </form>
+                    </li>
                         <li>
                             <Dropdown
                                 id="dropdown-filter"
