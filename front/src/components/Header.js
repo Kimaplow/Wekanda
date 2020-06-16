@@ -75,8 +75,8 @@ export default function Header() {
                         <form>
                             <div className="input-field">
                                 <input id="search" type="search" onChange={e => search(e)} required />
-                                    <label className="label-icon" htmlFor="search"><i
-                                        className="material-icons">search</i></label>
+                                    <label className="label-icon" htmlFor="search">
+                                        <i className="material-icons">search</i></label>
                                     <i className="material-icons" onClick={e => clearSearch(e)}>close</i>
                             </div>
                         </form>

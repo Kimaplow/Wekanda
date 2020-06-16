@@ -27,7 +27,7 @@ export default function SearchQuizz() {
 
     return (
         <div id="quizzes-filtered">
-            <h1> Quizz ayant {search} dans leur titre :</h1>
+            <h1> Quizz ayant "{search}" dans leur titre :</h1>
             {quizzJSX}
         </div>
     );
