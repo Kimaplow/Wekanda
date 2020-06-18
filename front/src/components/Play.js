@@ -68,9 +68,12 @@ export default function Play() {
             .then(res => {
                 if (res.status === 200) {
                     setQuizz(res.data);
-                } else {
-                    setQuizz('not found');
                 }
+            })
+            .catch(async err => {
+                setAlert(<CardPanel className="orange"><Icon tiny>error</Icon>Quizz incorrect</CardPanel>);
+                await sleep(2500);
+                history.push('/home');
             });
     }
 
@@ -227,7 +230,6 @@ export default function Play() {
         )
     }
 
-
     const trigger = <Button id='finish-button'>Terminer</Button>
 
     if (alert) {
@@ -242,8 +244,7 @@ export default function Play() {
             <div id='play-container'>
 
                 <div id='quizz-title'>
-                    {quizz && quizz === 'not found' ? <Redirect to='/' /> : ''}
-                    <h2>{quizz ? quizz.title : "Quizz not found"}</h2>
+                    <h2>{quizz ? quizz.title : "Pas de titre"}</h2>
                 </div>
 
                 {currentQuestion ? displayQuestion(currentQuestion) : ''}
