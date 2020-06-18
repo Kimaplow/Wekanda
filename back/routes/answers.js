@@ -31,7 +31,6 @@ router
     .patch('/:id',
         upload.single('fileAnswer'), async (req, res) => {
             let result = undefined;
-          
 
             if (typeof req.body.answer !== "undefined") {
                 if (typeof req.body.answer !== "string" ) { // check for syntax error
@@ -48,7 +47,7 @@ router
             }
 
             if (typeof req.body.correct !== "undefined") {
-                if (typeof req.body.correct !== "boolean")
+                if (req.body.correct !== "true" && req.body.correct !== "false")
                     return res.status(403).send("Wrong type for the correct option"); 
                 result = await pool.query('UPDATE answers SET correct=$1 WHERE id_answer=$2', [req.body.correct, req.params.id]);
                 if (result.rowCount === 0) {
@@ -56,6 +55,10 @@ router
                         error: "Answer not found for this id"
                     });
                 }
+            }
+
+            if (req.body.path_file) {
+                result = await pool.query('UPDATE answers SET path_file=$1 WHERE id_answer=$2', [req.body.path_file, req.params.id]);
             }
             
             if(typeof result === "undefined") {
