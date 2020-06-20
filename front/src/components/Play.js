@@ -207,7 +207,7 @@ export default function Play() {
         let media = undefined;
         let chemin = q.path_file;
 
-        if (chemin !== '') {
+        if (chemin && chemin !== '') {
             if (chemin.match(/\.(jpeg|jpg|gif|png)$/) != null) {
                 media = <img src={`http://${config.server}/img/${q.path_file}`} alt={`${q.path_file}`}></img>
 
