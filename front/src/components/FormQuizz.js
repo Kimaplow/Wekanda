@@ -266,7 +266,7 @@ export default function FormQuizz() {
 
     }
 
-    if (user && user.id_user !== quizz.id_creator) {
+    if (quizz.id_creator && user && (user.id_user !== quizz.id_creator)) {
         return (
             <div id="easter">
                 <img src='https://media1.tenor.com/images/d1e4a14c18eb3df46bbd378973ee6f19/tenor.gif?itemid=11504168' alt="C'est non"></img>
