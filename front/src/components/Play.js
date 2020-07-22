@@ -93,13 +93,14 @@ export default function Play() {
     }
 
     async function postScore() {
+        document.querySelector('#postScore').disabled = 'disabled';
         let req = {
             id_quizz: quizz.id_quizz,
             score: score
         }
         await axios.post(`http://${config.server}/scores`, req);
         document.querySelector('#postScore').innerHTML = 'Score envoyé !'
-        document.querySelector('#postScore').disabled = 'disabled';
+        //history.push('/');
     }
 
     useEffect(() => {
@@ -296,7 +297,7 @@ export default function Play() {
                     <Modal header={quizz ? quizz.title : undefined} trigger={trigger}
                         actions={[
                             <Button id="postScore" node="button" onClick={e => { postScore() }}>Envoyer le score</Button>,
-                            <Button flat modal="close" node="button"><Icon className="close-modal">close</Icon></Button>
+                            <Button modal="close" node="button" onClick={e => { history.push('/') }}>Terminer</Button>
                         ]}
                     >
                         <p>Votre meilleur score : {scoreDB ? scoreDB.score : 'Vous n\'avez pas encore de score pour ce quizz'}</p>
