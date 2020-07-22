@@ -1,0 +1,17 @@
+#signup-container {   
+    background-color: rgba(76,76,76,0.5);
+    border-radius: 30px;
+    position: relative;
+    width: 700px;
+    height: 280px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,50%);
+}
+#form-container {
+    position: fixed;
+    margin: 0 auto;
+    margin-left: 2%;
+    width: 670px;
+}
+

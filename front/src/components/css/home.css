@@ -1,0 +1,22 @@
+.tq_tag{
+    position: flex;
+    min-height: 300px;
+}
+.cards{
+    position: relative;
+}
+.card_quizz{
+    display: inline-block;
+}
+
+.tq_tag>h1{
+    position: absolute;
+    left: 1%;
+    margin:0;
+    margin-top: 2%;
+}
+.cards li {
+    float: left;
+    margin-top: 5%;
+    margin-left: 1%;
+}

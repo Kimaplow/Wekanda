@@ -1,0 +1,16 @@
+#profile-container #quizz {
+    float: left;
+    margin-left: 2%;
+    margin-top: -2%;
+    height: 100%;
+}
+
+#profile-container #user-stats {
+    margin-top: 5%;
+    height: 100%;
+}
+
+.delete-quizz{
+    margin-left: 475px;
+    margin-top: -60px;
+}

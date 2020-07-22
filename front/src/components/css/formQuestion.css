@@ -1,0 +1,26 @@
+#formQuestion {
+    width : 500px;
+}
+
+#reponse0, #reponse1, #reponse2, #reponse3 {
+    width : 390px;
+}
+
+#div-media{
+    margin-top: 1%;
+    width: 400px;
+    margin: auto;
+}
+
+#div-media img {
+    width: 400px;
+    height: 400px;
+}
+
+* {
+    color: white;
+}
+
+.character-counter {
+    margin-top: 55px;
+}

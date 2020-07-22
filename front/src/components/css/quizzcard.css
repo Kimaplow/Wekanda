@@ -1,0 +1,44 @@
+@keyframes mymove {
+    from {
+        left: -60px;
+        opacity: 0;
+    }
+    to {
+        left: 0px;
+        opacity: 1;
+    }
+}
+
+.card {
+    position: relative;
+    animation: mymove 0.8s;
+    animation-timing-function: ease-in-out;
+}
+
+#quizz-card-card{
+    height: 150px;
+    width: 500px;
+}
+
+.card.horizontal .card-image img{
+    height: 150px;
+    width: 150px;
+}
+
+div.card-content>div>*{
+    color: black;
+}
+
+#title-quizz-card{
+    font-weight: 900;
+    font-size: large;
+    margin-top: -2px;
+}
+
+div.modal-content>*{
+    color: black
+}
+
+.close-modal{
+    color: #333333;
+}

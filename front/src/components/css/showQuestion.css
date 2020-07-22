@@ -1,0 +1,16 @@
+#show-questions-container {
+    text-align: center;
+    font-size: 18px;
+}
+
+#show-questions-container div{
+    margin-top: 5%;
+}
+
+.editQuestion {
+    margin-left: 1%;
+}
+
+.delete-question {
+    margin-left: 0.5%;
+}
